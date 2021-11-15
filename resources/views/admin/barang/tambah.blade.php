@@ -44,10 +44,11 @@
                         <div class="invalid-feedback ehargajual1">
                         </div>
                     </div>
-                    <div class="mb-3" id="addfield">
-                        {{-- <input type="number " class="form-control validation " name="hargajual2 " placeholder="Harga Jual Opsional " required> --}}
-                        {{-- <div class="invalid-feedback ehargajual2">
-                        </div> --}}
+                    <div class="mb-3">
+                        <input type="number " class="form-control validation" name="hargajual2" id="hargajual2"
+                            placeholder="Harga Jual Opsional">
+                        <div class="invalid-feedback ehargajual2">
+                        </div>
                     </div>
                     <div class="mb-3">
                         <input type="number" class="form-control validation" name="stok" placeholder="Jumlah Stok" required>
@@ -109,12 +110,11 @@
                                     Swal.fire({
                                         title: data.success,
                                         icon: 'success',
-                                        showConfirmButton: false,
-                                        timer: 1500
+                                        showConfirmButton: false
                                     })
                                     window.setTimeout(function() {
                                         location.reload();
-                                    }, 1500);
+                                    }, 1000);
                                 }
                             })
                         } else {
@@ -149,9 +149,11 @@
             });
 
             $("#category_id").change(function() {
-                var new1 =
-                    "<input type='text' class='form-control validation' name='hargajual2' placeholder='Harga Jual Opsional' required>";
-                $('#addfield').append(new1);
+                // $("#hargajual2").attr('hidden', '');
+                // $("#hargajual2").removeAttr('disabled');
+
+                var e = document.getElementById("category_id").value;
+                console.log(e)
             });
 
         });
