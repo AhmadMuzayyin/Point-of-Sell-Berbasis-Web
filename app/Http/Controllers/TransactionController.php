@@ -25,6 +25,17 @@ class TransactionController extends Controller
         ]);
     }
 
+    public function getProduct(Request $request)
+    {
+        $data = Product::find($request->id);
+
+        
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

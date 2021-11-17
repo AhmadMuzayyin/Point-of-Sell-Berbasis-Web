@@ -34,5 +34,6 @@ Route::middleware([Authenticate::class])->group(function(){
     '/transaction' => TransactionController::class
     ]);
     Route::get('product/{product}', [ProductController::class, 'destroy']);
+    Route::get('get-product', [TransactionController::class, 'getProduct'])->name('get.product');
 });
 

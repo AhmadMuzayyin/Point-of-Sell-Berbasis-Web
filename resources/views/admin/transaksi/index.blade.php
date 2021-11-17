@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="text-center" id="table-penjualan">
+                        <table class="table table-stripped text-center" id="table-penjualan">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -29,70 +29,7 @@
                                     <th><i class="fas fa-cog"></i></th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Merek</th>
-                                    <th>Harga</th>
-                                    <th>Qty</th>
-                                    <th>Sub</th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Tali Rafia</td>
-                                    <td>Gajah Duduk</td>
-                                    <td>10.000</td>
-                                    <td class="col-1">
-                                        <form action="">
-                                            <input type="number" name="qty" id="qty" class="form-control">
-                                        </form>
-                                    </td>
-                                    <td>10.000</td>
-                                    <td>
-                                        <button class="badge bg-danger" style="border: 0px;">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Tali Rafia</td>
-                                    <td>Gajah Duduk</td>
-                                    <td>10.000</td>
-                                    <td class="col-1">
-                                        <form action="">
-                                            <input type="number" name="qty" id="qty" class="form-control">
-                                        </form>
-                                    </td>
-                                    <td>10.000</td>
-                                    <td>
-                                        <button class="badge bg-danger" style="border: 0px;">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Tali Rafia</td>
-                                    <td>Gajah Duduk</td>
-                                    <td>10.000</td>
-                                    <td class="col-1">
-                                        <form action="">
-                                            <input type="number" name="qty" id="qty" class="form-control">
-                                        </form>
-                                    </td>
-                                    <td>10.000</td>
-                                    <td>
-                                        <button class="badge bg-danger" style="border: 0px;">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody class="body_transaksi"></tbody>
                         </table>
                     </div>
                 </div>
@@ -149,10 +86,6 @@
 
         function navtoggled() {
             $('.body').addClass("sb-sidenav-toggled");
-        }
-        const datatablesSimple = document.getElementById('table-penjualan');
-        if (datatablesSimple) {
-            new simpleDatatables.DataTable(datatablesSimple);
         }
 
         function tampilProduk() {
