@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +23,12 @@ class DatabaseSeeder extends Seeder
             'jenis_kelamin' => "Laki-Laki",
             'no_telepon' => "0812345678",
             'status' => 1
+        ]);
+        Setting::create([
+            'nama' => "Toko",
+            'alamat' => "Ganding Sumenep",
+            'logo' => 'logo-toko.png',
+            'nota' => 1
         ]);
     }
 }

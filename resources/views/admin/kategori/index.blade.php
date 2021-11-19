@@ -30,7 +30,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($data as $k)
+                        @foreach ($category as $k)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $k->nama }}</td>

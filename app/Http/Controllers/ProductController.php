@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Validator;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +22,7 @@ class ProductController extends Controller
 
         return view('admin.barang.index', [
             'licenses' => "Ahmad Muzayyin",
-            'date' => date('Y'),
-            'title' => "Tokoku",
+            'data' => Setting::all(),
             'user' => Auth::user(),
             'product' => Product::all()
         ]);
@@ -132,12 +132,16 @@ class ProductController extends Controller
     }
 
     public function validasi(Request $request){
-        $category = Category::firstWhere('id', $request->id);
+        try {
+            $category = Category::firstWhere('id', $request->id);
 
-        if ($category->nama == 'Buah') {
-            return response()->json(['success' => 'Data kategori adalah buah']);
-        }else{
-            return response()->json(['error' => "Data kategori bukan buah"]);
+            if ($category->nama == 'Buah' || $category->nama == 'buah') {
+                return response()->json(['success' => 'Data kategori adalah buah']);
+            }else{
+                return response()->json(['error' => "Data kategori bukan buah"]);
+            }
+        } catch (\Throwable $th) {
+            $th->getmessage();
         }
     }
 }

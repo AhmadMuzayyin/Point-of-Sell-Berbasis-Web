@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +19,7 @@ class TransactionController extends Controller
     {
         return view('admin.transaksi.index',[
             'licenses' => "Ahmad Muzayyin",
-            'date' => date('Y'),
-            'title' => "Tokoku",
+            'data' => Setting::all(),
             'user' => Auth::user(),
             'product' => Product::all()
         ]);

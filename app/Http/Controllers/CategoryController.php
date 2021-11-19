@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Validator;
 
 class CategoryController extends Controller
 {
@@ -19,10 +20,9 @@ class CategoryController extends Controller
     {
     return view("admin.kategori.index", [
         'licenses' => "Ahmad Muzayyin",
-        'date' => date('Y'),
-        'title' => "Tokoku",
+        'data' => Setting::all(),
         'user' => Auth::user(),
-        'data' => Category::all()
+        'category' => Category::all()
         ]);
     }
 
