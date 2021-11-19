@@ -84,7 +84,7 @@
                 var hargajual2 = $("input[name='hargajual2']").val();
                 var stok = $("input[name='stok']").val();
 
-                console.log(nama)
+                // console.log(nama)
                 $.ajax({
                     url: "{{ route('product.store') }}",
                     type: 'POST',
@@ -101,22 +101,13 @@
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
                             Swal.fire({
-                                title: 'Simpan data?',
-                                showCancelButton: true,
-                                confirmButtonText: 'Save',
-                                denyButtonText: `Close`,
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    Swal.fire({
-                                        title: data.success,
-                                        icon: 'success',
-                                        showConfirmButton: false
-                                    })
-                                    window.setTimeout(function() {
-                                        location.reload();
-                                    }, 1000);
-                                }
+                                title: data.success,
+                                icon: 'success',
+                                showConfirmButton: false
                             })
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         } else {
                             printErrorMsg(data.error);
                         }
@@ -161,9 +152,8 @@
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
                             $("#hargajual2").removeAttr('disabled');
-                            // alert(data.success)
                         } else {
-                            alert(data.error);
+                            $("#hargajual2").prop("value", 0);
                         }
                     }
                 });

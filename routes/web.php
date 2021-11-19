@@ -34,7 +34,6 @@ Route::middleware([Authenticate::class])->group(function(){
     '/transaction' => TransactionController::class,
     '/setting' => SettingController::class,
     ]);
-    Route::get('product/{product}', [ProductController::class, 'destroy']);
     Route::get('produk', [ProductController::class, 'validasi'])->name("product.validasi");
     Route::get('get-product', [TransactionController::class, 'getProduct'])->name('get.product');
 });

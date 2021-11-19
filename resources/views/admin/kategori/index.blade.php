@@ -35,11 +35,9 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $k->nama }}</td>
                                 <td>
-                                    <form action="category/{{ $k->id }}" method="POST">
-                                        @method('delete')
+                                    <form action="{{ route('category.destroy', $k->id) }}" method="POST">
                                         @csrf
-                                        <button class="badge bg-danger" style="border: 0px;"
-                                            onclick="alert('Apakah anda yakin?')">
+                                        <button type="submit" class="badge bg-danger btndelete" style="border: 0px;">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
@@ -93,8 +91,15 @@
                     },
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
-                            alert(data.success);
-                            window.location.reload();
+                            Swal.fire({
+                                title: 'Success',
+                                text: data.success,
+                                icon: 'success',
+                                showConfirmButton: false
+                            })
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         } else {
                             printErrorMsg(data.error);
                         }
@@ -109,6 +114,61 @@
                 }
             });
 
+            $(".btndelete").click(function(e) {
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var _method = $("input[name='_method']").val();
+                var Url = $(this).parents('form').attr('action');
+
+                Swal.fire({
+                    title: 'Hapus data?',
+                    icon: 'danger',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Delete',
+                    denyButtonText: `Close`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: Url,
+                            type: 'DELETE',
+                            data: {
+                                _token: _token
+                            },
+                            success: function(data) {
+                                if ($.isEmptyObject(data.error)) {
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        title: data.success,
+                                        icon: 'success',
+                                        showConfirmButton: false
+                                    })
+                                    window.setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: data.error,
+                                        icon: 'error',
+                                        showConfirmButton: false
+                                    })
+                                    window.setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                }
+                            }
+                        });
+                    }
+                })
+
+                function printErrorMsg(msg) {
+                    $('.validation').addClass('is-invalid');
+                    $.each(msg, function(key, value) {
+                        $(".invalid-feedback").html(value);
+                    });
+                }
+            });
         });
     </script>
 @endpush
