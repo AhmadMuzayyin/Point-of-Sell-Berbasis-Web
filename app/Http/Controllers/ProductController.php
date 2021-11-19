@@ -37,8 +37,7 @@ class ProductController extends Controller
     {
         return view('admin.barang.tambah',[
             'licenses' => "Ahmad Muzayyin",
-            'date' => date('Y'),
-            'title' => "Tokoku",
+            'data' => Setting::all(),
             'user' => Auth::user(),
             'product' => Product::all(),
             'category' => Category::all()
@@ -60,6 +59,7 @@ class ProductController extends Controller
                 'category_id' => 'required',
                 'hargabeli' => 'required|max:50',
                 'hargajual1' => 'required|max:50',
+                'hargajual2' => 'required|max:50',
                 'stok' => 'required|max:50',
             ]);
             

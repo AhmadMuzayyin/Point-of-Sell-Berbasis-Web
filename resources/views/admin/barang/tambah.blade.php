@@ -83,8 +83,16 @@
                 var hargajual1 = $("input[name='hargajual1']").val();
                 var hargajual2 = $("input[name='hargajual2']").val();
                 var stok = $("input[name='stok']").val();
+                // Swal.fire({
+                //     title: 'Simpan data?',
+                //     showCancelButton: true,
+                //     confirmButtonText: 'Save',
+                //     denyButtonText: `Close`,
+                // }).then((result) => {
+                //     if (result.isConfirmed) {
 
-                console.log(nama)
+                //     }
+                // })
                 $.ajax({
                     url: "{{ route('product.store') }}",
                     type: 'POST',
@@ -101,22 +109,14 @@
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
                             Swal.fire({
-                                title: 'Simpan data?',
-                                showCancelButton: true,
-                                confirmButtonText: 'Save',
-                                denyButtonText: `Close`,
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    Swal.fire({
-                                        title: data.success,
-                                        icon: 'success',
-                                        showConfirmButton: false
-                                    })
-                                    window.setTimeout(function() {
-                                        location.reload();
-                                    }, 1000);
-                                }
+                                title: 'Success!',
+                                text: data.success,
+                                icon: 'success',
+                                showConfirmButton: false
                             })
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         } else {
                             printErrorMsg(data.error);
                         }
@@ -163,7 +163,7 @@
                             $("#hargajual2").removeAttr('disabled');
                             // alert(data.success)
                         } else {
-                            alert(data.error);
+                            $("#hargajual2").prop("value", 0);
                         }
                     }
                 });

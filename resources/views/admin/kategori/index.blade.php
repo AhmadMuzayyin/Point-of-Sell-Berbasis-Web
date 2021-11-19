@@ -35,11 +35,9 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $k->nama }}</td>
                                 <td>
-                                    <form action="category/{{ $k->id }}" method="POST">
-                                        @method('delete')
+                                    <form action="{{ route('category.destroy', $k->id) }}}}" method="POST">
                                         @csrf
-                                        <button class="badge bg-danger" style="border: 0px;"
-                                            onclick="alert('Apakah anda yakin?')">
+                                        <button class="badge bg-danger btndelete" style="border: 0px;">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
@@ -93,8 +91,16 @@
                     },
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
-                            alert(data.success);
-                            window.location.reload();
+                            Swal.fire({
+                                title: 'Success!',
+                                title: data.success,
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 1500);
                         } else {
                             printErrorMsg(data.error);
                         }
@@ -109,6 +115,57 @@
                 }
             });
 
+            $(".btndelete").click(function(e) {
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var id = $("input[name='id']").val();
+                var Url = $(this).parents('form').attr('action');
+
+                Swal.fire({
+                    title: 'Anda yakin?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: Url,
+                            type: 'DELETE',
+                            data: {
+                                _token: _token,
+                                id: id,
+                            },
+                            success: function(data) {
+                                if ($.isEmptyObject(data.error)) {
+                                    // alert(data.success);
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        title: data.success,
+                                        icon: 'success',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    window.setTimeout(function() {
+                                        location.reload();
+                                    }, 1500);
+                                } else {
+                                    Swal.fire({
+                                        title: "Error!",
+                                        title: data.error,
+                                        icon: 'error',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    window.setTimeout(function() {
+                                        location.reload();
+                                    }, 1500);
+                                }
+                            }
+                        });
+                    }
+                })
+            });
         });
     </script>
 @endpush
