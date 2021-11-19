@@ -114,11 +114,7 @@ class CategoryController extends Controller
         try {
             $p = Product::where('category_id', $category->id)->first();
             if ($p == true) {
-<<<<<<< HEAD
             return response()->json(['error' => "Kategori sedang digunakan!"]);
-=======
-                return response()->json(['error' => "Kategori sedang digunakan!"]);
->>>>>>> 7ffd9331e894b6c1ca2a405687dd28c12913a221
             }
             Category::destroy($category->id);
             return response()->json(['success' => "Data berhasil dihapus!"]);

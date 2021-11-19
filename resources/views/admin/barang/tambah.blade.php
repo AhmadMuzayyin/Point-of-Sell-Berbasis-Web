@@ -83,20 +83,8 @@
                 var hargajual1 = $("input[name='hargajual1']").val();
                 var hargajual2 = $("input[name='hargajual2']").val();
                 var stok = $("input[name='stok']").val();
-                // Swal.fire({
-                //     title: 'Simpan data?',
-                //     showCancelButton: true,
-                //     confirmButtonText: 'Save',
-                //     denyButtonText: `Close`,
-                // }).then((result) => {
-                //     if (result.isConfirmed) {
 
-<<<<<<< HEAD
                 // console.log(nama)
-=======
-                //     }
-                // })
->>>>>>> 7ffd9331e894b6c1ca2a405687dd28c12913a221
                 $.ajax({
                     url: "{{ route('product.store') }}",
                     type: 'POST',
@@ -113,12 +101,7 @@
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
                             Swal.fire({
-<<<<<<< HEAD
                                 title: data.success,
-=======
-                                title: 'Success!',
-                                text: data.success,
->>>>>>> 7ffd9331e894b6c1ca2a405687dd28c12913a221
                                 icon: 'success',
                                 showConfirmButton: false
                             })

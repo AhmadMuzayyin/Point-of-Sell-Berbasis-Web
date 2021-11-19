@@ -52,11 +52,7 @@
                                 <td>
                                     <form action="{{ route('product.destroy', $b->id) }}" method="POST">
                                         @csrf
-<<<<<<< HEAD
                                         <button type="submit" class="badge bg-danger btndelete" style="border: 0px;">
-=======
-                                        <button class="badge bg-danger btndelete" style="border: 0px;">
->>>>>>> 7ffd9331e894b6c1ca2a405687dd28c12913a221
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
@@ -71,7 +67,6 @@
 @endsection
 @push('script')
     <script>
-<<<<<<< HEAD
         $(document).ready(function() {
             $(".btndelete").click(function(e) {
                 e.preventDefault();
@@ -86,28 +81,12 @@
                     confirmButtonColor: '#d33',
                     confirmButtonText: 'Delete',
                     denyButtonText: `Close`,
-=======
-        $(document).ready(function(e) {
-            $(".btndelete").click(function(e) {
-                e.preventDefault();
-                var _token = $("input[name='_token']").val();
-                var id = $("input[name='id']").val();
-                var Url = $(this).parents('form').attr('action');
-
-                Swal.fire({
-                    title: 'Anda yakin?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    confirmButtonText: 'Yes'
->>>>>>> 7ffd9331e894b6c1ca2a405687dd28c12913a221
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
                             url: Url,
                             type: 'DELETE',
                             data: {
-<<<<<<< HEAD
                                 _token: _token
                             },
                             success: function(data) {
@@ -122,29 +101,11 @@
                                     }, 1000);
                                 } else {
                                     printErrorMsg(data.error);
-=======
-                                _token: _token,
-                                id: id,
-                            },
-                            success: function(data) {
-                                if ($.isEmptyObject(data.error)) {
-                                    // alert(data.success);
-                                    Swal.fire({
-                                        title: data.success,
-                                        icon: 'success',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    });
-                                    window.setTimeout(function() {
-                                        location.reload();
-                                    }, 1500);
->>>>>>> 7ffd9331e894b6c1ca2a405687dd28c12913a221
                                 }
                             }
                         });
                     }
                 })
-<<<<<<< HEAD
 
                 function printErrorMsg(msg) {
                     $('.validation').addClass('is-invalid');
@@ -152,8 +113,6 @@
                         $(".invalid-feedback").html(value);
                     });
                 }
-=======
->>>>>>> 7ffd9331e894b6c1ca2a405687dd28c12913a221
             });
         });
     </script>
