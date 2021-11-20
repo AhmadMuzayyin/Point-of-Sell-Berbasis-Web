@@ -18,17 +18,18 @@
                     </thead>
                     <tbody>
                         @foreach ($product as $item)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->nama }}</td>
-                            <td>{{ $item->merek }}</td>
-                            <td>{{ $item->harga_jual }}</td>
-                            <td>
-                                <button class="badge bg-primary btn_click" style="border: 0px;" data-id="{{ $item->id }}">
-                                    <i class="fas fa-arrow-alt-circle-right"></i>
-                                </button>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->merek }}</td>
+                                <td>{{ $item->harga_jual }}</td>
+                                <td>
+                                    <button class="badge bg-primary btn_click" style="border: 0px;"
+                                        data-id="{{ $item->id }}">
+                                        <i class="fas fa-arrow-alt-circle-right"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -38,21 +39,20 @@
 </div>
 
 @push('script')
-    
-<script>
 
-$(document).on('click', '.btn_click', function(){
-    let ide = $(this).data('id')
-    $.ajax({
-        type: "GET",
-        url: "{{ route('get.product') }}",
-        data: {
-            id: ide,
-        },
-        success: function (res) {
-            let data = res.data
-            
-            let html = `
+    <script>
+        $(document).on('click', '.btn_click', function() {
+            let ide = $(this).data('id')
+            $.ajax({
+                type: "GET",
+                url: "{{ route('get.product') }}",
+                data: {
+                    id: ide,
+                },
+                success: function(res) {
+                    let data = res.data
+
+                    let html = `
             <tr>
                 <td>1</td>
                 <td>${data.nama}</td>
@@ -70,13 +70,12 @@ $(document).on('click', '.btn_click', function(){
             </tr>
             `
 
-            $('.body_transaksi').append(html)
+                    $('.body_transaksi').append(html)
 
-        }
-    });
-    
-})
+                }
+            });
 
-</script>
+        })
+    </script>
 
 @endpush
