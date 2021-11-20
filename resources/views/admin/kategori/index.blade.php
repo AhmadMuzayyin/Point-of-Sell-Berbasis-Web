@@ -19,6 +19,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Jenis</th>
                             <th><i class="fas fa-cog"></i></th>
                         </tr>
                     </thead>
@@ -33,6 +34,7 @@
                         @foreach ($category as $k)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $k->nama }}</td>
                                 <td>{{ $k->nama }}</td>
                                 <td>
                                     <form action="{{ route('category.destroy', $k->id) }}}}" method="POST">

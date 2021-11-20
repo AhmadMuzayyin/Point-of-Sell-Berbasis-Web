@@ -102,29 +102,30 @@ class SettingController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'nama' => 'required|string',
-                'alamat' => 'required|max:200',
-                'logo' => 'required|file|mimes:jpg,jpeg,png|max:10240'
+                'nama' => 'required|max:255',
+                'alamat' => 'required|max:255',
+                'nota' => 'required',
+                // 'logo' => 'required|file|mimes:jpg,jpeg,png|max:10240'
             ]);
             
             if ($validator->passes()) {
                 $setting = Setting::find($setting->id);
-                $file = $request->file('logo');
-                $fileName = Auth::user()->name.'_'.date('h:i:s').'_'.'logo-toko'.'.'.$file->extension();
-                dd($fileName);
+                // $file = $request->file()->logo;
+                // $fileName = Auth::user()->name.'_'.date('h:i:s').'_'.'logo-toko'.'.'.$file->extension();
+                // dd($fileName);
+                // $file->move(public_path('uploads'), $fileName);
 
                 $setting->nama = $request->nama;
                 $setting->alamat = $request->alamat;
-                $setting->logo = $fileName;
+                $setting->logo = 'logo-toko.png';
                 $setting->nota = $request->nota;
                 $setting->save();
-                // dd($setting);
                 
-                $file->move(public_path('uploads'), $fileName);
 
                 return response()->json(['success' => 'Data berhasil disimpan!']);
-            }else{
-                return response()->json(['error' => 'Ekstensi file harus .jpg .jpeg .png!']);
+            }
+            else{
+                return response()->json(['error' => $request->file('logo')]);
             }
         } catch (\Throwable $th) {
             $th->getmessage();
