@@ -20,7 +20,6 @@
                         <table class="table table-stripped text-center" id="table-penjualan">
                             <thead>
                                 <tr>
-                                    <th>No</th>
                                     <th>Nama</th>
                                     <th>Merek</th>
                                     <th>Harga</th>

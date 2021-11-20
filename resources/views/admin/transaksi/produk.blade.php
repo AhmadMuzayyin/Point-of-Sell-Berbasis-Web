@@ -41,41 +41,58 @@
     
 <script>
 
-$(document).on('click', '.btn_click', function(){
-    let ide = $(this).data('id')
-    $.ajax({
-        type: "GET",
-        url: "{{ route('get.product') }}",
-        data: {
-            id: ide,
-        },
-        success: function (res) {
-            let data = res.data
-            
-            let html = `
-            <tr>
-                <td>1</td>
-                <td>${data.nama}</td>
-                <td>${data.merek}</td>
-                <td>${data.harga_jual}</td>
-                <td class="col-1">
-                    <input type="number" name="qty" id="qty" class="form-control" value="1">
-                </td>
-                <td>${data.harga_jual}</td>
-                <td>
-                    <button class="badge bg-danger btn_hapus" style="border: 0px;">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </td>
-            </tr>
-            `
+    $(document).on('click', '.btn_click', function(){
+        let ide = $(this).data('id')
+        $.ajax({
+            type: "GET",
+            url: "{{ route('get.product') }}",
+            data: {
+                id: ide,
+            },
+            success: function (res) {
+                let data = res.data
+                
+                let i = 1
+                let html = `
+                <tr id="tr-${data.id}">
+                    <td>${data.nama}</td>
+                    <td>${data.merek}</td>
+                    <td>${data.harga_jual}</td>
+                    <td class="col-1">
+                        <input type="number" name="qty" id="qty" class="form-control w-100" value="1">
+                    </td>
+                    <td class="harga${data.id}">${data.harga_jual}</td>
+                    <td>
+                        <button class="badge bg-danger btn_hapus" data-id="${data.id}" style="border: 0px;">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+                `
 
-            $('.body_transaksi').append(html)
+                $('.body_transaksi').append(html)
+                
+                $(function() {
+                    $("#harga"+data.id).html();
+                });
 
-        }
-    });
-    
-})
+                function sumColumn(index) {
+                    var total = 0;
+                    $("td:nth-child(" + index + ")").each(function() {
+                        total += parseInt($(this).text(), 10) || 0;
+                    });  
+                    return total;
+                }
+
+            }
+        });
+        
+    })
+
+    $(document).on('click', '.btn_hapus', function(){
+        let id = $(this).data('id')
+        $('#tr-'+id).remove()
+    })
 
 </script>
 

@@ -15,17 +15,7 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id");
-            $table->foreignId("product_id");
-            $table->string("nama");
-            $table->string("merek");
-            $table->integer("harga");
-            $table->integer("qty");
-            $table->bigInteger("subtotal");
-            $table->bigInteger("total");
-            $table->bigInteger("bayar");
-            $table->bigInteger("kembalian");
-            $table->string("status");
+            $table->bigInteger("user_id");
             $table->timestamps();
         });
     }
