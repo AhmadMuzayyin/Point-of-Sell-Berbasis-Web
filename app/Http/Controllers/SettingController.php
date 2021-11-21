@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Validator;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
@@ -20,6 +21,8 @@ class SettingController extends Controller
         return view('admin.setting.index',[
             'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
+            // 'users' => User::where('status' , '>' , 1)->get(),
+            'users' => User::all(),
             'user' => Auth::user()
         ]);
     }
@@ -69,6 +72,30 @@ class SettingController extends Controller
         // }
     }
 
+    public function storeUser(Request $request){
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:50',
+                'username' => 'required|max:50|unique:user,username',
+                'password' => 'required|max:50',
+                'alamat' => 'required|max:50',
+                'jenis_kelamin' => 'required|max:50',
+                'no_telepon' => 'required|max:50',
+                'status' => 'required|max:50',
+            ]);
+                
+            if ($validator->passes()) {
+                // User::create([
+                //     'kategori' => ucfirst($request->kategori),
+                //     'jenis' => ucfirst($request->jenis),
+                // ]);
+                return response()->json(['success'=>'Data berhasil ditambahkan.']);
+            }
+            return response()->json(['error'=>$validator->errors()->all()]);
+        } catch (\Throwable $th) {
+            $th->getmessage();
+        }
+    }
     /**
      * Display the specified resource.
      *

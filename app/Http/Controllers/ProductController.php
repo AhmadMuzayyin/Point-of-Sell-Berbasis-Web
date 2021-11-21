@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
@@ -135,10 +136,29 @@ class ProductController extends Controller
         try {
             $category = Category::firstWhere('id', $request->id);
 
-            if ($category->nama == 'Buah' || $category->nama == 'buah') {
+            if ($category->jenis == 'Buah' || $category->jenis == 'buah') {
                 return response()->json(['success' => 'Data kategori adalah buah']);
             }else{
                 return response()->json(['error' => "Data kategori bukan buah"]);
+            }
+        } catch (\Throwable $th) {
+            $th->getmessage();
+        }
+    }
+
+    public function cekHarga(){
+        try {
+            $category = Category::where('jenis', 'Buah')->get();
+            foreach($category as $d){
+                $price = Product::firstWhere('category_id', $d->id);
+                $created = new Carbon($price->created_at);
+                if (date('Y-m-d') == $created->toDateString()) {
+                    $price->harga_jual = $price->harga_jual_opsi;
+                    $price->save();
+                    return response()->json(['success' => 'Data harga barang berhasil diupdate!']);
+                }else{
+                    return response()->json(['error' => 'Data harga barang tidak diupdate!']);
+                }
             }
         } catch (\Throwable $th) {
             $th->getmessage();

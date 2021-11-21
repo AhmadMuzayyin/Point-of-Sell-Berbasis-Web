@@ -22,6 +22,7 @@
                             <th>Merek</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
+                            <th>Kategori Barang</th>
                             <th>Jenis Barang</th>
                             <th>Stok</th>
                             <th><i class="fas fa-cog"></i></th>
@@ -34,6 +35,7 @@
                             <th>Merek</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
+                            <th>Kategori Barang</th>
                             <th>Jenis Barang</th>
                             <th>Stok</th>
                             <th></th>
@@ -47,7 +49,8 @@
                                 <td>{{ $b->merek }}</td>
                                 <td>{{ $b->harga_beli }}</td>
                                 <td>{{ $b->harga_jual }}</td>
-                                <td>{{ $b->category->nama }}</td>
+                                <td>{{ $b->category->kategori }}</td>
+                                <td>{{ $b->category->jenis }}</td>
                                 <td>{{ $b->stok }}</td>
                                 <td>
                                     <form action="{{ route('product.destroy', $b->id) }}" method="POST">

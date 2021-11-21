@@ -7,7 +7,6 @@ use App\Http\Controllers\{
     CategoryController,
     ProductController,
     UserController,
-    TransactionController,
     SettingController
 };
 use Illuminate\Auth\Middleware\Authenticate;
@@ -22,8 +21,8 @@ use Illuminate\Auth\Middleware\Authenticate;
 |
 */
 
-Route::get('/', [AuthController::class, 'index'])->name("login");
-Route::post('/auth', [AuthController::class, 'Auth']);
+Route::get('/', [AuthController::class, 'index'])->name("login")->middleware("guest");
+Route::post('/auth', [AuthController::class, 'Auth'])->middleware("guest");
 
 Route::middleware([Authenticate::class])->group(function(){
     Route::get('/logout', [AuthController::class, 'logout']);
@@ -31,11 +30,10 @@ Route::middleware([Authenticate::class])->group(function(){
     '/dashboard' => Dashboard::class,
     '/product' => ProductController::class,
     '/category' => CategoryController::class,
-    '/transaction' => TransactionController::class,
     '/setting' => SettingController::class,
     ]);
-    Route::get('product/{product}', [ProductController::class, 'destroy']);
+    Route::post('storeUser', [ProductController::class, 'storeUser'])->name("user.add");
+    Route::get('cek', [ProductController::class, 'cekHarga'])->name("product.cek");
     Route::get('produk', [ProductController::class, 'validasi'])->name("product.validasi");
-    Route::get('get-product', [TransactionController::class, 'getProduct'])->name('get.product');
 });
 

@@ -22,19 +22,15 @@
                         </div>
                     </div>
                     <div class="mb-2">
-                        <<<<<<< HEAD <select class="form-select validation" name="category_id" id="category_id"
+                        <select class="form-select validation" name="category_id" id="category_id"
                             aria-label="Default select example" required>
-                            =======
-                            <select class="form-select validation" id="category_id" aria-label="Default select example"
-                                required>
-                                >>>>>>> 6103fed9c3d1fc09de5dca5391cfa2e09c0699c1
-                                <option selected value="">Pilih jenis barang</option>
-                                @foreach ($category as $p)
-                                    <option value="{{ $p->id }}">{{ $p->nama }}</option>
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback ecategory">
-                            </div>
+                            <option selected value="">Pilih kategori barang</option>
+                            @foreach ($category as $p)
+                                <option value="{{ $p->id }}">{{ $p->jenis . ' - ' . $p->kategori }}</option>
+                            @endforeach
+                        </select>
+                        <div class="invalid-feedback ecategory">
+                        </div>
                     </div>
                     <div class="mb-3">
                         <input type="number" class="form-control validation" name="hargabeli" placeholder="Harga Beli"
@@ -51,9 +47,6 @@
                     <div class="mb-3">
                         <input type="number " class="form-control validation" name="hargajual2" id="hargajual2" <<<<<<< HEAD
                             placeholder="Harga Jual Opsional" disabled>
-                        =======
-                        placeholder="Harga Jual Opsional">
-                        >>>>>>> 6103fed9c3d1fc09de5dca5391cfa2e09c0699c1
                         <div class="invalid-feedback ehargajual2">
                         </div>
                     </div>
@@ -90,16 +83,7 @@
                 var hargajual1 = $("input[name='hargajual1']").val();
                 var hargajual2 = $("input[name='hargajual2']").val();
                 var stok = $("input[name='stok']").val();
-                // Swal.fire({
-                //     title: 'Simpan data?',
-                //     showCancelButton: true,
-                //     confirmButtonText: 'Save',
-                //     denyButtonText: `Close`,
-                // }).then((result) => {
-                //     if (result.isConfirmed) {
 
-                //     }
-                // })
                 $.ajax({
                     url: "{{ route('product.store') }}",
                     type: 'POST',

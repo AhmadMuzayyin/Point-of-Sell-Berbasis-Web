@@ -86,8 +86,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
                             Barang
                         </a>
-                        <a class="nav-link {{ Request::is('transaction') ? 'active' : '' }}"
-                            href="{{ route('transaction.index') }}">
+                        <a class="nav-link {{ Request::is('transaction') ? 'active' : '' }}" href="#">
                             <div class="sb-nav-link-icon" onclick="navtoggled()"><i class="fas fa-cart-plus"></i></div>
                             Transaksi
                         </a>
@@ -122,8 +121,8 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; <a
-                                href="https://github.com/AhmadMuzayyin">{{ $licenses }}</a> {{ date('Y') }}
+                        <div class="text-muted">Copyright &copy; <a href="https://github.com/AhmadMuzayyin">UNIRA
+                                INFORMATICT</a> {{ date('Y') }}
                         </div>
                         <div>
                             <a href="#"></a>

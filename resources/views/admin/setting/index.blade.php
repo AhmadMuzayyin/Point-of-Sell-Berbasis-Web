@@ -9,12 +9,21 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card mb-4">
+                    <div class="card-header">
+                        {{-- <h3>Data Kasir</h3> --}}
+                        <button class="btn btn-primary" onclick="tampilModal()">
+                            <i class="fas fa-plus-circle me-1"></i>
+                            Pengguna
+                        </button>
+                    </div>
                     <div class="card-body">
                         <table class="text-center" id="datatablesSimple">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
+                                    <th>No Hp</th>
+                                    <th>Status</th>
                                     <th><i class="fas fa-cog"></i></th>
                                 </tr>
                             </thead>
@@ -22,16 +31,26 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
+                                    <th>No Hp</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @foreach ($data as $k)
+                                @foreach ($users as $k)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $k->nama }}</td>
+                                        <td>{{ $k->name }}</td>
+                                        <td>{{ $k->no_telepon }}</td>
                                         <td>
-                                            <form action="{{ route('category.destroy', $k->id) }}}}" method="POST">
+                                            @if ($k->status > 1)
+                                                Kasir
+                                            @else
+                                                Administrator
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('category.destroy', $k->id) }}" method="POST">
                                                 @csrf
                                                 <button class="badge bg-danger btndelete" style="border: 0px;">
                                                     <i class="fas fa-trash-alt"></i>
@@ -95,6 +114,9 @@
             </div>
         </div>
     </div>
+
+    @include('admin.setting.modal')
+
 @endsection
 @push('script')
     <script>
@@ -144,6 +166,12 @@
                 });
 
             });
+
         });
+
+        function tampilModal() {
+            $('#modalUser').modal('show');
+            console.log('klik')
+        }
     </script>
 @endpush
