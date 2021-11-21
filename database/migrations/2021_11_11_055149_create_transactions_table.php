@@ -16,6 +16,11 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("user_id");
+            $table->string('no');
+            $table->string("status");
+            $table->bigInteger("total")->nullable();
+            $table->bigInteger("bayar")->nullable();
+            $table->bigInteger("kembalian")->nullable();
             $table->timestamps();
         });
     }

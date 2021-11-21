@@ -31,9 +31,16 @@ Route::middleware([Authenticate::class])->group(function(){
     '/dashboard' => Dashboard::class,
     '/product' => ProductController::class,
     '/category' => CategoryController::class,
-    '/transaction' => TransactionController::class
+    '/transaction' => TransactionController::class,
+    '/laporan' => TransactionController::class
+    
     ]);
     Route::get('product/{product}', [ProductController::class, 'destroy']);
     Route::get('get-product', [TransactionController::class, 'getProduct'])->name('get.product');
+    Route::get('delete-product', [TransactionController::class, 'delete'])->name('delete.product');
+    Route::get('update-product', [TransactionController::class, 'updateProduct'])->name('update.product');
+    Route::get('selesai-product', [TransactionController::class, 'selesaiProduct'])->name('selesai.product');
+
+
 });
 
