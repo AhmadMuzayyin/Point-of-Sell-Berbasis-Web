@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input type="number " class="form-control validation" name="hargajual2" id="hargajual2" <<<<<<< HEAD
+                        <input type="number " class="form-control validation" name="hargajual2" id="hargajual2"
                             placeholder="Harga Jual Opsional" disabled>
                         <div class="invalid-feedback ehargajual2">
                         </div>
@@ -99,17 +99,19 @@
                     },
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: data.success,
-                                icon: 'success',
-                                showConfirmButton: false
-                            })
-                            window.setTimeout(function() {
-                                location.reload();
-                            }, 1000);
+                            // Swal.fire({
+                            //     title: 'Success!',
+                            //     text: data.success,
+                            //     icon: 'success',
+                            //     showConfirmButton: false
+                            // })
+                            // window.setTimeout(function() {
+                            //     location.reload();
+                            // }, 1000);
+                            console.log(data.success)
                         } else {
                             printErrorMsg(data.error);
+                            console.log(cek(key, value))
                         }
                     }
                 });
@@ -121,22 +123,24 @@
                     });
                 }
 
-                function cek(key, value) {
-                    if (key === 0) {
-                        $(".enama").html(value);
-                    } else if (key === 1) {
-                        $(".emerek").html(value);
-                    } else if (key === 2) {
-                        $(".ecategory").html(value);
-                    } else if (key === 3) {
-                        $(".ehargabeli").html(value);
-                    } else if (key === 4) {
-                        $(".ehargajual1").html(value);
-                    } else {
-                        $(".estok").html(value);
-                    }
-                }
             });
+
+            function cek(key, value) {
+                if (key === 0) {
+                    $(".enama").html(value);
+                } else if (key === 1) {
+                    $(".emerek").html(value);
+                } else if (key === 2) {
+                    $(".ecategory").html(value);
+                } else if (key === 3) {
+                    $(".ehargabeli").html(value);
+                } else if (key === 4) {
+                    $(".ehargajual1").html(value);
+                } else {
+                    $(".estok").html(value);
+                }
+            }
+
 
             $("#category_id").change(function(e) {
 
@@ -155,6 +159,7 @@
                             // alert(data.success)
                         } else {
                             $("#hargajual2").prop("value", 0);
+                            $("#hargajual2").prop("disabled", true);
                         }
                     }
                 });

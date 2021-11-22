@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
-use App\Models\User;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
-class SettingController extends Controller
-{
+class SettingController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('admin.setting.index',[
+    public function index() {
+        return view('admin.setting.index', [
             'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
             // 'users' => User::where('status' , '>' , 1)->get(),
             'users' => User::all(),
-            'user' => Auth::user()
+            'user' => Auth::user(),
         ]);
     }
 
@@ -32,8 +29,7 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -43,15 +39,14 @@ class SettingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         // try {
         //     $validator = Validator::make($request->all(), [
         //         'nama' => 'required|string',
         //         'alamat' => 'required|max:200',
         //         'logo' => 'required|file|mimes:jpg,jpeg,png|max:10240'
         //     ]);
-            
+
         //     if ($validator->passes()) {
         //         $file = $request->file('logo');
         //         $fileName = Auth::user()->name.'_'.date('h:i:s').'_'.'logo-toko'.'.'.$file->extension();
@@ -72,7 +67,7 @@ class SettingController extends Controller
         // }
     }
 
-    public function storeUser(Request $request){
+    public function storeUser(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:50',
@@ -83,15 +78,15 @@ class SettingController extends Controller
                 'no_telepon' => 'required|max:50',
                 'status' => 'required|max:50',
             ]);
-                
+
             if ($validator->passes()) {
                 // User::create([
                 //     'kategori' => ucfirst($request->kategori),
                 //     'jenis' => ucfirst($request->jenis),
                 // ]);
-                return response()->json(['success'=>'Data berhasil ditambahkan.']);
+                return response()->json(['success' => 'Data berhasil ditambahkan.']);
             }
-            return response()->json(['error'=>$validator->errors()->all()]);
+            return response()->json(['error' => $validator->errors()->all()]);
         } catch (\Throwable $th) {
             $th->getmessage();
         }
@@ -102,8 +97,7 @@ class SettingController extends Controller
      * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function show(Setting $setting)
-    {
+    public function show(Setting $setting) {
         //
     }
 
@@ -113,8 +107,7 @@ class SettingController extends Controller
      * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function edit(Setting $setting)
-    {
+    public function edit(Setting $setting) {
         //
     }
 
@@ -125,8 +118,7 @@ class SettingController extends Controller
      * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Setting $setting)
-    {
+    public function update(Request $request, Setting $setting) {
         try {
             $validator = Validator::make($request->all(), [
                 'nama' => 'required|max:255',
@@ -134,7 +126,7 @@ class SettingController extends Controller
                 'nota' => 'required',
                 // 'logo' => 'required|file|mimes:jpg,jpeg,png|max:10240'
             ]);
-            
+
             if ($validator->passes()) {
                 $setting = Setting::find($setting->id);
                 // $file = $request->file()->logo;
@@ -147,11 +139,9 @@ class SettingController extends Controller
                 $setting->logo = 'logo-toko.png';
                 $setting->nota = $request->nota;
                 $setting->save();
-                
 
                 return response()->json(['success' => 'Data berhasil disimpan!']);
-            }
-            else{
+            } else {
                 return response()->json(['error' => $request->file('logo')]);
             }
         } catch (\Throwable $th) {
@@ -165,8 +155,7 @@ class SettingController extends Controller
      * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Setting $setting)
-    {
+    public function destroy(Setting $setting) {
         //
     }
 }

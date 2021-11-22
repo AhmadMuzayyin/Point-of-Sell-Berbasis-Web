@@ -18,7 +18,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
+                            <th>Kategori</th>
                             <th>Jenis</th>
                             <th><i class="fas fa-cog"></i></th>
                         </tr>
@@ -26,7 +26,7 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
+                            <th>Kategori</th>
                             <th>Jenis</th>
                             <th></th>
                         </tr>
