@@ -5,18 +5,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\UserController;use Illuminate\Auth\Middleware\Authenticate;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{
-    AuthController,
-    Dashboard,
-    CategoryController,
-    ProductController,
-    UserController,
-    TransactionController,
-    LaporanController,
-    TransactionDetailController,
-};
 use Illuminate\Auth\Middleware\Authenticate;
 /*
 |--------------------------------------------------------------------------
