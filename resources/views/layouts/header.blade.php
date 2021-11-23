@@ -86,7 +86,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
                             Barang
                         </a>
-                        <a class="nav-link {{ Request::is('transaction') ? 'active' : '' }}" href="#">
+                        <a class="nav-link {{ Request::is('transaction.*') ? 'active' : '' }}" href="{{ route('transaction.index') }}">
                             <div class="sb-nav-link-icon" onclick="navtoggled()"><i class="fas fa-cart-plus"></i></div>
                             Transaksi
                         </a>

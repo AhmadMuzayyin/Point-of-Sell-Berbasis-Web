@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\TransactionDetails;
 use Exception;
@@ -37,7 +38,9 @@ class TransactionController extends Controller
             'title' => "Tokoku",
             'user' => Auth::user(),
             'product' => Product::all(),
-            'data' => $data,
+            'licenses' => "Ahmad Muzayyin",
+            'data' => Setting::all(),
+            'datas' => $data,
 
         ]);
     }
