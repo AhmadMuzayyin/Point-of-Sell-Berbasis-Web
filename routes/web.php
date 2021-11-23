@@ -3,21 +3,13 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\UserController;use Illuminate\Auth\Middleware\Authenticate;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{
-    AuthController,
-    Dashboard,
-    CategoryController,
-    ProductController,
-    UserController,
-    TransactionController,
-    LaporanController,
-    TransactionDetailController,
-};
+use App\Http\Controllers\TransactionController;
 use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,7 +32,7 @@ Route::middleware([Authenticate::class])->group(function () {
         '/category' => CategoryController::class,
         '/setting' => SettingController::class,
         '/transaction' => TransactionController::class,
-        '/laporan' => LaporanController::class
+        '/laporan' => LaporanController::class,
     ]);
     Route::post('storeUser', [ProductController::class, 'storeUser'])->name("user.add");
     Route::get('cek', [ProductController::class, 'cekHarga'])->name("product.cek");
