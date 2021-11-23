@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>{{ $title }}</title>
+    <title>@yield('title')</title>
     <link href="{{ url('assets/css/simple-datatables.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/css/styles.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/css/bootstrap-icons.css') }}" rel="stylesheet" />
@@ -27,7 +27,7 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">{{ $title }}</a>
+        <a class="navbar-brand ps-3" href="index.html">@yield('title')</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
@@ -43,7 +43,7 @@
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user fa-fw"></i> {{ $user->name }} </a>
+                    aria-expanded="false"><i class="fas fa-user fa-fw"></i> {{ Auth::user()->name }} </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!">Settings</a></li>
                     <li><a class="dropdown-item" href="#!">Activity Log</a></li>
@@ -90,7 +90,7 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                                 Pengaturan
                             </a>
-                            <a class="nav-link {{ Request::is('/laporan') ? 'active' : '' }}" href="#">
+                            <a class="nav-link {{ Request::is('/laporan') ? 'active' : '' }}" href="{{ route('laporan.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-file-medical-alt"></i></div>
                                 Laporan
                             </a>
@@ -115,7 +115,7 @@
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; <a
-                                href="https://github.com/AhmadMuzayyin">{{ $licenses }}</a> {{ $date }}
+                                href="https://github.com/AhmadMuzayyin">2021</a> {{ date('Y') }}
                         </div>
                         <div>
                             <a href="#"></a>

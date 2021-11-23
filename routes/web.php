@@ -8,7 +8,8 @@ use App\Http\Controllers\{
     ProductController,
     UserController,
     TransactionController,
-    TransactionDetailController
+    LaporanController,
+    TransactionDetailController,
 };
 use Illuminate\Auth\Middleware\Authenticate;
 /*
@@ -32,14 +33,19 @@ Route::middleware([Authenticate::class])->group(function(){
     '/product' => ProductController::class,
     '/category' => CategoryController::class,
     '/transaction' => TransactionController::class,
-    '/laporan' => TransactionController::class
+    '/laporan' => LaporanController::class
     
     ]);
+    
+    // Transaksi
     Route::get('product/{product}', [ProductController::class, 'destroy']);
     Route::get('get-product', [TransactionController::class, 'getProduct'])->name('get.product');
     Route::get('delete-product', [TransactionController::class, 'delete'])->name('delete.product');
     Route::get('update-product', [TransactionController::class, 'updateProduct'])->name('update.product');
     Route::get('selesai-product', [TransactionController::class, 'selesaiProduct'])->name('selesai.product');
+
+    // Laporan
+    Route::get('laporan/data', [TransactionController::class, 'datatable'])->name('laporan.data');
 
 
 });

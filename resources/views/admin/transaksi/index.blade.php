@@ -20,8 +20,8 @@
                         <table class="table table-stripped text-center" id="table-penjualan">
                             <thead>
                                 <tr>
-                                    <th>Nama</th>
-                                    <th>Merek</th>
+                                    <th>Nama _Produk</th>
+                                    <th>Modal</th>
                                     <th>Harga</th>
                                     <th>Qty</th>
                                     <th>Sub</th>
