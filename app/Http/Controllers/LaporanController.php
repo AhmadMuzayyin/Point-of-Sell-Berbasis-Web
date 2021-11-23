@@ -14,6 +14,7 @@ class LaporanController extends Controller {
      */
     public function index() {
         return view('admin.laporan.index', [
+            'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
             'user' => Auth::user(),
         ]);

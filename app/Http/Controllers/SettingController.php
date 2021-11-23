@@ -100,9 +100,6 @@ class SettingController extends Controller {
     public function show(Setting $setting) {
         //
     }
-    public function contoh() {
-        return view("admin.setting.contoh");
-    }
 
     /**
      * Show the form for editing the specified resource.

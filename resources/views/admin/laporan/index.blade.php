@@ -7,28 +7,65 @@
             <li class="breadcrumb-item active">Data Laporan</li>
         </ol>
         <div class="card mb-4">
-            <div class="card-header">
-                <a class="btn btn-primary" href="{{ route('product.create') }}" role="button">
-                    <i class="fas fa-plus-circle me-1"></i>
-                    Laporan
-                </a>
-            </div>
             <div class="card-body">
-                <table class="text-center" id="datatablesSimple">
-                    <thead>
-                        <tr>
-                            <th>Nama Barang</th>
-                            <th>Merek</th>
-                            <th>Modal</th>
-                            <th>Pendapatan</th>
-                            <th>Laba</th>
-                            <th>Rugi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="laporan">Laporan Berdasarkan</label>
+                        <select class="form-select" id="laporan" aria-label="Default select example">
+                            <option value="">Laporan</option>
+                            <option value="1">Tanggal</option>
+                            <option value="2">Bulan</option>
+                            <option value="3">Tahun</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <h2>Laporan Berdasarkan selected</h2>
+                    <p>Modal : Data</p>
+                    <p>Pendapatan : Data</p>
+                    <p>Laba : Data</p>
+                    <p>Rugi : Data</p>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            <i class="fas fa-file-pdf"></i>
+                            Cetak Laporan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table-responsive">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col">Merek</th>
+                                <th scope="col">Modal</th>
+                                <th scope="col">Pendapatan</th>
+                                <th scope="col">Laba</th>
+                                <th scope="col">Rugi</th>
+                                <th scope="col">Kasir</th>
+                                <th scope="col">Tanggal</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
             </div>
         </div>
     </div>

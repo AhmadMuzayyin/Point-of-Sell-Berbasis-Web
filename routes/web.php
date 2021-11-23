@@ -37,7 +37,6 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::post('storeUser', [ProductController::class, 'storeUser'])->name("user.add");
     Route::get('cek', [ProductController::class, 'cekHarga'])->name("product.cek");
     Route::get('produk', [ProductController::class, 'validasi'])->name("product.validasi");
-    Route::get('contoh', [SettingController::class, 'contoh']);
 
     // Transaksi
     Route::get('product/{product}', [ProductController::class, 'destroy']);

@@ -29,8 +29,8 @@
                                 </tr>
                             </thead>
                             <tbody class="body_transaksi">
-                                @if ( $data !== null )
-                                    @forelse ($data->tr_detail as $item)
+                                @if ( $datas !== null )
+                                    @forelse ($datas->tr_detail as $item)
                                         <tr id="tr-{{ $item->id }}">
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->merek }}</td>
@@ -59,7 +59,7 @@
             <div class="col-md-4">
                 <div class="card text-white bg-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Total Rp. <span class="total_harga">{{ $data ? $data->total : '' }}</span></h3>
+                        <h3 class="card-title">Total Rp. <span class="total_harga">{{ $datas ? $datas->total : '' }}</span></h3>
                     </div>
                     <div class="card-body">
                         <form>
@@ -67,7 +67,7 @@
                                 <span class="input-group-text" id="bayar">Rp.</span>
                                 <input type="text" class="form-control" name="bayar" id="bayar"
                                     placeholder="Bayar" aria-label="Bayar">
-                                <button class="btn btn-success" type="button" name="selesai" id="selesai" data-kue="{{ $data ? $data->id : '' }}"><i class="fas fa-check"></i></button>
+                                <button class="btn btn-success" type="button" name="selesai" id="selesai" data-kue="{{ $datas ? $datas->id : '' }}"><i class="fas fa-check"></i></button>
                             </div>
                         </form>
                         <h5 class="text-bold mt-3">Kembalian : <span class="kembalian"></span></h5>
