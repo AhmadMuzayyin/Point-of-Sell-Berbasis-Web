@@ -18,28 +18,29 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
+                            <th>Kategori</th>
+                            <th>Jenis</th>
                             <th><i class="fas fa-cog"></i></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
+                            <th>Kategori</th>
+                            <th>Jenis</th>
                             <th></th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($data as $k)
+                        @foreach ($category as $k)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $k->nama }}</td>
+                                <td>{{ $k->kategori }}</td>
+                                <td>{{ $k->jenis }}</td>
                                 <td>
-                                    <form action="category/{{ $k->id }}" method="POST">
-                                        @method('delete')
+                                    <form action="{{ route('category.destroy', $k->id) }}" method="POST">
                                         @csrf
-                                        <button class="badge bg-danger" style="border: 0px;"
-                                            onclick="alert('Apakah anda yakin?')">
+                                        <button type="submit" class="badge bg-danger btndelete" style="border: 0px;">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
@@ -64,8 +65,14 @@
                     <form>
                         @csrf
                         <div class="mb-3">
-                            <input type="text" class="form-control validation" name="nama" placeholder="Nama Kategori">
-                            <div class="invalid-feedback">
+                            <input type="text" class="form-control validation" name="kategori"
+                                placeholder="Kategori Barang">
+                            <div class="invalid-feedback ekategori">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control validation" name="jenis" placeholder="Jenis Barang">
+                            <div class="invalid-feedback ejenis">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary" id="btnsubmit">Submit</button>
@@ -82,19 +89,28 @@
             $("#btnsubmit").click(function(e) {
                 e.preventDefault();
                 var _token = $("input[name='_token']").val();
-                var nama = $("input[name='nama']").val();
+                var kategori = $("input[name='kategori']").val();
+                var jenis = $("input[name='jenis']").val();
 
                 $.ajax({
                     url: "{{ route('category.store') }}",
                     type: 'POST',
                     data: {
                         _token: _token,
-                        nama: nama,
+                        kategori: kategori,
+                        jenis: jenis,
                     },
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
-                            alert(data.success);
-                            window.location.reload();
+                            Swal.fire({
+                                title: 'Success',
+                                text: data.success,
+                                icon: 'success',
+                                showConfirmButton: false
+                            })
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         } else {
                             printErrorMsg(data.error);
                         }
@@ -104,11 +120,74 @@
                 function printErrorMsg(msg) {
                     $('.validation').addClass('is-invalid');
                     $.each(msg, function(key, value) {
+                        cek(key, value);
+                    });
+                }
+
+                function cek(key, value) {
+                    if (key === 0) {
+                        $(".ekategori").html(value);
+                    } else {
+                        $(".ejenis").html(value);
+                    }
+                }
+            });
+
+            $(".btndelete").click(function(e) {
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var _method = $("input[name='_method']").val();
+                var Url = $(this).parents('form').attr('action');
+
+                Swal.fire({
+                    title: 'Hapus data?',
+                    icon: 'danger',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Delete',
+                    denyButtonText: `Close`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: Url,
+                            type: 'DELETE',
+                            data: {
+                                _token: _token
+                            },
+                            success: function(data) {
+                                if ($.isEmptyObject(data.error)) {
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        title: data.success,
+                                        icon: 'success',
+                                        showConfirmButton: false
+                                    })
+                                    window.setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: data.error,
+                                        icon: 'error',
+                                        showConfirmButton: false
+                                    })
+                                    window.setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                }
+                            }
+                        });
+                    }
+                })
+
+                function printErrorMsg(msg) {
+                    $('.validation').addClass('is-invalid');
+                    $.each(msg, function(key, value) {
                         $(".invalid-feedback").html(value);
                     });
                 }
             });
-
         });
     </script>
 @endpush

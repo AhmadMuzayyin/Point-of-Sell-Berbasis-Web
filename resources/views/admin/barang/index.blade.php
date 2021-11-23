@@ -22,6 +22,7 @@
                             <th>Merek</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
+                            <th>Kategori Barang</th>
                             <th>Jenis Barang</th>
                             <th>Stok</th>
                             <th><i class="fas fa-cog"></i></th>
@@ -34,6 +35,7 @@
                             <th>Merek</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
+                            <th>Kategori Barang</th>
                             <th>Jenis Barang</th>
                             <th>Stok</th>
                             <th></th>
@@ -47,12 +49,16 @@
                                 <td>{{ $b->merek }}</td>
                                 <td>{{ $b->harga_beli }}</td>
                                 <td>{{ $b->harga_jual }}</td>
-                                <td>{{ $b->category->nama }}</td>
+                                <td>{{ $b->category->kategori }}</td>
+                                <td>{{ $b->category->jenis }}</td>
                                 <td>{{ $b->stok }}</td>
                                 <td>
-                                    <button class="badge bg-danger" style="border: 0px;" onclick="del({{ $b->id }})">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
+                                    <form action="{{ route('product.destroy', $b->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="badge bg-danger btndelete" style="border: 0px;">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -64,38 +70,53 @@
 @endsection
 @push('script')
     <script>
-        function del(id) {
-            Swal.fire({
-                title: 'Anda yakin?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "product/" + id,
-                        type: 'get',
-                        data: {
-                            id: id,
-                        },
-                        success: function(data) {
-                            if ($.isEmptyObject(data.error)) {
-                                // alert(data.success);
-                                Swal.fire({
-                                    title: data.success,
-                                    icon: 'success',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                                window.setTimeout(function() {
-                                    location.reload();
-                                }, 1500);
+        $(document).ready(function() {
+            $(".btndelete").click(function(e) {
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var _method = $("input[name='_method']").val();
+                var Url = $(this).parents('form').attr('action');
+
+                Swal.fire({
+                    title: 'Hapus data?',
+                    icon: 'danger',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Delete',
+                    denyButtonText: `Close`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: Url,
+                            type: 'DELETE',
+                            data: {
+                                _token: _token
+                            },
+                            success: function(data) {
+                                if ($.isEmptyObject(data.error)) {
+                                    Swal.fire({
+                                        title: data.success,
+                                        icon: 'success',
+                                        showConfirmButton: false
+                                    })
+                                    window.setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                } else {
+                                    printErrorMsg(data.error);
+                                }
                             }
-                        }
+                        });
+                    }
+                })
+
+                function printErrorMsg(msg) {
+                    $('.validation').addClass('is-invalid');
+                    $.each(msg, function(key, value) {
+                        $(".invalid-feedback").html(value);
                     });
                 }
-            })
-        }
+            });
+        });
     </script>
 @endpush

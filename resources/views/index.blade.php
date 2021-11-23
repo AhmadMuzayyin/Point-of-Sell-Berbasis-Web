@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Dashboard</h1>
+        <h1 class=" mt-4">Dashboard</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
@@ -90,3 +90,21 @@
         </div>
     </div>
 @endsection
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "{{ route('product.cek') }}",
+                type: 'GET',
+                context: document.body,
+                // success: function(data) {
+                //     if ($.isEmptyObject(data.error)) {
+                //         alert(data.success);
+                //     } else {
+                //         alert(data.error)
+                //     }
+                // }
+            });
+        });
+    </script>
+@endpush

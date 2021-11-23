@@ -22,11 +22,11 @@
                         </div>
                     </div>
                     <div class="mb-2">
-                        <select class="form-select validation" id="category_id" aria-label="Default select example"
-                            required>
-                            <option selected value="">Pilih jenis barang</option>
+                        <select class="form-select validation" name="category_id" id="category_id"
+                            aria-label="Default select example" required>
+                            <option selected value="">Pilih kategori barang</option>
                             @foreach ($category as $p)
-                                <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                                <option value="{{ $p->id }}">{{ $p->jenis . ' - ' . $p->kategori }}</option>
                             @endforeach
                         </select>
                         <div class="invalid-feedback ecategory">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="mb-3">
                         <input type="number " class="form-control validation" name="hargajual2" id="hargajual2"
-                            placeholder="Harga Jual Opsional">
+                            placeholder="Harga Jual Opsional" disabled>
                         <div class="invalid-feedback ehargajual2">
                         </div>
                     </div>
@@ -84,7 +84,6 @@
                 var hargajual2 = $("input[name='hargajual2']").val();
                 var stok = $("input[name='stok']").val();
 
-                console.log(nama)
                 $.ajax({
                     url: "{{ route('product.store') }}",
                     type: 'POST',
@@ -100,25 +99,19 @@
                     },
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
-                            Swal.fire({
-                                title: 'Simpan data?',
-                                showCancelButton: true,
-                                confirmButtonText: 'Save',
-                                denyButtonText: `Close`,
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    Swal.fire({
-                                        title: data.success,
-                                        icon: 'success',
-                                        showConfirmButton: false
-                                    })
-                                    window.setTimeout(function() {
-                                        location.reload();
-                                    }, 1000);
-                                }
-                            })
+                            // Swal.fire({
+                            //     title: 'Success!',
+                            //     text: data.success,
+                            //     icon: 'success',
+                            //     showConfirmButton: false
+                            // })
+                            // window.setTimeout(function() {
+                            //     location.reload();
+                            // }, 1000);
+                            console.log(data.success)
                         } else {
                             printErrorMsg(data.error);
+                            console.log(cek(key, value))
                         }
                     }
                 });
@@ -126,34 +119,50 @@
                 function printErrorMsg(msg) {
                     $('.validation').addClass('is-invalid');
                     $.each(msg, function(key, value) {
-                        console.log(cek(key, value));
-                        console.log(key)
+                        cek(key, value);
                     });
                 }
 
-                function cek(key, value) {
-                    if (key === 0) {
-                        $(".enama").html(value);
-                    } else if (key === 1) {
-                        $(".emerek").html(value);
-                    } else if (key === 2) {
-                        $(".ecategory").html(value);
-                    } else if (key === 3) {
-                        $(".ehargabeli").html(value);
-                    } else if (key === 4) {
-                        $(".ehargajual1").html(value);
-                    } else {
-                        $(".estok").html(value);
-                    }
-                }
             });
 
-            $("#category_id").change(function() {
-                // $("#hargajual2").attr('hidden', '');
-                // $("#hargajual2").removeAttr('disabled');
+            function cek(key, value) {
+                if (key === 0) {
+                    $(".enama").html(value);
+                } else if (key === 1) {
+                    $(".emerek").html(value);
+                } else if (key === 2) {
+                    $(".ecategory").html(value);
+                } else if (key === 3) {
+                    $(".ehargabeli").html(value);
+                } else if (key === 4) {
+                    $(".ehargajual1").html(value);
+                } else {
+                    $(".estok").html(value);
+                }
+            }
 
-                var e = document.getElementById("category_id").value;
-                console.log(e)
+
+            $("#category_id").change(function(e) {
+
+                e.preventDefault();
+                var id = $('select[name=category_id] option').filter(':selected').val();
+
+                $.ajax({
+                    url: "{{ route('product.validasi') }}",
+                    type: 'GET',
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
+                        if ($.isEmptyObject(data.error)) {
+                            $("#hargajual2").removeAttr('disabled');
+                        } else {
+                            $("#hargajual2").prop("value", 0);
+                            $("#hargajual2").prop("disabled", true);
+                        }
+                    }
+                });
+
             });
 
         });

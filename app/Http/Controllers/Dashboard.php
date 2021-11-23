@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,8 +17,7 @@ class Dashboard extends Controller
     {
         return view('index', [
             'licenses' => "Ahmad Muzayyin",
-            'date' => date('Y'),
-            'title' => "Tokoku",
+            'data' => Setting::all(),
             'user' => Auth::user(),
         ]);
     }
