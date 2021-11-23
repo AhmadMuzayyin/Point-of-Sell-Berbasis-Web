@@ -1,16 +1,13 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\UserController;use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{
-    AuthController,
-    Dashboard,
-    CategoryController,
-    ProductController,
-    UserController,
-    TransactionController,
-    SettingController
-};
-use Illuminate\Auth\Middleware\Authenticate;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,21 +17,21 @@ use Illuminate\Auth\Middleware\Authenticate;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
-Route::get('/', [AuthController::class, 'index'])->name("login");
-Route::post('/auth', [AuthController::class, 'Auth']);
+Route::get('/', [AuthController::class, 'index'])->name("login")->middleware("guest");
+Route::post('/auth', [AuthController::class, 'Auth'])->middleware("guest");
 
-Route::middleware([Authenticate::class])->group(function(){
+Route::middleware([Authenticate::class])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::resources([
-    '/dashboard' => Dashboard::class,
-    '/product' => ProductController::class,
-    '/category' => CategoryController::class,
-    '/transaction' => TransactionController::class,
-    '/setting' => SettingController::class,
+        '/dashboard' => Dashboard::class,
+        '/product' => ProductController::class,
+        '/category' => CategoryController::class,
+        '/setting' => SettingController::class,
     ]);
+    Route::post('storeUser', [ProductController::class, 'storeUser'])->name("user.add");
+    Route::get('cek', [ProductController::class, 'cekHarga'])->name("product.cek");
     Route::get('produk', [ProductController::class, 'validasi'])->name("product.validasi");
-    Route::get('get-product', [TransactionController::class, 'getProduct'])->name('get.product');
+    Route::get('contoh', [SettingController::class, 'contoh']);
 });
-

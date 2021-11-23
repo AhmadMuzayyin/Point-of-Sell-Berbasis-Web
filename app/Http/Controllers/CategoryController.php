@@ -46,7 +46,8 @@ class CategoryController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'nama' => 'required|max:50|unique:categories,nama',
+                'kategori' => 'required|max:50|unique:categories,kategori',
+                'jenis' => 'required|max:50',
             ]);
             // $request->validate([
                 // 'nama' => 'required|max:50|unique:categories,nama',
@@ -54,10 +55,11 @@ class CategoryController extends Controller
                 
             if ($validator->passes()) {
                 Category::create([
-                    'nama' => ucfirst($request->nama),
+                    'kategori' => ucfirst($request->kategori),
+                    'jenis' => ucfirst($request->jenis),
                 ]);
                 return response()->json(['success'=>'Data berhasil ditambahkan.']);
-        }
+            }
             return response()->json(['error'=>$validator->errors()->all()]);
     
 

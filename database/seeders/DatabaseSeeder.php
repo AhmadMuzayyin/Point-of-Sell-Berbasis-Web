@@ -18,13 +18,22 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => "Administrator",
+            'name' => "Ahmad Muzayyin",
             'username' => "admin",
             'password' => bcrypt("123"),
             'alamat' => "Pamekasan",
             'jenis_kelamin' => "Laki-Laki",
             'no_telepon' => "0812345678",
             'status' => 1
+        ]);
+        User::create([
+            'name' => "Zainal Fatah",
+            'username' => "kasir",
+            'password' => bcrypt("123"),
+            'alamat' => "Pamekasan",
+            'jenis_kelamin' => "Laki-Laki",
+            'no_telepon' => "0812345678",
+            'status' => 2
         ]);
         Setting::create([
             'nama' => "Toko",
@@ -34,10 +43,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $c1 = Category::create([
-            'nama' => 'Buah'
+            'kategori' => 'Kilo',
+            'jenis' => 'Buah'
         ]);
         $c2 = Category::create([
-            'nama' => 'Bungkus'
+            'kategori' => 'Bungkus',
+            'jenis' => 'Plastik'
         ]);
 
         Product::create([

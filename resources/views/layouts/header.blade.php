@@ -11,6 +11,7 @@
         <title>{{ $d->nama }}</title>
         <link rel="shortcut icon" type="image/jpg" href="{{ url('uploads') . '/' . $d->logo }}" />
     @endforeach
+
     <link href="{{ url('assets/css/simple-datatables.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/css/styles.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/css/bootstrap-icons.css') }}" rel="stylesheet" />
@@ -48,7 +49,8 @@
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user fa-fw"></i> {{ $user->name }} </a>
+                    aria-expanded="false"><i class="fas fa-user fa-fw"></i>
+                    {{ $user->name }} </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!">Settings</a></li>
                     <li><a class="dropdown-item" href="#!">Activity Log</a></li>
@@ -84,8 +86,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
                             Barang
                         </a>
-                        <a class="nav-link {{ Request::is('transaction') ? 'active' : '' }}"
-                            href="{{ route('transaction.index') }}">
+                        <a class="nav-link {{ Request::is('transaction') ? 'active' : '' }}" href="#">
                             <div class="sb-nav-link-icon" onclick="navtoggled()"><i class="fas fa-cart-plus"></i></div>
                             Transaksi
                         </a>
@@ -120,8 +121,8 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; <a
-                                href="https://github.com/AhmadMuzayyin">{{ $licenses }}</a> {{ date('Y') }}
+                        <div class="text-muted">Copyright &copy; <a href="https://github.com/AhmadMuzayyin">UNIRA
+                                INFORMATICT</a> {{ date('Y') }}
                         </div>
                         <div>
                             <a href="#"></a>

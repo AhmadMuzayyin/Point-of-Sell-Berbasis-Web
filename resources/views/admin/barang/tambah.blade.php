@@ -24,9 +24,9 @@
                     <div class="mb-2">
                         <select class="form-select validation" name="category_id" id="category_id"
                             aria-label="Default select example" required>
-                            <option selected value="">Pilih jenis barang</option>
+                            <option selected value="">Pilih kategori barang</option>
                             @foreach ($category as $p)
-                                <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                                <option value="{{ $p->id }}">{{ $p->jenis . ' - ' . $p->kategori }}</option>
                             @endforeach
                         </select>
                         <div class="invalid-feedback ecategory">
@@ -84,7 +84,6 @@
                 var hargajual2 = $("input[name='hargajual2']").val();
                 var stok = $("input[name='stok']").val();
 
-                // console.log(nama)
                 $.ajax({
                     url: "{{ route('product.store') }}",
                     type: 'POST',
@@ -100,16 +99,19 @@
                     },
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
-                            Swal.fire({
-                                title: data.success,
-                                icon: 'success',
-                                showConfirmButton: false
-                            })
-                            window.setTimeout(function() {
-                                location.reload();
-                            }, 1000);
+                            // Swal.fire({
+                            //     title: 'Success!',
+                            //     text: data.success,
+                            //     icon: 'success',
+                            //     showConfirmButton: false
+                            // })
+                            // window.setTimeout(function() {
+                            //     location.reload();
+                            // }, 1000);
+                            console.log(data.success)
                         } else {
                             printErrorMsg(data.error);
+                            console.log(cek(key, value))
                         }
                     }
                 });
@@ -121,22 +123,24 @@
                     });
                 }
 
-                function cek(key, value) {
-                    if (key === 0) {
-                        $(".enama").html(value);
-                    } else if (key === 1) {
-                        $(".emerek").html(value);
-                    } else if (key === 2) {
-                        $(".ecategory").html(value);
-                    } else if (key === 3) {
-                        $(".ehargabeli").html(value);
-                    } else if (key === 4) {
-                        $(".ehargajual1").html(value);
-                    } else {
-                        $(".estok").html(value);
-                    }
-                }
             });
+
+            function cek(key, value) {
+                if (key === 0) {
+                    $(".enama").html(value);
+                } else if (key === 1) {
+                    $(".emerek").html(value);
+                } else if (key === 2) {
+                    $(".ecategory").html(value);
+                } else if (key === 3) {
+                    $(".ehargabeli").html(value);
+                } else if (key === 4) {
+                    $(".ehargajual1").html(value);
+                } else {
+                    $(".estok").html(value);
+                }
+            }
+
 
             $("#category_id").change(function(e) {
 
@@ -154,6 +158,7 @@
                             $("#hargajual2").removeAttr('disabled');
                         } else {
                             $("#hargajual2").prop("value", 0);
+                            $("#hargajual2").prop("disabled", true);
                         }
                     }
                 });
