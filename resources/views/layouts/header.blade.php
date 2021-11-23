@@ -97,7 +97,7 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                                 Pengaturan
                             </a>
-                            <a class="nav-link {{ Request::is('/laporan') ? 'active' : '' }}" href="#">
+                            <a class="nav-link {{ Request::is('/laporan') ? 'active' : '' }}" href="{{ route('laporan.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-file-medical-alt"></i></div>
                                 Laporan
                             </a>
