@@ -30,13 +30,13 @@
                             </thead>
                             <tbody class="body_transaksi">
                                 @if ( $datas !== null )
-                                    @forelse ($datas->tr_detail as $item)
+                                    @foreach ($datas->tr_detail as $item)
                                         <tr id="tr-{{ $item->id }}">
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->merek }}</td>
                                             <td>{{ $item->harga }}</td>
                                             <td class="col-1">
-                                                <input type="number" name="qty" id="qty-{{ $item->id }}" data-id="{{ $item->id }}" class="form-control w-100 qty-{{ $item->id }}" onkeyup="hitungSubtotal({{ $item->id }})" value="{{ $item->qty }}" data-kue="{{ $item->harga }}">
+                                                <input type="number" name="qty" id="qty-{{ $item->id }}" data-id="{{ $item->id }}" data-product="{{ $item->product_id }}" class="form-control w-100 qty-{{ $item->id }}" onkeyup="hitungSubtotal({{ $item->id }})" value="{{ $item->qty }}" data-kue="{{ $item->harga }}">
                                             </td>
                                             <td class="harga-{{ $item->id }}" data-id="{{ $item->id }}">{{ $item->subtotal }}</td>
                                             <td>
@@ -45,11 +45,7 @@
                                                 </button>
                                             </td>
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6">No</td>
-                                        </tr>
-                                    @endforelse
+                                    @endforeach
                                 @endif
                             </tbody>
                         </table>
@@ -65,8 +61,8 @@
                         <form>
                             <div class="input-group">
                                 <span class="input-group-text" id="bayar">Rp.</span>
-                                <input type="text" class="form-control" name="bayar" id="bayar"
-                                    placeholder="Bayar" aria-label="Bayar">
+                                <input type="number" class="form-control" name="bayar" id="bayar"
+                                    placeholder="Bayar" aria-label="Bayar" value="">
                                 <button class="btn btn-success" type="button" name="selesai" id="selesai" data-kue="{{ $datas ? $datas->id : '' }}"><i class="fas fa-check"></i></button>
                             </div>
                         </form>
@@ -117,17 +113,24 @@
 
             let id = $(this).data('kue')
 
-            $.ajax({
-                type: "GET",
-                url: "{{ route('selesai.product') }}",
-                data: {
-                    id: id,
-                },
-                success: function (res) {
-                    
+            if( bayar == '' ){
 
-                }
-            });
+                Swal.fire('Sorry', 'Input Uang Pelanggan Dahulu', 'warning')
+
+            }else{
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('selesai.product') }}",
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        location.reload();
+                    }
+                });
+
+            }
 
         })
 

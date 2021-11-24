@@ -57,25 +57,45 @@ class TransactionController extends Controller
                 $transaksi->user_id = Auth::user()->id;
                 $transaksi->no = $request->no;
                 $transaksi->status = 0;
+                $transaksi->total = $data->harga_jual;
                 $transaksi->save();
             }
 
-            if ($cek->no == session()->get('no')) {
+            $cekInsert = Transaction::where('no', $request->no)->first();
+            if ($cekInsert->no == session()->get('no')) {
 
-                $tr = new TransactionDetails();
-                $tr->transactions_id = $cek->id;
-                $tr->product_id = $data->id;
-                $tr->nama = $data->nama;
-                $tr->merek = $data->merek;
-                $tr->harga = $data->harga_jual;
-                $tr->qty = 1;
-                $tr->subtotal = $data->harga_jual;
-                $tr->save();
+                $trans = TransactionDetails::where('transactions_id', $cekInsert->id)->where('product_id', $request->id)->first();
 
-                return response()->json([
-                    'data' => $tr,
-                ]);
+                if ($trans == null) {
+
+                    $tr = new TransactionDetails();
+                    $tr->transactions_id = $cekInsert->id;
+                    $tr->product_id = $data->id;
+                    $tr->nama = $data->nama;
+                    $tr->merek = $data->merek;
+                    $tr->harga = $data->harga_jual;
+                    $tr->qty = 1;
+                    $tr->subtotal = $data->harga_jual;
+                    $tr->save();
+
+                    $transa = Transaction::where('no', $request->no)->update([
+                        'total' => $cekInsert->total + $data->harga_jual,
+                    ]);
+
+                    return response()->json([
+                        'status' => 0,
+                        'data' => $tr,
+                        'cekTotal' => $cekInsert->total,
+                    ]);
+                } else {
+
+                    return response()->json([
+                        'status' => 1,
+                        'data' => 'Sudah ditambahkan',
+                    ]);
+                }
             }
+
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -83,13 +103,21 @@ class TransactionController extends Controller
 
     public function updateProduct(Request $request)
     {
+        $cek = Product::find($request->produk);
+
+        if ($request->val > $cek->stok) {
+            return response()->json([
+                'status' => 1,
+                'data' => $cek->stok,
+            ]);
+        }
+
         $total = $request->val * $request->kue;
 
         $tr = TransactionDetails::where('id', $request->id)->update([
             'subtotal' => $total,
             'qty' => $request->val,
         ]);
-
 
         $transaksi = TransactionDetails::where('id', $request->id)->orderBy('created_at', 'ASC')->firstOrFail();
         $total_hrg = TransactionDetails::where('transactions_id', session()->get('no'))->sum('subtotal');
@@ -107,7 +135,6 @@ class TransactionController extends Controller
         $cek = Transaction::with('tr_detail')->where('id', $request->id)->first();
 
         foreach ($cek->tr_detail as $item) {
-
             $product = Product::find($item->product_id);
             $product->stok = $product->stok - $item->qty;
             $product->save();
@@ -125,7 +152,16 @@ class TransactionController extends Controller
 
     public function delete(Request $request)
     {
-        $tr = TransactionDetails::where('id', $request->id)->delete();
+
+        $tr = TransactionDetails::where('id', $request->id)->first();
+
+        $trans = Transaction::where('id', $tr->transactions_id)->first();
+
+        $kurangi = Transaction::where('id', $tr->transactions_id)->update([
+            'total' => $trans->toal - $tr->subtotal,
+        ]);
+
+        $tr->delete();
     }
 
     /**

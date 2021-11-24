@@ -51,25 +51,38 @@
                 no: '{{ session()->get('no') }}'
             },
             success: function (res) {
+                
                 let data = res.data
-                let html = `
-                <tr id="tr-${data.id}">
-                    <td>${data.nama}</td>
-                    <td>${data.merek}</td>
-                    <td>${data.harga}</td>
-                    <td class="col-1">
-                        <input type="number" name="qty" id="qty-${data.id}" data-id="${data.id}" class="form-control w-100 qty-${data.id}" onkeyup="hitungSubtotal(${data.id})" value="1" data-kue="${data.harga}">
-                    </td>
-                    <td class="harga-${data.id}" data-id="${data.id}">${data.harga}</td>
-                    <td>
-                        <button class="badge bg-danger btn_hapus" data-id="${data.id}" style="border: 0px;">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>
-                `
+                
+                if( res.status == 1 ){
+                    
+                    Swal.fire('Sorry', `Data Sudah Ada Ditable`, 'warning')
+                    
+                }else{
 
-                $('.body_transaksi').append(html)
+                    let html = `
+                    <tr id="tr-${data.id}">
+                        <td>${data.nama}</td>
+                        <td>${data.merek}</td>
+                        <td>${data.harga}</td>
+                        <td class="col-1">
+                            <input type="number" name="qty" id="qty-${data.id}" data-id="${data.id}" data-product="${data.product_id}" class="form-control w-100 qty-${data.id}" onkeyup="hitungSubtotal(${data.id})" value="1" data-kue="${data.harga}">
+                        </td>
+                        <td class="harga-${data.id}" data-id="${data.id}">${data.harga}</td>
+                        <td>
+                            <button class="badge bg-danger btn_hapus" data-id="${data.id}" style="border: 0px;">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    `
+                    console.log(res.cekTotal)
+
+                    $('.total_harga').text(res.cekTotal)
+
+                    $('.body_transaksi').append(html)
+
+                }
 
             }
         });
@@ -101,6 +114,7 @@
 
         let kue = $('#qty-'+id).data('kue')
         let ide = $('#qty-'+id).data('id')
+        let produk = $('#qty-'+id).data('product')
         let val = $('#qty-'+id).val()
 
         $.ajax({
@@ -110,12 +124,23 @@
                 id: ide,
                 val: val,
                 kue: kue,
+                produk: produk,
             },
             success: function (res) {
+
                 let data = res.data
 
-                $('.harga-'+ide).text(data.subtotal)
-                $('.total_harga').text(res.total_hrg)
+                if( res.status == 1 ){
+
+                    $('#qty-'+id).val(1)
+                    Swal.fire('Sorry', `Stok Tinggal ${data} `, 'warning')
+
+                }else{
+
+                    $('.harga-'+ide).text(data.subtotal)
+                    $('.total_harga').text(res.total_hrg)
+
+                }
 
             }
         });
