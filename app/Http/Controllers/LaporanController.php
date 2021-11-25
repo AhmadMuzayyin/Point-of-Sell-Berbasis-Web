@@ -27,7 +27,18 @@ class LaporanController extends Controller
     public function getLaporan(Request $request)
     {
         $product = Product::all();
-        $transaksi = Transaction::with('tr_detail')->where('status', 1)->get();
+
+        if ($request->val == 1) {
+            $transaksi = Transaction::with('tr_detail')->where('status', 1)->whereDay('created_at', '=', date('d'))->get();
+        }
+
+        if ($request->val == 2) {
+            $transaksi = Transaction::with('tr_detail')->where('status', 1)->whereMonth('created_at', '=', date('m'))->get();
+        }
+
+        if ($request->val == 3) {
+            $transaksi = Transaction::with('tr_detail')->where('status', 1)->whereYear('created_at', '=', date('Y'))->get();
+        }
 
         $qtyPerbarang = [];
         foreach ($transaksi as $tr) {

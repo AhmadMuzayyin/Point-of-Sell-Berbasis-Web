@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="row d-block">
-                    <h2>Laporan Harian</h2>
+                    <h2>Laporan <span class="valSelect"></span></h2>
 
                     <div class="col-md-4">
                         <div class="table-responsive">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-2 btn_cetak">
                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
                             <i class="fas fa-file-pdf"></i>
@@ -93,10 +93,21 @@
 @endsection
 @push('script')
     <script>
-        
+        $('.btn_cetak').hide()
         $('#laporan').on('change', function(){
-
+            
             let val = $(this).val()
+            if( val == 1 ){
+                $('.valSelect').text('Harian')
+            }
+
+            if( val == 2 ){
+                $('.valSelect').text('Bulanan')
+            }
+
+            if( val == 3 ){
+                $('.valSelect').text('Tahunan')
+            }
 
             $.ajax({
                 type: "GET",
@@ -115,6 +126,8 @@
                     $('.rugi').text('Rp. '+rugi)
                     $('.laba').text('Rp. '+laba)
                     $('.pendapatan').text('Rp. '+pendapatan)
+
+                    $('.btn_cetak').show()
 
                 }
             });
