@@ -46,5 +46,5 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::get('selesai-product', [TransactionController::class, 'selesaiProduct'])->name('selesai.product');
 
     // Laporan
-    Route::get('laporan/data', [TransactionController::class, 'datatable'])->name('laporan.data');
+    Route::get('laporan-data', [LaporanController::class, 'getLaporan'])->name('data.laporan');
 });

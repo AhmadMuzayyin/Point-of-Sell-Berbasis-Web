@@ -2,21 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Setting;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LaporanController extends Controller {
+class LaporanController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         return view('admin.laporan.index', [
             'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
             'user' => Auth::user(),
+        ]);
+    }
+
+    public function getLaporan(Request $request)
+    {
+        $product = Product::all();
+        $transaksi = Transaction::with('tr_detail')->where('status', 1)->get();
+
+        $qtyPerbarang = [];
+        foreach ($transaksi as $tr) {
+            foreach ($tr->tr_detail as $data) {
+                $qtyPerbarang[] = $data->qty;
+            }
+        }
+
+        $modalKeseluruhan = [];
+        $modalPerbarang = [];
+        $rugi = [];
+        $laba = [];
+        $pendapatan = [];
+        foreach ($product as $produk) {
+            $stok = $produk->stok;
+            $harga_jual = $produk->harga_jual;
+            $harga_beli = $produk->harga_beli;
+        }
+
+        // Hitung Modal Keseluruhan, Modal Perbarang, Pendapatan, Laba, Rugi
+        foreach ($qtyPerbarang as $qty) {
+            $modalKeseluruhan[] = $harga_beli * ($qty + $stok);
+            $modalPerbarang[] = $harga_beli * $qty;
+            $pendapatan[] = $harga_jual * $qty;
+        }
+
+        foreach ($pendapatan as $pdpt) {
+            $pd = $pdpt;
+        }
+
+        foreach ($modalPerbarang as $mdp) {
+            $mb = $mdp;
+
+            if ($mdp < $pd) {
+                $laba[] = $pd - $mdp;
+            }
+
+            if ($mdp > $pd) {
+                $rugi[] = $pd - $mdp;
+            }
+        }
+
+        $totalModalKeseluruhan = array_sum($modalKeseluruhan);
+        $totalModalPerbarang = array_sum($modalPerbarang);
+        $totalPendapatanKeseluruhan = array_sum($pendapatan);
+        $totalLaba = array_sum($laba);
+        $totalRugi = array_sum($rugi);
+
+        return response()->json([
+            'modal' => $totalModalKeseluruhan,
+            'pendapatan' => $totalPendapatanKeseluruhan,
+            'laba' => $totalLaba,
+            'rugi' => $totalRugi,
         ]);
     }
 
@@ -25,7 +89,8 @@ class LaporanController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         //
     }
 
@@ -35,7 +100,8 @@ class LaporanController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         //
     }
 
@@ -45,7 +111,8 @@ class LaporanController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         //
     }
 
@@ -55,7 +122,8 @@ class LaporanController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         //
     }
 
@@ -66,7 +134,8 @@ class LaporanController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         //
     }
 
@@ -76,7 +145,8 @@ class LaporanController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         //
     }
 }

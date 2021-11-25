@@ -70,16 +70,14 @@
                         </td>
                         <td class="harga-${data.id}" data-id="${data.id}">${data.harga}</td>
                         <td>
-                            <button class="badge bg-danger btn_hapus" data-id="${data.id}" style="border: 0px;">
+                            <button class="badge bg-danger btn_hapus" data-transaksi="${data.transactions_id}" data-id="${data.id}" style="border: 0px;">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
                     `
-                    console.log(res.cekTotal)
 
                     $('.total_harga').text(res.cekTotal)
-
                     $('.body_transaksi').append(html)
 
                 }
@@ -91,15 +89,18 @@
 
     $(document).on('click', '.btn_hapus', function(){
         let id = $(this).data('id')
+        let transaksi = $(this).data('transaksi')
+        console.log(transaksi);
 
         $.ajax({
             type: "GET",
             url: "{{ route('delete.product') }}",
             data: {
                 id: id,
+                transaksi: transaksi,
             },
             success: function (res) {
-                
+                $('.total_harga').text(res.total)
             }
         });
 

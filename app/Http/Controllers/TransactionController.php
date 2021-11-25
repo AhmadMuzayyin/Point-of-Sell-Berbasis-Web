@@ -95,7 +95,6 @@ class TransactionController extends Controller
                     ]);
                 }
             }
-
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -154,14 +153,18 @@ class TransactionController extends Controller
     {
 
         $tr = TransactionDetails::where('id', $request->id)->first();
+        $trans = Transaction::where('id', $request->transaksi)->first();
 
-        $trans = Transaction::where('id', $tr->transactions_id)->first();
-
-        $kurangi = Transaction::where('id', $tr->transactions_id)->update([
-            'total' => $trans->toal - $tr->subtotal,
+        $kurangi = Transaction::where('id', $request->transaksi)->update([
+            'total' => $trans->total - $tr->subtotal,
         ]);
 
+        $cek = Transaction::where('id', $request->transaksi)->first();
         $tr->delete();
+
+        return response()->json([
+            'total' => $cek->total,
+        ]);
     }
 
     /**

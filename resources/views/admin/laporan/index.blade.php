@@ -9,22 +9,42 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-2">
-                        <label for="laporan">Laporan Berdasarkan</label>
+                    <div class="col-md-4">
+                        <label for="laporan">Laporan</label>
                         <select class="form-select" id="laporan" aria-label="Default select example">
-                            <option value="">Laporan</option>
-                            <option value="1">Tanggal</option>
+                            <option value="">-- Pilih Laporan Berdasarkan--</option>
+                            <option value="1">Hari</option>
                             <option value="2">Bulan</option>
                             <option value="3">Tahun</option>
                         </select>
                     </div>
                 </div>
-                <div class="row">
-                    <h2>Laporan Berdasarkan selected</h2>
-                    <p>Modal : Data</p>
-                    <p>Pendapatan : Data</p>
-                    <p>Laba : Data</p>
-                    <p>Rugi : Data</p>
+                <div class="row d-block">
+                    <h2>Laporan Harian</h2>
+
+                    <div class="col-md-4">
+                        <div class="table-responsive">
+                            <table class="table table-bordered w-40">
+                                <tr>
+                                    <th scope="row">Modal</th>
+                                    <td class="modals">Rp. 0</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Pendapatan</th>
+                                    <td class="pendapatan">Rp. 0</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Laba</th>
+                                    <td class="laba">Rp. 0</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Rugi</th>
+                                    <td class="rugi">Rp. 0</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="col-md-2">
                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
@@ -46,21 +66,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <table class="table-responsive">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Merek</th>
-                                <th scope="col">Modal</th>
-                                <th scope="col">Pendapatan</th>
-                                <th scope="col">Laba</th>
-                                <th scope="col">Rugi</th>
-                                <th scope="col">Kasir</th>
-                                <th scope="col">Tanggal</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Merek</th>
+                                    <th scope="col">Modal</th>
+                                    <th scope="col">Pendapatan</th>
+                                    <th scope="col">Laba</th>
+                                    <th scope="col">Rugi</th>
+                                    <th scope="col">Kasir</th>
+                                    <th scope="col">Tanggal</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -71,38 +93,33 @@
 @endsection
 @push('script')
     <script>
-        function del(id) {
-            Swal.fire({
-                title: 'Anda yakin?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "product/" + id,
-                        type: 'get',
-                        data: {
-                            id: id,
-                        },
-                        success: function(data) {
-                            if ($.isEmptyObject(data.error)) {
-                                // alert(data.success);
-                                Swal.fire({
-                                    title: data.success,
-                                    icon: 'success',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                                window.setTimeout(function() {
-                                    location.reload();
-                                }, 1500);
-                            }
-                        }
-                    });
+        
+        $('#laporan').on('change', function(){
+
+            let val = $(this).val()
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('data.laporan') }}",
+                data: {
+                    val: val,
+                },
+                success: function (res) {
+                    
+                    let pendapatan = res.pendapatan ? res.pendapatan : '0'
+                    let modal = res.modal ? res.modal : '0'
+                    let rugi = res.rugi ? res.rugi : '0'
+                    let laba = res.laba ? res.laba : '0'
+
+                    $('.modals').text('Rp. '+modal)
+                    $('.rugi').text('Rp. '+rugi)
+                    $('.laba').text('Rp. '+laba)
+                    $('.pendapatan').text('Rp. '+pendapatan)
+
                 }
-            })
-        }
+            });
+
+        })
+
     </script>
 @endpush

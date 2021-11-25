@@ -40,7 +40,7 @@
                                             </td>
                                             <td class="harga-{{ $item->id }}" data-id="{{ $item->id }}">{{ $item->subtotal }}</td>
                                             <td>
-                                                <button class="badge bg-danger btn_hapus" data-id="{{ $item->id }}" style="border: 0px;">
+                                                <button class="badge bg-danger btn_hapus" data-transaksi="{{ $item->transactions_id }}" data-id="{{ $item->id }}" style="border: 0px;">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </td>
