@@ -47,4 +47,5 @@ Route::middleware([Authenticate::class])->group(function () {
 
     // Laporan
     Route::get('laporan-data', [LaporanController::class, 'getLaporan'])->name('data.laporan');
+    Route::get('cetak-laporan/{$id}', [LaporanController::class, 'cetakLaporan'])->name('cetak.laporan');
 });

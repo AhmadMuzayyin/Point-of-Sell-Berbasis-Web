@@ -46,11 +46,12 @@
                     </div>
 
                     <div class="col-md-2 btn_cetak">
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
-                            <i class="fas fa-file-pdf"></i>
-                            Cetak Laporan
-                        </button>
+                        <a class="mamadAjg">
+                            <button type="button" class="btn btn-primary btn-sm">
+                                <i class="fas fa-file-pdf"></i>
+                                Download Laporan
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -97,6 +98,8 @@
         $('#laporan').on('change', function(){
             
             let val = $(this).val()
+            let fill = $('.btn_cetak').val(val)
+
             if( val == 1 ){
                 $('.valSelect').text('Harian')
             }
@@ -132,6 +135,11 @@
                 }
             });
 
+        })
+
+        $(document).on('click', '.btn_cetak', function(){
+            let val = $(this).val()
+            $('.mamadAjg').prop('href', '{{ url('cetak-laporan') }}/'+val)
         })
 
     </script>

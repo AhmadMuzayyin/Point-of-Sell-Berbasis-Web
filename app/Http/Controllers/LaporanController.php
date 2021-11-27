@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Transaction;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class LaporanController extends Controller
 {
@@ -52,32 +54,34 @@ class LaporanController extends Controller
         $rugi = [];
         $laba = [];
         $pendapatan = [];
+        $harga_jual = [];
+        $stok = [];
+        $harga_beli = [];
         foreach ($product as $produk) {
-            $stok = $produk->stok;
-            $harga_jual = $produk->harga_jual;
-            $harga_beli = $produk->harga_beli;
+            $stok[] = $produk->stok;
+            $harga_jual[] = $produk->harga_jual;
+            $harga_beli[] = $produk->harga_beli;
         }
 
-        // Hitung Modal Keseluruhan, Modal Perbarang, Pendapatan, Laba, Rugi
-        foreach ($qtyPerbarang as $qty) {
-            $modalKeseluruhan[] = $harga_beli * ($qty + $stok);
-            $modalPerbarang[] = $harga_beli * $qty;
-            $pendapatan[] = $harga_jual * $qty;
+        // Hitung Modal Perbarang, Pendapatan, Laba, Rugi
+        foreach ($qtyPerbarang as $key => $qty) {
+            $modalKeseluruhan[] = $harga_beli[$key] * ($qty + $stok[$key]);
+            $modalPerbarang[] = $harga_beli[$key] * $qty;
+            $pendapatan[] = $harga_jual[$key] * $qty;
         }
 
-        foreach ($pendapatan as $pdpt) {
-            $pd = $pdpt;
+        foreach ($pendapatan as $key => $pdpt) {
+            $pd[$key] = $pdpt;
         }
 
-        foreach ($modalPerbarang as $mdp) {
-            $mb = $mdp;
+        foreach ($modalPerbarang as $key => $mdp) {
 
             if ($mdp < $pd) {
-                $laba[] = $pd - $mdp;
+                $laba[] = $pd[$key] - $mdp;
             }
 
             if ($mdp > $pd) {
-                $rugi[] = $pd - $mdp;
+                $rugi[] = $pd[$key] - $mdp;
             }
         }
 
@@ -93,6 +97,76 @@ class LaporanController extends Controller
             'laba' => $totalLaba,
             'rugi' => $totalRugi,
         ]);
+    }
+
+    public function cetakLaporan($id)
+    {
+        dd($id);
+        $product = Product::all();
+        $toko = Setting::where('id', 1)->first();
+
+        if ($id == 1) {
+            $transaksi = Transaction::with('tr_detail')->where('status', 1)->whereDay('created_at', '=', date('d'))->get();
+        }
+
+        if ($id == 2) {
+            $transaksi = Transaction::with('tr_detail')->where('status', 1)->whereMonth('created_at', '=', date('m'))->get();
+        }
+
+        if ($id == 3) {
+            $transaksi = Transaction::with('tr_detail')->where('status', 1)->whereYear('created_at', '=', date('Y'))->get();
+        }
+
+        $qtyPerbarang = [];
+        foreach ($transaksi as $tr) {
+            foreach ($tr->tr_detail as $data) {
+                $qtyPerbarang[] = $data->qty;
+            }
+        }
+
+        $modalPerbarang = [];
+        $rugi = [];
+        $laba = [];
+        $pendapatan = [];
+        $harga_jual = [];
+        $harga_beli = [];
+        foreach ($product as $produk) {
+            $harga_jual[] = $produk->harga_jual;
+            $harga_beli[] = $produk->harga_beli;
+        }
+
+        // Hitung Modal Perbarang, Pendapatan, Laba, Rugi
+        foreach ($qtyPerbarang as $key => $qty) {
+            $modalPerbarang[] = $harga_beli[$key] * $qty;
+            $pendapatan[] = $harga_jual[$key] * $qty;
+        }
+
+        foreach ($pendapatan as $key => $pdpt) {
+            $pd[$key] = $pdpt;
+        }
+
+        foreach ($modalPerbarang as $key => $mdp) {
+
+            if ($mdp < $pd) {
+                $laba[] = $pd[$key] - $mdp;
+            }
+
+            if ($mdp > $pd) {
+                $rugi[] = $pd[$key] - $mdp;
+            }
+        }
+
+        $pdf = PDF::loadView('admin.laporan.cetak_laporan', compact(
+            'modalPerbarang',
+            'pendapatan',
+            'laba',
+            'rugi',
+            'product',
+            'qtyPerbarang',
+            'toko',
+        ))->setPaper('a4');
+
+        return $pdf->stream('ASK.PDF');
     }
 
     /**
