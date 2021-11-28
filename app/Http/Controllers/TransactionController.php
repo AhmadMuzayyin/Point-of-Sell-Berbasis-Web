@@ -130,7 +130,6 @@ class TransactionController extends Controller
 
     public function selesaiProduct(Request $request)
     {
-
         $cek = Transaction::with('tr_detail')->where('id', $request->id)->first();
 
         foreach ($cek->tr_detail as $item) {
@@ -139,6 +138,8 @@ class TransactionController extends Controller
             $product->save();
         }
 
+        $cek->kembalian = $request->kembalian;
+        $cek->bayar = $request->bayar;
         $cek->status = 1;
         $cek->save();
 
@@ -159,8 +160,8 @@ class TransactionController extends Controller
             'total' => $trans->total - $tr->subtotal,
         ]);
 
-        $cek = Transaction::where('id', $request->transaksi)->first();
         $tr->delete();
+        $cek = Transaction::where('id', $request->transaksi)->first();
 
         return response()->json([
             'total' => $cek->total,

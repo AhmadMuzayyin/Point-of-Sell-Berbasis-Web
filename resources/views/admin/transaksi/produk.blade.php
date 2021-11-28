@@ -77,7 +77,7 @@
                     </tr>
                     `
 
-                    $('.total_harga').text(res.cekTotal)
+                    $('.total_harga').text()
                     $('.body_transaksi').append(html)
 
                 }
@@ -90,7 +90,6 @@
     $(document).on('click', '.btn_hapus', function(){
         let id = $(this).data('id')
         let transaksi = $(this).data('transaksi')
-        console.log(transaksi);
 
         $.ajax({
             type: "GET",

@@ -58,14 +58,12 @@
                         <h3 class="card-title">Total Rp. <span class="total_harga">{{ $datas ? $datas->total : '' }}</span></h3>
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="input-group">
-                                <span class="input-group-text" id="bayar">Rp.</span>
-                                <input type="number" class="form-control" name="bayar" id="bayar"
-                                    placeholder="Bayar" aria-label="Bayar" value="">
-                                <button class="btn btn-success" type="button" name="selesai" id="selesai" data-kue="{{ $datas ? $datas->id : '' }}"><i class="fas fa-check"></i></button>
-                            </div>
-                        </form>
+                        <div class="input-group">
+                            <span class="input-group-text">Rp.</span>
+                            <input type="text" class="form-control" name="bayar" id="bayarInput"
+                                placeholder="Bayar" aria-label="Bayar" autocomplete="off">
+                            <button class="btn btn-success" type="button" name="selesai" id="selesai" data-kue="{{ $datas ? $datas->id : '' }}"><i class="fas fa-check"></i></button>
+                        </div>
                         <h5 class="text-bold mt-3">Kembalian : <span class="kembalian"></span></h5>
                     </div>
                 </div>
@@ -98,21 +96,23 @@
             }
         }
 
-        $(document).on('keyup', '#bayar', function(){
+        $(document).on('keyup', '#bayarInput', function(){
 
             let val = $(this).val()
             let total = $('.total_harga').text()
             
-            let kembalian = val - total
+            let kembalian = parseInt(val) - total
             
-            $('.kembalian').text(kembalian)
+            let back = $('.kembalian').text(kembalian)
+            
 
         })
 
         $(document).on('click', '#selesai', function(){
 
             let id = $(this).data('kue')
-
+            let bayar = $('#bayarInput').val()
+            let kembalian = $('.kembalian').text()
             if( bayar == '' ){
 
                 Swal.fire('Sorry', 'Input Uang Pelanggan Dahulu', 'warning')
@@ -124,6 +124,8 @@
                     url: "{{ route('selesai.product') }}",
                     data: {
                         id: id,
+                        bayar: bayar,
+                        kembalian: kembalian,
                     },
                     success: function (res) {
                         location.reload();
