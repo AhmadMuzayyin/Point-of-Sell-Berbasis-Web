@@ -168,6 +168,14 @@ class TransactionController extends Controller
         ]);
     }
 
+    public function cetakTransaksi(Request $request)
+    {
+        $transaksi = Transaction::with('tr_detail')->where('id', $request->data)->first();
+        $toko = Setting::first();
+
+        return view('admin.transaksi.cetak_laporan', compact('transaksi', 'toko'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

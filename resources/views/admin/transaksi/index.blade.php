@@ -105,7 +105,6 @@
             
             let back = $('.kembalian').text(kembalian)
             
-
         })
 
         $(document).on('click', '#selesai', function(){
@@ -128,7 +127,7 @@
                         kembalian: kembalian,
                     },
                     success: function (res) {
-                        location.reload();
+                        window.location.href = '{{ url('cetak-transaksi') }}?data='+id
                     }
                 });
 
