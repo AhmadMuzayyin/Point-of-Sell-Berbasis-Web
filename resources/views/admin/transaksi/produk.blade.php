@@ -79,6 +79,7 @@
 
                     $('.total_harga').text()
                     $('.body_transaksi').append(html)
+                    location.reload()
 
                 }
 
