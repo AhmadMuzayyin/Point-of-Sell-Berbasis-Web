@@ -78,8 +78,14 @@ class TransactionController extends Controller
                     $tr->subtotal = $data->harga_jual;
                     $tr->save();
 
+                    $getTotal = TransactionDetails::where('transactions_id', $tr->transactions_id)->get();
+                    $sum = 0;
+                    foreach ($getTotal as $key => $value) {
+                        $sum += $value->subtotal;
+                    }
+
                     $transa = Transaction::where('no', $request->no)->update([
-                        'total' => $cekInsert->total + $data->harga_jual,
+                        'total' => $sum,
                     ]);
 
                     return response()->json([
