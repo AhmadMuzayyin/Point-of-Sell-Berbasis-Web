@@ -45,7 +45,7 @@ class LaporanController extends Controller
         $qtyPerbarang = [];
         foreach ($transaksi as $tr) {
             foreach ($tr->tr_detail as $data) {
-                $qtyPerbarang[] = $data->qty;
+                $qtyPerbarang[$data->product_id] = $data->qty;
             }
         }
 
@@ -57,10 +57,10 @@ class LaporanController extends Controller
         $harga_jual = [];
         $stok = [];
         $harga_beli = [];
-        foreach ($product as $produk) {
-            $stok[] = $produk->stok;
-            $harga_jual[] = $produk->harga_jual;
-            $harga_beli[] = $produk->harga_beli;
+        foreach ($product as $key => $produk) {
+            $stok[$produk->id] = $produk->stok;
+            $harga_jual[$produk->id] = $produk->harga_jual;
+            $harga_beli[$produk->id] = $produk->harga_beli;
         }
 
         // Hitung Modal Perbarang, Pendapatan, Laba, Rugi
@@ -101,7 +101,6 @@ class LaporanController extends Controller
 
     public function cetakLaporan($id)
     {
-        dd($id);
         $product = Product::all();
         $toko = Setting::where('id', 1)->first();
 
