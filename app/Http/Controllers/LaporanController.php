@@ -99,39 +99,42 @@ class LaporanController extends Controller
         ]);
     }
 
-    public function cetakLaporan($id)
+    public function cetakLaporan(Request $request)
     {
         $product = Product::all();
         $toko = Setting::where('id', 1)->first();
 
-        if ($id == 1) {
+        if ($request->data == 1) {
             $transaksi = Transaction::with('tr_detail')->where('status', 1)->whereDay('created_at', '=', date('d'))->get();
         }
 
-        if ($id == 2) {
+        if ($request->data == 2) {
             $transaksi = Transaction::with('tr_detail')->where('status', 1)->whereMonth('created_at', '=', date('m'))->get();
         }
 
-        if ($id == 3) {
+        if ($request->data == 3) {
             $transaksi = Transaction::with('tr_detail')->where('status', 1)->whereYear('created_at', '=', date('Y'))->get();
         }
 
         $qtyPerbarang = [];
         foreach ($transaksi as $tr) {
             foreach ($tr->tr_detail as $data) {
-                $qtyPerbarang[] = $data->qty;
+                $qtyPerbarang[$data->product_id] = $data->qty;
             }
         }
 
+        $modalKeseluruhan = [];
         $modalPerbarang = [];
         $rugi = [];
         $laba = [];
         $pendapatan = [];
         $harga_jual = [];
+        $stok = [];
         $harga_beli = [];
-        foreach ($product as $produk) {
-            $harga_jual[] = $produk->harga_jual;
-            $harga_beli[] = $produk->harga_beli;
+        foreach ($product as $key => $produk) {
+            $stok[$produk->id] = $produk->stok;
+            $harga_jual[$produk->id] = $produk->harga_jual;
+            $harga_beli[$produk->id] = $produk->harga_beli;
         }
 
         // Hitung Modal Perbarang, Pendapatan, Laba, Rugi
@@ -165,7 +168,20 @@ class LaporanController extends Controller
             'toko',
         ))->setPaper('a4');
 
-        return $pdf->stream('ASK.PDF');
+        $laporan = '';
+        if ($request->data == 1) {
+            $laporan = 'Harian';
+        }
+
+        if ($request->data == 2) {
+            $laporan = 'Bulanan';
+        }
+
+        if ($request->data == 3) {
+            $laporan = 'Tahunan';
+        }
+
+        return $pdf->stream('Laporan ' . $laporan . '.pdf');
     }
 
     /**
