@@ -94,18 +94,6 @@
                                     <input type="text" class="form-control" id="Alamat" name="alamat"
                                         placeholder="{{ $d->alamat }}" required value="{{ $d->alamat }}">
                                 </div>
-                                {{-- <div class="mb-3">
-                                <label for="logo" class="form-label">Gambar / Logo Toko</label>
-                                <input class="form-control" type="file" id="logo" name="logo" required>
-                            </div> --}}
-                                <div class="mb-3">
-                                    <select class="form-select" id="nota" name="nota"
-                                        aria-label="Default select example">
-                                        <option selected value="">Ukuran Nota</option>
-                                        <option value="1">Kecil</option>
-                                        <option value="2">Besar</option>
-                                    </select>
-                                </div>
                                 <button type="submit" class="btn btn-primary btnsubmit">Simpan</button>
                             </form>
                         @endforeach
