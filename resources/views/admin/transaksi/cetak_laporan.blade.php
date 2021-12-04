@@ -6,49 +6,51 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+        <title>Print Nota</title>
+    </head>
+    <body>
+        
 
-    <title>Hello, world!</title>
-</head>
+        <div class="print">
+            <div class="card" style="width: 15rem;">
+                <div class="card-body">
+                    <h5 class="card-title text-center"><strong>{{ $toko->nama }}</strong></h5>
+                    <p class="card-text text-center">{{ $toko->alamat }}</p>
+			<div class="row" style="margin-bottom: -10%">
+				<div class="col-sm-8">
+                    <span style="font-size: 90%; margin-bottom: -25px">
+                        <strong>Kasir: {{ auth()->user()->username }}</strong>
+                    </span><br/>
+					<span style="font-size: 70%; margin-bottom: -25px">
+						<strong>{{ date('d-M-Y H:i') }}</strong>
+		    		</span>
+				</div>
+			</div>
+                </div>
+                <hr>
 
-<body>
+                <ul class="list-group list-group-flush">
+                    @foreach ($transaksi->tr_detail as $item)
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ $item->nama }}</strong>
+                                <small class="form-text text-small">Rp. {{ $item->harga }}</small>
+                            </div>
+                            <span><strong>{{ $item->qty }}X</strong></span>
+                            <span><strong>Rp. {{ $item->subtotal }}</strong></span>
+                        </li>
+                    @endforeach
+                </ul>
 
+                <ul class="list-group list-group-flush mt-4">
+                    <li class="list-group-item">Total <span class="float-right"><strong>{{ $transaksi->total }}</strong></span></li>
+                    <li class="list-group-item">Tunai <span class="float-right"><strong>{{ $transaksi->bayar }}</strong></span></li>
+                    <li class="list-group-item">Kembalian <span class="float-right"><strong>{{ $transaksi->kembalian }}</strong></span></li>
+                </ul>
 
-    <div class="print">
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title text-center">{{ $toko->nama }}</h5>
-                <p class="card-text text-center">{{ $toko->alamat }}</p>
-                <p class="card-text text-center">{{ date('d-M-Y H:i') }}</p>
-            </div>
-            <hr>
+                <hr>
 
-            <ul class="list-group list-group-flush">
-                @foreach ($transaksi->tr_detail as $item)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            {{ $item->nama }}
-                            <small class="form-text text-muted text-small">Rp. {{ $item->harga }}</small>
-                        </div>
-                        <span class="badge badge-pill">{{ $item->qty }}X</span>
-                        <span class="badge badge-pill">Rp. {{ $item->subtotal }}</span>
-                    </li>
-                @endforeach
-            </ul>
-
-            <ul class="list-group list-group-flush mt-4">
-                <li class="list-group-item">Total <span class="float-right">{{ $transaksi->total }}</span></li>
-                <li class="list-group-item">Tunai <span class="float-right">{{ $transaksi->bayar }}</span></li>
-                <li class="list-group-item">Kembalian <span class="float-right">{{ $transaksi->kembalian }}</span>
-                </li>
-            </ul>
-
-            <hr>
-            <div class="card-body mt-3">
-                <p class="text-center">Terima Kasih</p>
-                <p class="text-center">Kasir {{ auth()->user()->name }}</p>
+                   <p class="text-center">Terima Kasih</p>
             </div>
         </div>
     </div>

@@ -40,7 +40,7 @@
                                             <th scope="row">{{ $loop->iteration }}</th>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->merek }}</td>
-                                            <td>{{ empty($qtyPerbarang) ? '-' : $qtyPerbarang[$key] }}</td>
+                                            <td>{{ empty($qtyPerbarang) ? '-' : $qtyPerbarang[$item->id] }}</td>
                                             <td>{{ $item->harga_jual }}</td>
                                             <td>{{ empty($pendapatan) ? '-' : $pendapatan[$key] }}</td>
                                             <td>{{ empty($laba) ? '-' : $laba[$key] }}</td>

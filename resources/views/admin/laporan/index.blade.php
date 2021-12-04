@@ -138,8 +138,8 @@
         })
 
         $(document).on('click', '.btn_cetak', function(){
-            let val = $(this).val()
-            $('.mamadAjg').prop('href', '{{ url('cetak-laporan') }}/'+val)
+            let val = $('#laporan').val()
+            $('.mamadAjg').prop('href', '{{ route('cetak.laporan') }}?data='+val)
         })
 
     </script>
