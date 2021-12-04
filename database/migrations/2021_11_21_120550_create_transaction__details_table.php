@@ -21,6 +21,7 @@ class CreateTransactionDetailsTable extends Migration
             $table->string("merek");
             $table->integer("harga");
             $table->integer("qty");
+            $table->integer("diskon")->nullable();
             $table->bigInteger("subtotal")->nullable();
             $table->timestamps();
         });

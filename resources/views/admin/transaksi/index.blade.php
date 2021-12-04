@@ -62,8 +62,8 @@
             <div class="col-md-4">
                 <div class="card text-white bg-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Total Rp. <span
-                                class="total_harga">{{ $datas ? $datas->total : '' }}</span></h3>
+                        <h3 class="card-title">Total Rp. <span class="total_harga"
+                                id="total">{{ $datas ? $datas->total : '' }}</span></h3>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
@@ -76,7 +76,7 @@
                             <input type="text" class="form-control" name="bayar" id="bayarInput" placeholder="Bayar"
                                 aria-label="Bayar" autocomplete="off">
                         </div>
-                        <h5 class="text-bold mt-3">Kembalian : <span class="kembalian"></span></h5>
+                        <h5 class="text-bold mb-3">Kembalian : <span class="kembalian"></span></h5>
                         <button class="btn btn-success" type="button" name="selesai" id="selesai"
                             data-kue="{{ $datas ? $datas->id : '' }}"><i class="fas fa-check"></i> Cetak Nota</button>
                     </div>
@@ -97,10 +97,6 @@
 @endsection
 @push('script')
     <script>
-        function navtoggled() {
-            $('.body').addClass("sb-sidenav-toggled");
-        }
-
         function tampilProduk() {
             $('#ModalSearch').modal('show');
             const datatablesSimple = document.getElementById('table-produk');

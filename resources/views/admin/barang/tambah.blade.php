@@ -51,7 +51,11 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <input type="number" class="form-control validation" name="diskon" placeholder="Diskon" required>
+                        <input type="number" class="form-control validation" name="diskon" placeholder="Diskon" required
+                            value="0">
+                        <span class="text-start text-danger" style="font-size: 13px; font-style: italic">Jumlah pembelian
+                            yang dapat
+                            diskon.</span>
                         <div class="invalid-feedback ediskon">
                         </div>
                     </div>
@@ -106,15 +110,15 @@
                     },
                     success: function(data) {
                         if ($.isEmptyObject(data.error)) {
-                            // Swal.fire({
-                            //     title: 'Success!',
-                            //     text: data.success,
-                            //     icon: 'success',
-                            //     showConfirmButton: false
-                            // })
-                            // window.setTimeout(function() {
-                            //     location.reload();
-                            // }, 1000);
+                            Swal.fire({
+                                title: 'Success!',
+                                text: data.success,
+                                icon: 'success',
+                                showConfirmButton: false
+                            })
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                             console.log(data.success)
                         } else {
                             printErrorMsg(data.error);

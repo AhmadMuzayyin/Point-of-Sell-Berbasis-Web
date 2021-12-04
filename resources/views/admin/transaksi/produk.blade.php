@@ -18,17 +18,18 @@
                     </thead>
                     <tbody>
                         @foreach ($product as $item)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->nama }}</td>
-                            <td>{{ $item->merek }}</td>
-                            <td>{{ $item->harga_jual }}</td>
-                            <td>
-                                <button class="badge bg-primary btn_click" style="border: 0px;" data-id="{{ $item->id }}">
-                                    <i class="fas fa-arrow-alt-circle-right"></i>
-                                </button>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->merek }}</td>
+                                <td>{{ $item->harga_jual }}</td>
+                                <td>
+                                    <button class="badge bg-primary btn_click" style="border: 0px;"
+                                        data-id="{{ $item->id }}">
+                                        <i class="fas fa-arrow-alt-circle-right"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -38,29 +39,28 @@
 </div>
 
 @push('script')
-    
-<script>
 
-    $(document).on('click', '.btn_click', function(){
-        let ide = $(this).data('id')
-        $.ajax({
-            type: "GET",
-            url: "{{ route('get.product') }}",
-            data: {
-                id: ide,
-                no: '{{ session()->get('no') }}'
-            },
-            success: function (res) {
-                
-                let data = res.data
-                
-                if( res.status == 1 ){
-                    
-                    Swal.fire('Sorry', `Data Sudah Ada Ditable`, 'warning')
-                    
-                }else{
+    <script>
+        $(document).on('click', '.btn_click', function() {
+            let ide = $(this).data('id')
+            $.ajax({
+                type: "GET",
+                url: "{{ route('get.product') }}",
+                data: {
+                    id: ide,
+                    no: '{{ session()->get('no') }}'
+                },
+                success: function(res) {
 
-                    let html = `
+                    let data = res.data
+
+                    if (res.status == 1) {
+
+                        Swal.fire('Sorry', `Data Sudah Ada Ditable`, 'warning')
+
+                    } else {
+
+                        let html = `
                     <tr id="tr-${data.id}">
                         <td>${data.nama}</td>
                         <td>${data.merek}</td>
@@ -77,76 +77,75 @@
                     </tr>
                     `
 
-                    $('.total_harga').text()
-                    $('.body_transaksi').append(html)
+                        $('.total_harga').text()
+                        $('.body_transaksi').append(html)
+
+                    }
 
                 }
+            });
 
+        })
+
+        $(document).on('click', '.btn_hapus', function() {
+            let id = $(this).data('id')
+            let transaksi = $(this).data('transaksi')
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('delete.product') }}",
+                data: {
+                    id: id,
+                    transaksi: transaksi,
+                },
+                success: function(res) {
+                    $('.total_harga').text(res.total)
+                }
+            });
+
+            $('#tr-' + id).remove()
+        })
+
+        function hitungSubtotal(id) {
+
+            if ($('#qty-' + id).val() == '') {
+                $('#qty-' + id).val(0)
             }
-        });
-        
-    })
 
-    $(document).on('click', '.btn_hapus', function(){
-        let id = $(this).data('id')
-        let transaksi = $(this).data('transaksi')
+            let kue = $('#qty-' + id).data('kue')
+            let ide = $('#qty-' + id).data('id')
+            let produk = $('#qty-' + id).data('product')
+            let val = $('#qty-' + id).val()
 
-        $.ajax({
-            type: "GET",
-            url: "{{ route('delete.product') }}",
-            data: {
-                id: id,
-                transaksi: transaksi,
-            },
-            success: function (res) {
-                $('.total_harga').text(res.total)
-            }
-        });
+            $.ajax({
+                type: "GET",
+                url: "{{ route('update.product') }}",
+                data: {
+                    id: ide,
+                    val: val,
+                    kue: kue,
+                    produk: produk,
+                },
+                success: function(res) {
 
-        $('#tr-'+id).remove()
-    })
+                    let data = res.data
 
-    function hitungSubtotal(id){
+                    if (res.status == 1) {
 
-        if( $('#qty-'+id).val() == '' ){
-            $('#qty-'+id).val(0)
+                        $('#qty-' + id).val(1)
+                        Swal.fire('Sorry', `Stok Tinggal ${data} `, 'warning')
+
+                    } else {
+
+                        $('.harga-' + ide).text(data.subtotal)
+                        $('.total_harga').text(res.total_hrg)
+
+                    }
+
+                }
+            });
+
         }
-
-        let kue = $('#qty-'+id).data('kue')
-        let ide = $('#qty-'+id).data('id')
-        let produk = $('#qty-'+id).data('product')
-        let val = $('#qty-'+id).val()
-
-        $.ajax({
-            type: "GET",
-            url: "{{ route('update.product') }}",
-            data: {
-                id: ide,
-                val: val,
-                kue: kue,
-                produk: produk,
-            },
-            success: function (res) {
-
-                let data = res.data
-
-                if( res.status == 1 ){
-
-                    $('#qty-'+id).val(1)
-                    Swal.fire('Sorry', `Stok Tinggal ${data} `, 'warning')
-
-                }else{
-
-                    $('.harga-'+ide).text(data.subtotal)
-                    $('.total_harga').text(res.total_hrg)
-
-                }
-
-            }
-        });
-
-    }
-
-</script>
+    </script>
 
 @endpush
