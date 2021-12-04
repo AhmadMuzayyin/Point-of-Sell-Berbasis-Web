@@ -36,7 +36,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.barang.tambah',[
+        return view('admin.barang.tambah', [
             'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
             'user' => Auth::user(),
@@ -54,6 +54,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         try {
+            // dd($request->all());
             $validator = Validator::make($request->all(), [
                 'nama' => 'required|max:50|unique:products,nama',
                 'merek' => 'required|max:50',
@@ -61,27 +62,29 @@ class ProductController extends Controller
                 'hargabeli' => 'required|max:50',
                 'hargajual1' => 'required|max:50',
                 'hargajual2' => 'required|max:50',
+                'diskon' => 'required|max:50',
                 'stok' => 'required|max:50',
             ]);
             // dd($validator);
-            
+
             if ($validator->passes()) {
                 Product::create([
                     'category_id' => $request->category_id,
                     'nama' => ucfirst($request->nama),
                     'merek' => ucfirst($request->merek),
+                    'diskon' => $request->diskon,
                     'harga_beli' => $request->hargabeli,
                     'harga_jual' => $request->hargajual1,
                     'harga_jual_opsi' => $request->hargajual2,
                     'stok' => $request->stok,
                 ]);
-                return response()->json(['success'=>'Data berhasil disimpan!']);
-            }else{
-                return response()->json(['error'=>$validator->errors()->all()]);
+                return response()->json(['success' => 'Data berhasil disimpan!']);
+            } else {
+                return response()->json(['error' => $validator->errors()->all()]);
             }
 
             // return redirect('category')->with('success', 'Data Berhasil ditambahkan!');
-            
+
         } catch (\Throwable $th) {
             $th->getmessage();
         }
@@ -133,13 +136,14 @@ class ProductController extends Controller
         return response()->json(['success' => 'Data berhasil dihapus!']);
     }
 
-    public function validasi(Request $request){
+    public function validasi(Request $request)
+    {
         try {
             $category = Category::firstWhere('id', $request->id);
 
             if ($category->jenis == 'Buah' || $category->jenis == 'buah') {
                 return response()->json(['success' => 'Data kategori adalah buah']);
-            }else{
+            } else {
                 return response()->json(['error' => "Data kategori bukan buah"]);
             }
         } catch (\Throwable $th) {
@@ -147,17 +151,18 @@ class ProductController extends Controller
         }
     }
 
-    public function cekHarga(){
+    public function cekHarga()
+    {
         try {
             $category = Category::where('jenis', 'Buah')->get();
-            foreach($category as $d){
+            foreach ($category as $d) {
                 $price = Product::firstWhere('category_id', $d->id);
                 $created = new Carbon($price->created_at);
                 if (date('Y-m-d') > $created->toDateString()) {
                     $price->harga_jual = $price->harga_jual_opsi;
                     $price->save();
                     return response()->json(['success' => 'Data harga barang berhasil diupdate!']);
-                }else{
+                } else {
                     return response()->json(['error' => 'Data harga barang tidak diupdate!']);
                 }
             }

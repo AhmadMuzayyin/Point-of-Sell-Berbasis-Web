@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->foreignId("category_id");
             $table->string("nama");
             $table->string("merek");
+            $table->string("diskon");
             $table->string("harga_beli");
             $table->string("harga_jual");
             $table->string("harga_jual_opsi")->nullable();

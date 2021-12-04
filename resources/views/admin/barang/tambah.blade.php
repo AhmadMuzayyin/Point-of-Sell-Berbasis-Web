@@ -51,6 +51,11 @@
                         </div>
                     </div>
                     <div class="mb-3">
+                        <input type="number" class="form-control validation" name="diskon" placeholder="Diskon" required>
+                        <div class="invalid-feedback ediskon">
+                        </div>
+                    </div>
+                    <div class="mb-3">
                         <input type="number" class="form-control validation" name="stok" placeholder="Jumlah Stok" required>
                         <div class="invalid-feedback estok">
                         </div>
@@ -78,6 +83,7 @@
                 var _token = $("input[name='_token']").val();
                 var nama = $("input[name='nama']").val();
                 var merek = $("input[name='merek']").val();
+                var diskon = $("input[name='diskon']").val();
                 var category_id = document.getElementById("category_id").value;
                 var hargabeli = $("input[name='hargabeli']").val();
                 var hargajual1 = $("input[name='hargajual1']").val();
@@ -91,6 +97,7 @@
                         _token: _token,
                         nama: nama,
                         merek: merek,
+                        diskon: diskon,
                         category_id: category_id,
                         hargabeli: hargabeli,
                         hargajual1: hargajual1,
@@ -136,6 +143,8 @@
                     $(".ehargabeli").html(value);
                 } else if (key === 4) {
                     $(".ehargajual1").html(value);
+                } else if (key === 5) {
+                    $(".ediskon").html(value);
                 } else {
                     $(".estok").html(value);
                 }

@@ -86,7 +86,8 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
                             Barang
                         </a>
-                        <a class="nav-link {{ Request::is('transaction.*') ? 'active' : '' }}" href="{{ route('transaction.index') }}">
+                        <a class="nav-link {{ Request::is('transaction') ? 'active' : '' }}"
+                            href="{{ route('transaction.index') }}">
                             <div class="sb-nav-link-icon" onclick="navtoggled()"><i class="fas fa-cart-plus"></i></div>
                             Transaksi
                         </a>
@@ -149,14 +150,13 @@
 
     <script>
         /* Fungsi */
-        function formatRupiah(angka)
-        {
+        function formatRupiah(angka) {
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                split    = number_string.split(','),
-                sisa     = split[0].length % 3,
-                rupiah     = split[0].substr(0, sisa),
-                ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
-                
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
             if (ribuan) {
                 separator = sisa ? '.' : '';
                 rupiah += separator + ribuan.join('.');

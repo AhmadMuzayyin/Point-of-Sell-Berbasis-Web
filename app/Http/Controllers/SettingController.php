@@ -8,13 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
-class SettingController extends Controller {
+class SettingController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         return view('admin.setting.index', [
             'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
@@ -29,7 +31,8 @@ class SettingController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         //
     }
 
@@ -39,7 +42,8 @@ class SettingController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         // try {
         //     $validator = Validator::make($request->all(), [
         //         'nama' => 'required|string',
@@ -67,7 +71,8 @@ class SettingController extends Controller {
         // }
     }
 
-    public function storeUser(Request $request) {
+    public function storeUser(Request $request)
+    {
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:50',
@@ -97,7 +102,8 @@ class SettingController extends Controller {
      * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function show(Setting $setting) {
+    public function show(Setting $setting)
+    {
         //
     }
 
@@ -107,7 +113,8 @@ class SettingController extends Controller {
      * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function edit(Setting $setting) {
+    public function edit(Setting $setting)
+    {
         //
     }
 
@@ -118,12 +125,13 @@ class SettingController extends Controller {
      * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Setting $setting) {
+    public function update(Request $request, Setting $setting)
+    {
         try {
             $validator = Validator::make($request->all(), [
                 'nama' => 'required|max:255',
                 'alamat' => 'required|max:255',
-                'nota' => 'required',
+                // 'nota' => 'required',
                 // 'logo' => 'required|file|mimes:jpg,jpeg,png|max:10240'
             ]);
 
@@ -137,7 +145,7 @@ class SettingController extends Controller {
                 $setting->nama = $request->nama;
                 $setting->alamat = $request->alamat;
                 $setting->logo = 'logo-toko.png';
-                $setting->nota = $request->nota;
+                $setting->nota = 1;
                 $setting->save();
 
                 return response()->json(['success' => 'Data berhasil disimpan!']);
@@ -155,7 +163,8 @@ class SettingController extends Controller {
      * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Setting $setting) {
+    public function destroy(Setting $setting)
+    {
         //
     }
 }

@@ -20,10 +20,11 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>Merek</th>
+                            <th>Kategori</th>
+                            <th>Jenis</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
-                            <th>Kategori Barang</th>
-                            <th>Jenis Barang</th>
+                            <th>Diskon</th>
                             <th>Stok</th>
                             <th><i class="fas fa-cog"></i></th>
                         </tr>
@@ -33,10 +34,11 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>Merek</th>
+                            <th>Kategori</th>
+                            <th>Jenis</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
-                            <th>Kategori Barang</th>
-                            <th>Jenis Barang</th>
+                            <th>Diskon</th>
                             <th>Stok</th>
                             <th></th>
                         </tr>
@@ -47,10 +49,11 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $b->nama }}</td>
                                 <td>{{ $b->merek }}</td>
-                                <td>{{ $b->harga_beli }}</td>
-                                <td>{{ $b->harga_jual }}</td>
                                 <td>{{ $b->category->kategori }}</td>
                                 <td>{{ $b->category->jenis }}</td>
+                                <td>{{ $b->harga_beli }}</td>
+                                <td>{{ $b->harga_jual }}</td>
+                                <td>{{ $b->diskon }}</td>
                                 <td>{{ $b->stok }}</td>
                                 <td>
                                     <form action="{{ route('product.destroy', $b->id) }}" method="POST">
