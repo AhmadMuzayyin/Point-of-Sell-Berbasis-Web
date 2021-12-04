@@ -184,6 +184,8 @@ class LaporanController extends Controller
         return $pdf->stream('Laporan ' . $laporan . '.pdf');
     }
 
+    
+
     /**
      * Show the form for creating a new resource.
      *

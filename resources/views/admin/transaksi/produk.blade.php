@@ -42,48 +42,50 @@
 
     <script>
         $(document).on('click', '.btn_click', function() {
-                    let ide = $(this).data('id')
-                    $.ajax({
-                            type: "GET",
-                            url: "{{ route('get.product') }}",
-                            data: {
-                                id: ide,
-                                no: '{{ session()->get('no') }}'
-                            },
-                            success: function(res) {
 
-                                let data = res.data
+                let ide = $(this).data('id')
+                $.ajax({
+                        type: "GET",
+                        url: "{{ route('get.product') }}",
+                        data: {
+                            id: ide,
+                            no: '{{ session()->get('no') }}'
+                        },
+                        success: function(res) {
 
-                                if (res.status == 1) {
+                            let data = res.data
 
-                                    Swal.fire('Sorry', `Data Sudah Ada Ditable`, 'warning')
+                            if (res.status == 1) {
 
-                                } else {
-                                    let html = `
-                    <tr id="tr-${data.id}">
-                        <td>${data.nama}</td>
-                        <td>${data.merek}</td>
-                        <td>${data.harga}</td>
-                        <td class="col-1">
-                            <input type="number" name="qty" id="qty-${data.id}" data-id="${data.id}" data-product="${data.product_id}" class="form-control w-100 qty-${data.id}" onkeyup="hitungSubtotal(${data.id})" value="1" data-kue="${data.harga}">
-                        </td>
-                        <td class="harga-${data.id}" data-id="${data.id}">${data.harga}</td>
-                        <td>
-                            <button class="badge bg-danger btn_hapus" data-transaksi="${data.transactions_id}" data-id="${data.id}" style="border: 0px;">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    `
+                                Swal.fire('Sorry', `Data Sudah Ada Ditable`, 'warning')
 
-                                    $('.total_harga').text()
-                                    $('.body_transaksi').append(html)
-                                    location.reload()
+                            } else {
+                                let html = `
+                                <tr id="tr-${data.id}">
+                                    <td>${data.nama}</td>
+                                    <td>${data.merek}</td>
+                                    <td>${data.harga}</td>
+                                    <td class="col-1">
+                                        <input type="number" name="qty" id="qty-${data.id}" data-id="${data.id}" data-product="${data.product_id}" class="form-control w-100 qty-${data.id}" onkeyup="hitungSubtotal(${data.id})" value="1" data-kue="${data.harga}">
+                                    </td>
+                                    <td class="harga-${data.id}" data-id="${data.id}">${data.harga}</td>
+                                    <td>
+                                        <button class="badge bg-danger btn_hapus" data-transaksi="${data.transactions_id}" data-id="${data.id}" style="border: 0px;">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                `
 
-                                }
-                            });
+                                $('.total_harga').text()
+                                $('.body_transaksi').append(html)
+                                location.reload()
+                            }
 
-                    })
+                        }
+
+                    });
+                })
 
                 $(document).on('click', '.btn_hapus', function() {
                     let id = $(this).data('id')
@@ -125,6 +127,10 @@
                             produk: produk,
                         },
                         success: function(res) {
+
+                            if(res.diskon !== 0){
+                                $('#diskonInput').removeAttr('disabled');
+                            }
 
                             let data = res.data
 

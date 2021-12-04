@@ -110,6 +110,13 @@ class TransactionController extends Controller
     {
         $cek = Product::find($request->produk);
 
+        $diskon = [];
+        if ($cek->diskon !== null) {
+            if ($request->val >= $cek->diskon) {
+                $diskon[$cek->id] = $cek->diskon;
+            }
+        }
+
         if ($request->val > $cek->stok) {
             return response()->json([
                 'status' => 1,
@@ -131,6 +138,7 @@ class TransactionController extends Controller
         return response()->json([
             'data' => $transaksi,
             'total_hrg' => $total_hrg,
+            'diskon' => array_sum($diskon)
         ]);
     }
 
@@ -153,6 +161,19 @@ class TransactionController extends Controller
 
         return response()->json([
             'data' => 1,
+        ]);
+    }
+
+    public function diskonProduct(Request $request)
+    {
+
+        $transaksi = Transaction::where('id', $request->id)->update([
+            'total' => $request->total,
+            'diskon' => $request->diskon,
+        ]);
+
+        return response()->json([
+            'status' => 'palpale',
         ]);
     }
 

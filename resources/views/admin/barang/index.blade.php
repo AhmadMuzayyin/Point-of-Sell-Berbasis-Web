@@ -53,7 +53,7 @@
                                 <td>{{ $b->category->jenis }}</td>
                                 <td>{{ $b->harga_beli }}</td>
                                 <td>{{ $b->harga_jual }}</td>
-                                <td>{{ $b->diskon }}</td>
+                                <td>{{ $b->diskon ? $b->diskon : 0 }}</td>
                                 <td>{{ $b->stok }}</td>
                                 <td>
                                     <form action="{{ route('product.destroy', $b->id) }}" method="POST">

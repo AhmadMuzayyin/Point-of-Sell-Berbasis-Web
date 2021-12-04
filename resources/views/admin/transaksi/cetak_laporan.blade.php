@@ -43,6 +43,8 @@
                 </ul>
 
                 <ul class="list-group list-group-flush mt-4">
+                    
+                    <li class="list-group-item">Diskon <span class="float-right"><strong>{{ $transaksi->diskon }}</strong></span></li>
                     <li class="list-group-item">Total <span class="float-right"><strong>{{ $transaksi->total }}</strong></span></li>
                     <li class="list-group-item">Tunai <span class="float-right"><strong>{{ $transaksi->bayar }}</strong></span></li>
                     <li class="list-group-item">Kembalian <span class="float-right"><strong>{{ $transaksi->kembalian }}</strong></span></li>

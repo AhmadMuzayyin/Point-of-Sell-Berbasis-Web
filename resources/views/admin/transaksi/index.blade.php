@@ -67,9 +67,9 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="diskonInput" class="form-label">Diskon</label>
-                            <input type="number" class="form-control" name="diskon" id="diskonInput" placeholder="Disokn"
-                                aria-label="Disokn" autocomplete="off" value="0">
+                            <label for="diskonInput" class="form-label">Diskon ( % )</label>
+                            <input type="number" class="form-control" name="diskon" id="diskonInput" placeholder="Diskon"
+                                aria-label="Diskon" autocomplete="off" value="0" data-kue="{{ $datas ? $datas->id : '' }}">
                         </div>
                         <div class="mb-3">
                             <label for="diskonInput" class="form-label">Bayar</label>
@@ -97,6 +97,7 @@
 @endsection
 @push('script')
     <script>
+        $('#diskonInput').prop("disabled", true);
         function tampilProduk() {
             $('#ModalSearch').modal('show');
             const datatablesSimple = document.getElementById('table-produk');
@@ -116,31 +117,93 @@
 
         })
 
+        $(document).on('keyup', '#diskonInput', function(){
+
+            let id = $(this).data('kue')
+            let total = '{{ $datas ? $datas->total : '' }}'
+            let diskonInput = $('#diskonInput').val()
+            let hitung_diskon = ( total / 100 ) * diskonInput
+            
+            let totalDiskon = total - hitung_diskon
+            $('.total_harga').text(totalDiskon)
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('diskon.product') }}",
+                data: {
+                    id: id,
+                    diskon: hitung_diskon,
+                    total: totalDiskon
+                },
+                success: function(res) {
+                    
+                }
+            });
+
+        })
+
         $(document).on('click', '#selesai', function() {
 
             let id = $(this).data('kue')
             let bayar = $('#bayarInput').val()
             let kembalian = $('.kembalian').text()
-            if (bayar == '') {
 
-                Swal.fire('Sorry', 'Input Uang Pelanggan Dahulu', 'warning')
 
-            } else {
+            if( !$('#diskonInput').is(':disabled') ){
+                let diskon = $('#diskonInput').val()
+                if( diskon > 0 ){
 
-                $.ajax({
-                    type: "GET",
-                    url: "{{ route('selesai.product') }}",
-                    data: {
-                        id: id,
-                        bayar: bayar,
-                        kembalian: kembalian,
-                    },
-                    success: function(res) {
-                        window.location.href = '{{ url('cetak-transaksi') }}?data=' + id
+                    if (bayar == '') {
+
+                        Swal.fire('Sorry', 'Input Uang Pelanggan Dahulu', 'warning')
+
+                    } else {
+
+                        $.ajax({
+                            type: "GET",
+                            url: "{{ route('selesai.product') }}",
+                            data: {
+                                id: id,
+                                bayar: bayar,
+                                kembalian: kembalian,
+                            },
+                            success: function(res) {
+                                window.location.href = '{{ url('cetak-transaksi') }}?data=' + id
+                            }
+                        });
+
                     }
-                });
+
+                }else{
+
+                    Swal.fire('Sorry', 'Input Diskon Terlebih Dahulu', 'warning')
+
+                }
+
+            }else{
+                if (bayar == '') {
+
+                    Swal.fire('Sorry', 'Input Uang Pelanggan Dahulu', 'warning')
+
+                } else {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ route('selesai.product') }}",
+                        data: {
+                            id: id,
+                            bayar: bayar,
+                            kembalian: kembalian,
+                        },
+                        success: function(res) {
+                            window.location.href = '{{ url('cetak-transaksi') }}?data=' + id
+                        }
+                    });
+
+                }
 
             }
+
 
         })
     </script>
