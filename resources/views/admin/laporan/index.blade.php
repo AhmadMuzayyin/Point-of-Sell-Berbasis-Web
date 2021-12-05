@@ -9,49 +9,53 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
-                        <label for="laporan">Laporan</label>
-                        <select class="form-select" id="laporan" aria-label="Default select example">
-                            <option value="">-- Pilih Laporan Berdasarkan--</option>
-                            <option value="1">Hari</option>
-                            <option value="2">Bulan</option>
-                            <option value="3">Tahun</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row d-block">
-                    <h2>Laporan <span class="valSelect"></span></h2>
-
-                    <div class="col-md-4">
-                        <div class="table-responsive">
-                            <table class="table table-bordered w-40">
-                                <tr>
-                                    <th scope="row">Modal</th>
-                                    <td class="modals">Rp. 0</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Pendapatan</th>
-                                    <td class="pendapatan">Rp. 0</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Laba</th>
-                                    <td class="laba">Rp. 0</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Rugi</th>
-                                    <td class="rugi">Rp. 0</td>
-                                </tr>
-                            </table>
+                    <div class="col-md">
+                        <div class="row">
+                            <div class="col-md">
+                                <h1 class="text-bold mb-3">Laporan Pengeluaran dan Penjualan</h1>
+                                <select class="form-select" id="laporan" aria-label="Default select example">
+                                    <option value="">-- Pilih Laporan Berdasarkan--</option>
+                                    <option value="1">Hari</option>
+                                    <option value="2">Bulan</option>
+                                    <option value="3">Tahun</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                        <div class="row d-block">
+                            <h5 class="mt-3 mb-4">Laporan <span class="valSelect"></span></h5>
 
-                    <div class="col-md-2 btn_cetak">
-                        <a class="mamadAjg">
-                            <button type="button" class="btn btn-primary btn-sm">
-                                <i class="fas fa-file-pdf"></i>
-                                Download Laporan
-                            </button>
-                        </a>
+                            <div class="col-md">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered w-40">
+                                        <tr>
+                                            <th scope="row">Pengeluaran</th>
+                                            <td class="modals">Rp. 0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Pendapatan</th>
+                                            <td class="pendapatan">Rp. 0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Laba</th>
+                                            <td class="laba">Rp. 0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Rugi</th>
+                                            <td class="rugi">Rp. 0</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md btn_cetak">
+                                <a class="mamadAjg">
+                                    <button type="button" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-file-pdf"></i>
+                                        Download
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,20 +99,20 @@
 @push('script')
     <script>
         $('.btn_cetak').hide()
-        $('#laporan').on('change', function(){
-            
+        $('#laporan').on('change', function() {
+
             let val = $(this).val()
             let fill = $('.btn_cetak').val(val)
 
-            if( val == 1 ){
+            if (val == 1) {
                 $('.valSelect').text('Harian')
             }
 
-            if( val == 2 ){
+            if (val == 2) {
                 $('.valSelect').text('Bulanan')
             }
 
-            if( val == 3 ){
+            if (val == 3) {
                 $('.valSelect').text('Tahunan')
             }
 
@@ -118,17 +122,17 @@
                 data: {
                     val: val,
                 },
-                success: function (res) {
-                    
+                success: function(res) {
+
                     let pendapatan = res.pendapatan ? res.pendapatan : '0'
                     let modal = res.modal ? res.modal : '0'
                     let rugi = res.rugi ? res.rugi : '0'
                     let laba = res.laba ? res.laba : '0'
 
-                    $('.modals').text('Rp. '+modal)
-                    $('.rugi').text('Rp. '+rugi)
-                    $('.laba').text('Rp. '+laba)
-                    $('.pendapatan').text('Rp. '+pendapatan)
+                    $('.modals').text('Rp. ' + modal)
+                    $('.rugi').text('Rp. ' + rugi)
+                    $('.laba').text('Rp. ' + laba)
+                    $('.pendapatan').text('Rp. ' + pendapatan)
 
                     $('.btn_cetak').show()
 
@@ -137,10 +141,9 @@
 
         })
 
-        $(document).on('click', '.btn_cetak', function(){
+        $(document).on('click', '.btn_cetak', function() {
             let val = $('#laporan').val()
-            $('.mamadAjg').prop('href', '{{ route('cetak.laporan') }}?data='+val)
+            $('.mamadAjg').prop('href', '{{ route('cetak.laporan') }}?data=' + val)
         })
-
     </script>
 @endpush
