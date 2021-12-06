@@ -52,55 +52,67 @@ class TransactionController extends Controller
             $data = Product::find($request->id);
             $cek = Transaction::where('no', $request->no)->first();
 
-            if ($cek == null) {
-                $transaksi = new Transaction();
-                $transaksi->user_id = Auth::user()->id;
-                $transaksi->no = $request->no;
-                $transaksi->status = 0;
-                $transaksi->total = $data->harga_jual;
-                $transaksi->save();
-            }
-
-            $cekInsert = Transaction::where('no', $request->no)->first();
-            if ($cekInsert->no == session()->get('no')) {
-
-                $trans = TransactionDetails::where('transactions_id', $cekInsert->id)->where('product_id', $request->id)->first();
-
-                if ($trans == null) {
-
-                    $tr = new TransactionDetails();
-                    $tr->transactions_id = $cekInsert->id;
-                    $tr->product_id = $data->id;
-                    $tr->nama = $data->nama;
-                    $tr->merek = $data->merek;
-                    $tr->harga = $data->harga_jual;
-                    $tr->qty = 1;
-                    $tr->subtotal = $data->harga_jual;
-                    $tr->save();
-
-                    $getTotal = TransactionDetails::where('transactions_id', $tr->transactions_id)->get();
-                    $sum = 0;
-                    foreach ($getTotal as $key => $value) {
-                        $sum += $value->subtotal;
-                    }
-
-                    $transa = Transaction::where('no', $request->no)->update([
-                        'total' => $sum,
-                    ]);
-
-                    return response()->json([
-                        'status' => 0,
-                        'data' => $tr,
-                        'cekTotal' => $cekInsert->total,
-                    ]);
-                } else {
-
-                    return response()->json([
-                        'status' => 1,
-                        'data' => 'Sudah ditambahkan',
-                    ]);
+            if( $data->stok > 0  ){
+                
+                if ($cek == null) {
+                    $transaksi = new Transaction();
+                    $transaksi->user_id = Auth::user()->id;
+                    $transaksi->no = $request->no;
+                    $transaksi->status = 0;
+                    $transaksi->total = $data->harga_jual;
+                    $transaksi->save();
                 }
+    
+                $cekInsert = Transaction::where('no', $request->no)->first();
+                if ($cekInsert->no == session()->get('no')) {
+    
+                    $trans = TransactionDetails::where('transactions_id', $cekInsert->id)->where('product_id', $request->id)->first();
+    
+                    if ($trans == null) {
+    
+                        $tr = new TransactionDetails();
+                        $tr->transactions_id = $cekInsert->id;
+                        $tr->product_id = $data->id;
+                        $tr->nama = $data->nama;
+                        $tr->merek = $data->merek;
+                        $tr->harga = $data->harga_jual;
+                        $tr->qty = 1;
+                        $tr->subtotal = $data->harga_jual;
+                        $tr->save();
+    
+                        $getTotal = TransactionDetails::where('transactions_id', $tr->transactions_id)->get();
+                        $sum = 0;
+                        foreach ($getTotal as $key => $value) {
+                            $sum += $value->subtotal;
+                        }
+    
+                        $transa = Transaction::where('no', $request->no)->update([
+                            'total' => $sum,
+                        ]);
+    
+                        return response()->json([
+                            'status' => 0,
+                            'data' => $tr,
+                            'cekTotal' => $cekInsert->total,
+                        ]);
+                    } else {
+                        
+                        return response()->json([
+                            'status' => 1,
+                            'data' => 'Sudah ditambahkan',
+                        ]);
+                    }
+                }
+
+            }else{
+
+                return response()->json([
+                    'status' => 2,
+                    'data' => 'Maaf Stok Barang yang tersedia Sudah Habis'
+                ]);
+
             }
+            
         } catch (Exception $e) {
             return $e->getMessage();
         }

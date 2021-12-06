@@ -59,6 +59,8 @@
 
                                 Swal.fire('Sorry', `Data Sudah Ada Ditable`, 'warning')
 
+                            } else if( res.status == 2 ) {
+                                Swal.fire('Sorry', res.data, 'warning')
                             } else {
                                 let html = `
                                 <tr id="tr-${data.id}">

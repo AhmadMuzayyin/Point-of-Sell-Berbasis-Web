@@ -168,7 +168,19 @@
                                 kembalian: kembalian,
                             },
                             success: function(res) {
-                                window.location.href = '{{ url('cetak-transaksi') }}?data=' + id
+                                
+                                const newWindow  = window.open('{{ url('cetak-transaksi') }}?data=' + id, 'Cetak Nota', 
+                                    `
+                                        scrollbars=yes,
+                                        width  = 700, 
+                                        height = 700, 
+                                        top    = 500, 
+                                        left   = 500
+                                    `
+                                );
+
+                                if (window.focus) newWindow.focus();
+
                             }
                         });
 
@@ -196,7 +208,21 @@
                             kembalian: kembalian,
                         },
                         success: function(res) {
-                            window.location.href = '{{ url('cetak-transaksi') }}?data=' + id
+                            
+                            const newWindow  = window.open('{{ url('cetak-transaksi') }}?data=' + id, 'Cetak Nota', 
+                                `
+                                    scrollbars=yes,
+                                    width  = 700, 
+                                    height = 700, 
+                                    top    = 500, 
+                                    left   = 500
+                                `
+                            );
+
+                            if (window.open) newWindow.print();
+
+                            location.reload();
+
                         }
                     });
 
