@@ -181,7 +181,9 @@
                                     `
                                 );
 
-                                if (window.focus) newWindow.focus();
+                                if (window.open) newWindow.print();
+
+                                location.reload();
 
                             }
                         });
