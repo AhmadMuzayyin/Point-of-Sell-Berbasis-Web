@@ -69,7 +69,8 @@
                         <div class="mb-3">
                             <label for="diskonInput" class="form-label">Diskon ( % )</label>
                             <input type="number" class="form-control" name="diskon" id="diskonInput" placeholder="Diskon"
-                                aria-label="Diskon" autocomplete="off" value="0" data-kue="{{ $datas ? $datas->id : '' }}">
+                                aria-label="Diskon" autocomplete="off" value="0"
+                                data-kue="{{ $datas ? $datas->id : '' }}">
                         </div>
                         <div class="mb-3">
                             <label for="diskonInput" class="form-label">Bayar</label>
@@ -98,6 +99,7 @@
 @push('script')
     <script>
         $('#diskonInput').prop("disabled", true);
+
         function tampilProduk() {
             $('#ModalSearch').modal('show');
             const datatablesSimple = document.getElementById('table-produk');
@@ -117,13 +119,13 @@
 
         })
 
-        $(document).on('keyup', '#diskonInput', function(){
+        $(document).on('keyup', '#diskonInput', function() {
 
             let id = $(this).data('kue')
             let total = '{{ $datas ? $datas->total : '' }}'
             let diskonInput = $('#diskonInput').val()
-            let hitung_diskon = ( total / 100 ) * diskonInput
-            
+            let hitung_diskon = (total / 100) * diskonInput
+
             let totalDiskon = total - hitung_diskon
             $('.total_harga').text(totalDiskon)
 
@@ -136,7 +138,7 @@
                     total: totalDiskon
                 },
                 success: function(res) {
-                    
+
                 }
             });
 
@@ -149,9 +151,9 @@
             let kembalian = $('.kembalian').text()
 
 
-            if( !$('#diskonInput').is(':disabled') ){
+            if (!$('#diskonInput').is(':disabled')) {
                 let diskon = $('#diskonInput').val()
-                if( diskon > 0 ){
+                if (diskon > 0) {
 
                     if (bayar == '') {
 
@@ -186,13 +188,13 @@
 
                     }
 
-                }else{
+                } else {
 
                     Swal.fire('Sorry', 'Input Diskon Terlebih Dahulu', 'warning')
 
                 }
 
-            }else{
+            } else {
                 if (bayar == '') {
 
                     Swal.fire('Sorry', 'Input Uang Pelanggan Dahulu', 'warning')

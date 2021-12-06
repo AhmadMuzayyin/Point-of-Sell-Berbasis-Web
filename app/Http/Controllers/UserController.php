@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class UserController extends Controller
 {
@@ -14,7 +17,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.setting.index', [
+            'licenses' => "Ahmad Muzayyin",
+            'data' => Setting::all(),
+            // 'users' => User::where('status' , '>' , 1)->get(),
+            'users' => User::all(),
+            'user' => Auth::user(),
+        ]);
     }
 
     /**
@@ -35,7 +44,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'username' => 'required|unique:users',
+                'password' => 'required'
+            ]);
+            if ($validator->passes()) {
+                User::create([
+                    'name' => $request->name,
+                    'username' => $request->username,
+                    'password' => $request->password,
+                    'status' => $request->status
+                ]);
+                return response()->json(['success' => 'Data berhasil disimpan!']);
+            } else {
+                return response()->json(['error' => $validator->errors()->all()]);
+            }
+        } catch (\Throwable $th) {
+            $th->getMessage();
+        }
     }
 
     /**
@@ -80,6 +108,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        // dd($user->id);
+        User::destroy($user->id);
+        return response()->json(['success' => 'Data berhasil dihapus!']);
     }
 }

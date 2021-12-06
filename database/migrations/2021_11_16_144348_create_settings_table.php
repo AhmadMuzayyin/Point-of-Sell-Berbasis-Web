@@ -17,6 +17,7 @@ class CreateSettingsTable extends Migration
             $table->id();
             $table->string('nama');
             $table->text('alamat');
+            $table->text('kontak');
             $table->string('logo');
             $table->integer('nota');
             $table->timestamps();

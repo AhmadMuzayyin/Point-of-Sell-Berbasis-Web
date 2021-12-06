@@ -24,7 +24,7 @@
                             <th>Jenis</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
-                            <th>Diskon</th>
+                            <th>Min Belanja</th>
                             <th>Stok</th>
                             <th><i class="fas fa-cog"></i></th>
                         </tr>
@@ -38,7 +38,7 @@
                             <th>Jenis</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
-                            <th>Diskon</th>
+                            <th>Min Belanja</th>
                             <th>Stok</th>
                             <th></th>
                         </tr>
