@@ -20,7 +20,6 @@ class SettingController extends Controller
         return view('admin.setting.index', [
             'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
-            // 'users' => User::where('status' , '>' , 1)->get(),
             'users' => User::all(),
             'user' => Auth::user(),
         ]);
@@ -115,7 +114,13 @@ class SettingController extends Controller
      */
     public function edit(Setting $setting)
     {
-        //
+        // dd($setting->id);
+        return view('admin.setting.index', [
+            'licenses' => "Ahmad Muzayyin",
+            'data' => Setting::all(),
+            'users' => User::all(),
+            'user' => Auth::user(),
+        ]);
     }
 
     /**

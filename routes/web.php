@@ -7,6 +7,8 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
+use App\Models\Setting;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +35,9 @@ Route::middleware([Authenticate::class])->group(function () {
         '/setting' => SettingController::class,
         '/transaction' => TransactionController::class,
         '/laporan' => LaporanController::class,
+        'tambahUser' => UserController::class,
     ]);
-    Route::post('storeUser', [ProductController::class, 'storeUser'])->name("user.add");
+    Route::get('settingEdit/{setting}', [SettingController::class, 'edit']);
     Route::get('cek', [ProductController::class, 'cekHarga'])->name("product.cek");
     Route::get('produk', [ProductController::class, 'validasi'])->name("product.validasi");
 

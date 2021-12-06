@@ -21,23 +21,18 @@ class DatabaseSeeder extends Seeder
             'name' => "Ahmad Muzayyin",
             'username' => "admin",
             'password' => bcrypt("123"),
-            'alamat' => "Pamekasan",
-            'jenis_kelamin' => "Laki-Laki",
-            'no_telepon' => "0812345678",
             'status' => 1
         ]);
         User::create([
             'name' => "Zainal Fatah",
             'username' => "kasir",
             'password' => bcrypt("123"),
-            'alamat' => "Pamekasan",
-            'jenis_kelamin' => "Laki-Laki",
-            'no_telepon' => "0812345678",
             'status' => 2
         ]);
         Setting::create([
             'nama' => "Toko",
             'alamat' => "Ganding Sumenep",
+            'kontak' => "123456789",
             'logo' => 'logo-toko.png',
             'nota' => 1
         ]);
@@ -59,7 +54,7 @@ class DatabaseSeeder extends Seeder
             'harga_beli' => 10000,
             'harga_jual' => 12000,
             'harga_jual_opsi' => 11000,
-            'stok' => 10,
+            'stok' => 100,
         ]);
         Product::create([
             'category_id' => $c2->id,
@@ -69,7 +64,7 @@ class DatabaseSeeder extends Seeder
             'harga_beli' => 10000,
             'harga_jual' => 12000,
             'harga_jual_opsi' => 0,
-            'stok' => 10,
+            'stok' => 100,
         ]);
     }
 }
