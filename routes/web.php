@@ -35,7 +35,7 @@ Route::middleware([Authenticate::class])->group(function () {
         '/setting' => SettingController::class,
         '/transaction' => TransactionController::class,
         '/laporan' => LaporanController::class,
-        'tambahUser' => UserController::class,
+        '/user' => UserController::class,
     ]);
     Route::get('settingEdit/{setting}', [SettingController::class, 'edit']);
     Route::get('cek', [ProductController::class, 'cekHarga'])->name("product.cek");

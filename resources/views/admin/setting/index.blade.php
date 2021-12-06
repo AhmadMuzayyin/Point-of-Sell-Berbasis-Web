@@ -8,7 +8,7 @@
         </ol>
         <div class="row">
             <div class="col-md-7">
-                @if (Request::is('tambahUser'))
+                @if (Request::is('user'))
                     <div class="card mb3">
                         <div class="card-body">
                             <h4>Tambah Pengguna</h4>
@@ -58,7 +58,7 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             {{-- <h3>Data Kasir</h3> --}}
-                            <a href="{{ route('tambahUser.index') }}" class="btn btn-primary">
+                            <a href="{{ route('user.index') }}" class="btn btn-primary">
                                 <i class="fas fa-plus-circle me-1"></i>
                                 Pengguna
                             </a>
@@ -88,7 +88,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <form action="{{ route('category.destroy', $k->id) }}" method="POST">
+                                                <form action="{{ route('user.destroy', $k->id) }}" method="POST">
                                                     @csrf
                                                     <button class="badge bg-danger btndelete" style="border: 0px;">
                                                         <i class="fas fa-trash-alt"></i>
@@ -194,7 +194,7 @@
             var status = document.getElementById("status").value;
 
             $.ajax({
-                url: "{{ route('tambahUser.store') }}",
+                url: "{{ route('user.store') }}",
                 type: 'POST',
                 data: {
                     _token: _token,
@@ -282,6 +282,52 @@
                     }
                 });
 
+            });
+
+            $(".btndelete").click(function(e) {
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var Url = $(this).parents('form').attr('action');
+
+                Swal.fire({
+                    title: 'Hapus data?',
+                    icon: 'danger',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Delete',
+                    denyButtonText: `Close`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: Url,
+                            type: 'DELETE',
+                            data: {
+                                _token: _token
+                            },
+                            success: function(data) {
+                                if ($.isEmptyObject(data.error)) {
+                                    Swal.fire({
+                                        title: data.success,
+                                        icon: 'success',
+                                        showConfirmButton: false
+                                    })
+                                    window.setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                } else {
+                                    printErrorMsg(data.error);
+                                }
+                            }
+                        });
+                    }
+                })
+
+                function printErrorMsg(msg) {
+                    $('.validation').addClass('is-invalid');
+                    $.each(msg, function(key, value) {
+                        $(".invalid-feedback").html(value);
+                    });
+                }
             });
 
         });
