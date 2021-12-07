@@ -52,8 +52,8 @@ class TransactionController extends Controller
             $data = Product::find($request->id);
             $cek = Transaction::where('no', $request->no)->first();
 
-            if( $data->stok > 0  ){
-                
+            if ($data->stok > 0) {
+
                 if ($cek == null) {
                     $transaksi = new Transaction();
                     $transaksi->user_id = Auth::user()->id;
@@ -62,14 +62,14 @@ class TransactionController extends Controller
                     $transaksi->total = $data->harga_jual;
                     $transaksi->save();
                 }
-    
+
                 $cekInsert = Transaction::where('no', $request->no)->first();
                 if ($cekInsert->no == session()->get('no')) {
-    
+
                     $trans = TransactionDetails::where('transactions_id', $cekInsert->id)->where('product_id', $request->id)->first();
-    
+
                     if ($trans == null) {
-    
+
                         $tr = new TransactionDetails();
                         $tr->transactions_id = $cekInsert->id;
                         $tr->product_id = $data->id;
@@ -79,40 +79,37 @@ class TransactionController extends Controller
                         $tr->qty = 1;
                         $tr->subtotal = $data->harga_jual;
                         $tr->save();
-    
+
                         $getTotal = TransactionDetails::where('transactions_id', $tr->transactions_id)->get();
                         $sum = 0;
                         foreach ($getTotal as $key => $value) {
                             $sum += $value->subtotal;
                         }
-    
+
                         $transa = Transaction::where('no', $request->no)->update([
                             'total' => $sum,
                         ]);
-    
+
                         return response()->json([
                             'status' => 0,
                             'data' => $tr,
                             'cekTotal' => $cekInsert->total,
                         ]);
                     } else {
-                        
+
                         return response()->json([
                             'status' => 1,
                             'data' => 'Sudah ditambahkan',
                         ]);
                     }
                 }
-
-            }else{
+            } else {
 
                 return response()->json([
                     'status' => 2,
                     'data' => 'Maaf Stok Barang yang tersedia Sudah Habis'
                 ]);
-
             }
-            
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -182,7 +179,10 @@ class TransactionController extends Controller
         $transaksi = Transaction::where('id', $request->id)->update([
             'total' => $request->total,
             'diskon' => $request->diskon,
+            'diskon_persentase' => $request->inputDiskon,
         ]);
+
+        $data = Transaction::where('id', $request->id)->with('tr_detail')->first();
 
         return response()->json([
             'status' => 'palpale',

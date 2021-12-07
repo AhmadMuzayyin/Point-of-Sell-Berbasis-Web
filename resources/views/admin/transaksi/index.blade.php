@@ -69,7 +69,7 @@
                         <div class="mb-3">
                             <label for="diskonInput" class="form-label">Diskon ( % )</label>
                             <input type="number" class="form-control" name="diskon" id="diskonInput" placeholder="Diskon"
-                                aria-label="Diskon" autocomplete="off" value="0"
+                                aria-label="Diskon" autocomplete="off" value="{{ $datas ? $datas->diskon_persentase : '0' }}"
                                 data-kue="{{ $datas ? $datas->id : '' }}">
                         </div>
                         <div class="mb-3">
@@ -97,6 +97,8 @@
     </style>
 @endsection
 @push('script')
+
+
     <script>
         $('#diskonInput').prop("disabled", true);
 
@@ -119,14 +121,14 @@
 
         })
 
-        $(document).on('keyup', '#diskonInput', function() {
+        $(document).on('change', '#diskonInput', function() {
 
             let id = $(this).data('kue')
-            let total = '{{ $datas ? $datas->total : '' }}'
-            let diskonInput = $('#diskonInput').val()
-            let hitung_diskon = (total / 100) * diskonInput
-
+            let total = parseInt($('.total_harga').text())
+            let diskonInput = parseInt($('#diskonInput').val())
+            let hitung_diskon = total * diskonInput / 100
             let totalDiskon = total - hitung_diskon
+
             $('.total_harga').text(totalDiskon)
 
             $.ajax({
@@ -135,7 +137,8 @@
                 data: {
                     id: id,
                     diskon: hitung_diskon,
-                    total: totalDiskon
+                    total: totalDiskon,
+                    inputDiskon : diskonInput,
                 },
                 success: function(res) {
 
