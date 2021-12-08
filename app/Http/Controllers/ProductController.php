@@ -22,7 +22,6 @@ class ProductController extends Controller
         date_default_timezone_set('Asia/Jakarta');
 
         return view('admin.barang.index', [
-            'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
             'user' => Auth::user(),
             'product' => Product::all()
@@ -56,7 +55,7 @@ class ProductController extends Controller
         try {
             // dd($request->all());
             $validator = Validator::make($request->all(), [
-                'nama' => 'required|max:50|unique:products,nama',
+                'nama' => 'required|max:50',
                 'merek' => 'required|max:50',
                 'category_id' => 'required',
                 'hargabeli' => 'required|max:50',

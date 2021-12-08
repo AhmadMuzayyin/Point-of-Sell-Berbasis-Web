@@ -88,12 +88,14 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <form action="{{ route('user.destroy', $k->id) }}" method="POST">
-                                                    @csrf
-                                                    <button class="badge bg-danger btndelete" style="border: 0px;">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </form>
+                                                @if ($k->status > 1)
+                                                    <form action="{{ route('user.destroy', $k->id) }}" method="POST">
+                                                        @csrf
+                                                        <button class="badge bg-danger btndelete" style="border: 0px;">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

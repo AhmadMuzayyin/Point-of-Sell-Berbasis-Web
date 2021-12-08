@@ -86,6 +86,12 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
                             Barang
                         </a>
+                        <a class="nav-link {{ Request::is('members') ? 'active' : '' }}"
+                            href="{{ route('members.index') }}">
+                            <div class="sb-nav-link-icon" onclick="navtoggled()"><i class="fas fa-id-card-alt"></i>
+                            </div>
+                            Member
+                        </a>
                         <a class="nav-link {{ Request::is('transaction') ? 'active' : '' }}"
                             href="{{ route('transaction.index') }}">
                             <div class="sb-nav-link-icon" onclick="navtoggled()"><i class="fas fa-cart-plus"></i></div>
@@ -147,24 +153,6 @@
     <script src="{{ url('assets/js/simple-datatables@latest.js') }}"></script>
     <script src="{{ url('assets/js/datatables-simple-demo.js') }}"></script>
     <script src="{{ url('assets/js/sweetalert2.all.min.js') }}"></script>
-
-    <script>
-        /* Fungsi */
-        function formatRupiah(angka) {
-            var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                split = number_string.split(','),
-                sisa = split[0].length % 3,
-                rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-            if (ribuan) {
-                separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-
-            return rupiah;
-        }
-    </script>
 
     @stack('script')
 </body>

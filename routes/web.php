@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TransactionController;
@@ -36,7 +37,11 @@ Route::middleware([Authenticate::class])->group(function () {
         '/transaction' => TransactionController::class,
         '/laporan' => LaporanController::class,
         '/user' => UserController::class,
+        '/members' => MemberController::class,
     ]);
+    Route::get('cetak-member', [MemberController::class, 'cetak'])->name("cetak.member");
+    Route::get('cetak-member/{member}', [MemberController::class, 'cetakMember'])->name("cetak.mem");
+
     Route::get('settingEdit/{setting}', [SettingController::class, 'edit']);
     Route::get('cek', [ProductController::class, 'cekHarga'])->name("product.cek");
     Route::get('produk', [ProductController::class, 'validasi'])->name("product.validasi");

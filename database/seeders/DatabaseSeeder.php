@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             'harga_beli' => 10000,
             'harga_jual' => 12000,
             'harga_jual_opsi' => 11000,
-            'stok' => 100,
+            'stok' => 1000,
         ]);
         Product::create([
             'category_id' => $c2->id,
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             'harga_beli' => 10000,
             'harga_jual' => 12000,
             'harga_jual_opsi' => 0,
-            'stok' => 100,
+            'stok' => 1000,
         ]);
     }
 }

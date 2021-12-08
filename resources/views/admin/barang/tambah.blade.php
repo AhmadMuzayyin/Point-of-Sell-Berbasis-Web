@@ -53,9 +53,7 @@
                     <div class="mb-3">
                         <input type="number" class="form-control validation" name="diskon" placeholder="Diskon" required
                             value="0">
-                        <span class="text-start text-danger" style="font-size: 13px; font-style: italic">Jumlah pembelian
-                            yang dapat
-                            diskon.</span>
+                        <span class="text-start text-danger" style="font-size: 13px; font-style: italic">Diskon (%)</span>
                         <div class="invalid-feedback ediskon">
                         </div>
                     </div>

@@ -139,9 +139,11 @@ class SettingController extends Controller
                 // 'nota' => 'required',
                 // 'logo' => 'required|file|mimes:jpg,jpeg,png|max:10240'
             ]);
+            // dd($setting->id);
 
             if ($validator->passes()) {
                 $setting = Setting::find($setting->id);
+                // dd($setting);
                 // $file = $request->file()->logo;
                 // $fileName = Auth::user()->name.'_'.date('h:i:s').'_'.'logo-toko'.'.'.$file->extension();
                 // dd($fileName);
@@ -155,7 +157,7 @@ class SettingController extends Controller
 
                 return response()->json(['success' => 'Data berhasil disimpan!']);
             } else {
-                return response()->json(['error' => $request->file('logo')]);
+                return response()->json(['error' => $validator->error->all()]);
             }
         } catch (\Throwable $th) {
             $th->getmessage();
