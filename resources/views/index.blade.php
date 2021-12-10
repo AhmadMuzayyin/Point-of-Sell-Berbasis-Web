@@ -17,21 +17,3 @@
         </div>
     </div>
 @endsection
-@push('script')
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: "{{ route('product.cek') }}",
-                type: 'GET',
-                context: document.body,
-                // success: function(data) {
-                //     if ($.isEmptyObject(data.error)) {
-                //         alert(data.success);
-                //     } else {
-                //         alert(data.error)
-                //     }
-                // }
-            });
-        });
-    </script>
-@endpush

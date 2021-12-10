@@ -16,11 +16,13 @@
     <script src="{{ url('assets/js/all.min.js') }}" crossorigin="anonymous"></script>
     <style>
         .card {
-            background-color: rgb(0, 195, 255)
+            background: rgb(111, 0, 255);
+            background: linear-gradient(90deg, rgba(111, 0, 255, 1) 0%, rgba(195, 0, 215, 1) 50%, rgba(255, 0, 91, 1) 100%);
         }
 
         .card span {
             font-size: 90%;
+            color: #fff
         }
 
     </style>
@@ -33,19 +35,22 @@
         <div class="card my-2 mx-2" style="max-width: 350px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="{{ url('uploads/profil.png') }}" class="img-fluid" alt="profil">
+                    <img src="{{ url('uploads/profil.png') }}" class="img-fluid mt-2" alt="profil">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $m->nama }}</h5>
-                        <span>ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                        <h5 class="card-title text-white">{{ $m->nama }}</h5>
+                        <span>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                             {{ $m->id_member }}</span><br>
                         <span>Alamat &nbsp;&nbsp;: {{ $m->alamat }}</span><br>
                         <span>No Hp &nbsp;&nbsp;&nbsp;: {{ $m->kontak }}</span><br>
                         <span>
-                            <small style="font-size: 70%; margin-left: 40%;">Berlaku
-                                sampai</small><br>
-                            <small style="font-size: 60%; margin-left: 47%">{{ $m->masa_berlaku }}</small>
+                            <small style="margin-left: -54%;">{{ $m->masa_berlaku }}</small>
+                            <span style="font-size: 90%;  margin-left: 20%;">
+                                <span class=" badge rounded-pill bg-primary">
+                                    {{ $toko->nama }}
+                                </span>
+                            </span>
                         </span>
                     </div>
                 </div>

@@ -81,7 +81,7 @@
             $('.cetak-member').click(function(e) {
                 e.preventDefault();
                 let id = $(this).data('id');
-                const newWindow = window.open("{{ url('cetak-laporan') }}/" + id);
+                const newWindow = window.open("{{ url('cetak-member') }}/" + id);
             });
 
             $('.editMember').click(function(e) {

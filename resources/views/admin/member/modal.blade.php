@@ -80,9 +80,9 @@
                                 icon: 'success',
                                 showConfirmButton: false
                             })
-                            // window.setTimeout(function() {
-                            //     location.reload();
-                            // }, 1000);
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         } else {
                             printErrorMsg(data.error);
                         }

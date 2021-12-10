@@ -106,7 +106,7 @@ class MemberController extends Controller
      * @param  \App\Models\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Member $member)
+    public function update(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
@@ -116,7 +116,7 @@ class MemberController extends Controller
                 'masa' => 'required'
             ]);
             if ($validator->passes()) {
-                $id = Member::where('id_member', $member->id_member)->first();
+                $id = Member::where('id_member', $request->id)->first();
                 // dd($id->id);
 
                 $m = Member::find($id->id);
@@ -124,7 +124,7 @@ class MemberController extends Controller
                 $m->nama = $request->nama;
                 $m->alamat = $request->alamat;
                 $m->kontak = $request->kontak;
-                $m->masa_berlaku = $request->masa_berlaku;
+                $m->masa_berlaku = $request->masa;
                 $m->save();
 
                 return response()->json(['success' => 'Data member berhasil diperbarui.']);
@@ -154,14 +154,15 @@ class MemberController extends Controller
     public function cetak()
     {
         return view('admin.member.cetak', [
-            'member' => Member::all()
+            'member' => Member::all(),
+            'toko' => Setting::first()
         ]);
     }
     public function cetakMember(Member $member)
     {
-        dd($member);
+        // dd($member->id_member);
         return view('admin.member.cetak', [
-            'member' => Member::where('id_member', $member->id_member)
+            'member' => Member::where('id_member', $member->id_member)->get()
         ]);
     }
 }

@@ -37,26 +37,33 @@
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
-                    aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
-        <!-- Navbar-->
+        <!-- Navbar Notif-->
+        <div class="dropdown d-none d-md-inline-block ms-auto me-0 me-md-3 my-2 my-md-0 dropstart">
+            <a href="#" class="text-decoration-none" id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                <i class="fas fa-bell text-white"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    99+
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <span class="dropdown-item dropdown-header text-center">Notifikasi</span>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    4 new messages
+                    <span class="float-right text-muted text-sm">3 mins</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-footer" style="font-size: 70%">See All Notifications</a>
+            </ul>
+        </div>
+        <!-- Notif-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="fas fa-user fa-fw"></i>
-                    {{ $user->name }} </a>
+                    {{ $user->username }} </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li>
-                        <hr class="dropdown-divider" />
-                    </li>
                     <li>
                         <a class="dropdown-item" href="{{ url('/logout') }}">Logout</a>
                     </li>
@@ -154,6 +161,22 @@
     <script src="{{ url('assets/js/datatables-simple-demo.js') }}"></script>
     <script src="{{ url('assets/js/sweetalert2.all.min.js') }}"></script>
 
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "{{ route('product.cek') }}",
+                type: 'GET',
+                context: document.body,
+                success: function(data) {
+                    // if ($.isEmptyObject(data.error)) {
+                    //     alert(data.success);
+                    // } else {
+                    //     alert(data.error)
+                    // }
+                }
+            });
+        });
+    </script>
     @stack('script')
 </body>
 
