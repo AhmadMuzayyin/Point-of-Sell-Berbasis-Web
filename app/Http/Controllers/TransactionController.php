@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Transaction;
@@ -213,6 +214,46 @@ class TransactionController extends Controller
         $toko = Setting::first();
 
         return view('admin.transaksi.cetak_laporan', compact('transaksi', 'toko'));
+    }
+
+    public function cekMember(Request $request)
+    {
+        $cek = Member::where('id_member', $request->val)->first();
+
+        if ($cek) {
+
+            $date = date('Y-m-d');
+            if ($date > $cek->masa_berlaku) {
+                return response()->json(['status' => 'expired']);
+            } else {
+
+                $diskon = [];
+                $product = [];
+                $transaksi = Transaction::with('tr_detail')->where('status', 0)->first();
+                foreach ($transaksi->tr_detail as $td) {
+                    $product[$td->id] = Product::where('id', $td->product_id)->first()->diskon;
+                }
+
+                $diskon = array_sum($product);
+
+                $hitung = $transaksi->total * $diskon / 100;
+                $total = $transaksi->total - $hitung;
+
+                Transaction::where('status', 0)->update([
+                    'total' => $total,
+                    'diskon' => $hitung,
+                    'diskon_persentase' => $diskon,
+                    'id_member' => $request->val,
+                ]);
+
+                return response()->json([
+                    'status' => 'true',
+                    'diskon' => $diskon,
+                ]);
+            }
+        } else {
+            return response()->json(['status' => 'false']);
+        }
     }
 
     /**

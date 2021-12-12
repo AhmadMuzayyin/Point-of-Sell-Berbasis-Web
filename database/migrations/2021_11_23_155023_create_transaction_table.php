@@ -20,9 +20,10 @@ class CreateTransactionTable extends Migration
             $table->string('status');
             $table->string('total')->nullable();
             $table->string('bayar')->nullable();
+            $table->string('kembalian')->nullable();
             $table->integer("diskon_persentase")->nullable();
             $table->integer("diskon")->nullable();
-            $table->string('kembalian')->nullable();
+            $table->integer("id_member")->nullable();
             $table->timestamps();
         });
     }

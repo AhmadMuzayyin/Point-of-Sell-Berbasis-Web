@@ -43,7 +43,8 @@
                                                     value="{{ $item->qty }}" data-kue="{{ $item->harga }}">
                                             </td>
                                             <td class="harga-{{ $item->id }}" data-id="{{ $item->id }}">
-                                                {{ $item->subtotal }}</td>
+                                                {{ $item->subtotal }}
+                                            </td>
                                             <td>
                                                 <button class="badge bg-danger btn_hapus"
                                                     data-transaksi="{{ $item->transactions_id }}"
@@ -68,11 +69,14 @@
                     <div class="card-body">
                         <div class="input-group mb-3">
                             {{-- <label for="diskonInput" class="form-label">Diskon ( % )</label> --}}
-                            <input type="number" class="form-control" name="diskon" id="diskonInput" placeholder="Diskon"
-                                aria-label="Diskon" autocomplete="off"
-                                value="{{ $datas ? $datas->diskon_persentase : '0' }}"
-                                data-kue="{{ $datas ? $datas->id : '' }}">
-                            <button class="btn btn-warning" type="button" onclick="tampilMember()">Member</button>
+                            <input type="number" class="form-control" name="idMember" id="idMember" placeholder="Masukkan ID Member"
+                                aria-label="idMember" autocomplete="off" value="{{ $datas ? $datas->id_member : '' }}">
+                            <button class="btn btn-warning" type="button" onclick="tampilMember()">Check</button>
+                        </div>
+                        <div class="mb-3">
+                            <label for="diskonInput" class="form-label">Diskon ( % )</label>
+                            <input type="number" class="form-control" name="diskonInput" id="diskonInput"
+                                aria-label="diskonInput" autocomplete="off" readonly value="{{ $datas ? $datas->diskon : '0' }}">
                         </div>
                         <div class="mb-3">
                             <label for="diskonInput" class="form-label">Bayar</label>
@@ -101,16 +105,34 @@
 @endsection
 @push('script')
 
-
     <script>
-        $('#diskonInput').prop("disabled", true);
 
         function tampilMember() {
-            $('#Member').modal('show');
-            const datatablesSimple = document.getElementById('table-member');
-            if (datatablesSimple) {
-                new simpleDatatables.DataTable(datatablesSimple);
-            }
+            let val = $('#idMember').val()
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('cek.member') }}",
+                data: {
+                    val: val
+                },
+                success: function (res) {
+                    if( res.status == 'expired' ){
+                        Swal.fire('Sorry', 'Masa Berlaku Member Sudah Expired', 'warning')
+                    }
+
+                    if( res.status == 'false' ){
+                        Swal.fire('Sorry', 'Member Tersebut Tidak Terdaftar', 'warning')
+                    }
+
+                    if( res.status == 'true' ){
+                        $('#diskonInput').val(res.diskon)
+                        location.reload()
+                    }
+
+                }
+            });
+
         }
 
         function tampilProduk() {

@@ -54,6 +54,7 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::get('diskon-update-product', [TransactionController::class, 'diskonProduct'])->name('diskon.product');
     Route::get('selesai-product', [TransactionController::class, 'selesaiProduct'])->name('selesai.product');
     Route::get('cetak-transaksi', [TransactionController::class, 'cetakTransaksi'])->name('cetak.transaksi');
+    Route::get('cek-member', [TransactionController::class, 'cekMember'])->name('cek.member');
 
     // Laporan
     Route::get('laporan-data', [LaporanController::class, 'getLaporan'])->name('data.laporan');
