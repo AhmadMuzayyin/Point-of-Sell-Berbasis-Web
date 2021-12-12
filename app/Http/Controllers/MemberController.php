@@ -162,7 +162,8 @@ class MemberController extends Controller
     {
         // dd($member->id_member);
         return view('admin.member.cetak', [
-            'member' => Member::where('id_member', $member->id_member)->get()
+            'member' => Member::where('id_member', $member->id_member)->get(),
+            'toko' => Setting::first()
         ]);
     }
 }

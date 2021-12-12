@@ -66,11 +66,13 @@
                                 id="total">{{ $datas ? $datas->total : '' }}</span></h3>
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            <label for="diskonInput" class="form-label">Diskon ( % )</label>
+                        <div class="input-group mb-3">
+                            {{-- <label for="diskonInput" class="form-label">Diskon ( % )</label> --}}
                             <input type="number" class="form-control" name="diskon" id="diskonInput" placeholder="Diskon"
-                                aria-label="Diskon" autocomplete="off" value="{{ $datas ? $datas->diskon_persentase : '0' }}"
+                                aria-label="Diskon" autocomplete="off"
+                                value="{{ $datas ? $datas->diskon_persentase : '0' }}"
                                 data-kue="{{ $datas ? $datas->id : '' }}">
+                            <button class="btn btn-warning" type="button" onclick="tampilMember()">Member</button>
                         </div>
                         <div class="mb-3">
                             <label for="diskonInput" class="form-label">Bayar</label>
@@ -86,6 +88,7 @@
         </div>
     </div>
 
+    @include('admin.transaksi.member')
     @include('admin.transaksi.produk')
     <style>
         #qty {
@@ -101,6 +104,14 @@
 
     <script>
         $('#diskonInput').prop("disabled", true);
+
+        function tampilMember() {
+            $('#Member').modal('show');
+            const datatablesSimple = document.getElementById('table-member');
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple);
+            }
+        }
 
         function tampilProduk() {
             $('#ModalSearch').modal('show');
@@ -138,7 +149,7 @@
                     id: id,
                     diskon: hitung_diskon,
                     total: totalDiskon,
-                    inputDiskon : diskonInput,
+                    inputDiskon: diskonInput,
                 },
                 success: function(res) {
 
@@ -173,8 +184,9 @@
                                 kembalian: kembalian,
                             },
                             success: function(res) {
-                                
-                                const newWindow  = window.open('{{ url('cetak-transaksi') }}?data=' + id, 'Cetak Nota', 
+
+                                const newWindow = window.open('{{ url('cetak-transaksi') }}?data=' +
+                                    id, 'Cetak Nota',
                                     `
                                         scrollbars=yes,
                                         width  = 700, 
@@ -215,8 +227,9 @@
                             kembalian: kembalian,
                         },
                         success: function(res) {
-                            
-                            const newWindow  = window.open('{{ url('cetak-transaksi') }}?data=' + id, 'Cetak Nota', 
+
+                            const newWindow = window.open('{{ url('cetak-transaksi') }}?data=' + id,
+                                'Cetak Nota',
                                 `
                                     scrollbars=yes,
                                     width  = 700, 

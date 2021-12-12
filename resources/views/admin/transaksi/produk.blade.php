@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -43,26 +43,26 @@
     <script>
         $(document).on('click', '.btn_click', function() {
 
-                let ide = $(this).data('id')
-                $.ajax({
-                        type: "GET",
-                        url: "{{ route('get.product') }}",
-                        data: {
-                            id: ide,
-                            no: '{{ session()->get('no') }}'
-                        },
-                        success: function(res) {
+            let ide = $(this).data('id')
+            $.ajax({
+                type: "GET",
+                url: "{{ route('get.product') }}",
+                data: {
+                    id: ide,
+                    no: '{{ session()->get('no') }}'
+                },
+                success: function(res) {
 
-                            let data = res.data
+                    let data = res.data
 
-                            if (res.status == 1) {
+                    if (res.status == 1) {
 
-                                Swal.fire('Sorry', `Data Sudah Ada Ditable`, 'warning')
+                        Swal.fire('Sorry', `Data Sudah Ada Ditable`, 'warning')
 
-                            } else if( res.status == 2 ) {
-                                Swal.fire('Sorry', res.data, 'warning')
-                            } else {
-                                let html = `
+                    } else if (res.status == 2) {
+                        Swal.fire('Sorry', res.data, 'warning')
+                    } else {
+                        let html = `
                                 <tr id="tr-${data.id}">
                                     <td>${data.nama}</td>
                                     <td>${data.merek}</td>
@@ -79,79 +79,79 @@
                                 </tr>
                                 `
 
-                                $('.total_harga').text()
-                                $('.body_transaksi').append(html)
-                                location.reload()
-                            }
-
-                        }
-
-                    });
-                })
-
-                $(document).on('click', '.btn_hapus', function() {
-                    let id = $(this).data('id')
-                    let transaksi = $(this).data('transaksi')
-
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('delete.product') }}",
-                        data: {
-                            id: id,
-                            transaksi: transaksi,
-                        },
-                        success: function(res) {
-                            $('.total_harga').text(res.total)
-                        }
-                    });
-
-                    $('#tr-' + id).remove()
-                })
-
-                function hitungSubtotal(id) {
-
-                    if ($('#qty-' + id).val() == '') {
-                        $('#qty-' + id).val(0)
+                        $('.total_harga').text()
+                        $('.body_transaksi').append(html)
+                        location.reload()
                     }
 
-                    let kue = $('#qty-' + id).data('kue')
-                    let ide = $('#qty-' + id).data('id')
-                    let produk = $('#qty-' + id).data('product')
-                    let val = $('#qty-' + id).val()
+                }
 
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('update.product') }}",
-                        data: {
-                            id: ide,
-                            val: val,
-                            kue: kue,
-                            produk: produk,
-                        },
-                        success: function(res) {
+            });
+        })
 
-                            if(res.diskon !== 0){
-                                $('#diskonInput').removeAttr('disabled');
-                            }
+        $(document).on('click', '.btn_hapus', function() {
+            let id = $(this).data('id')
+            let transaksi = $(this).data('transaksi')
 
-                            let data = res.data
+            $.ajax({
+                type: "GET",
+                url: "{{ route('delete.product') }}",
+                data: {
+                    id: id,
+                    transaksi: transaksi,
+                },
+                success: function(res) {
+                    $('.total_harga').text(res.total)
+                }
+            });
 
-                            if (res.status == 1) {
+            $('#tr-' + id).remove()
+        })
 
-                                $('#qty-' + id).val(1)
-                                Swal.fire('Sorry', `Stok Tinggal ${data} `, 'warning')
+        function hitungSubtotal(id) {
 
-                            } else {
+            if ($('#qty-' + id).val() == '') {
+                $('#qty-' + id).val(0)
+            }
 
-                                $('.harga-' + ide).text(data.subtotal)
-                                $('.total_harga').text(res.total_hrg)
+            let kue = $('#qty-' + id).data('kue')
+            let ide = $('#qty-' + id).data('id')
+            let produk = $('#qty-' + id).data('product')
+            let val = $('#qty-' + id).val()
 
-                            }
+            $.ajax({
+                type: "GET",
+                url: "{{ route('update.product') }}",
+                data: {
+                    id: ide,
+                    val: val,
+                    kue: kue,
+                    produk: produk,
+                },
+                success: function(res) {
 
-                        }
-                    });
+                    if (res.diskon !== 0) {
+                        $('#diskonInput').removeAttr('disabled');
+                    }
+
+                    let data = res.data
+
+                    if (res.status == 1) {
+
+                        $('#qty-' + id).val(1)
+                        Swal.fire('Sorry', `Stok Tinggal ${data} `, 'warning')
+
+                    } else {
+
+                        $('.harga-' + ide).text(data.subtotal)
+                        $('.total_harga').text(res.total_hrg)
+
+                    }
 
                 }
+            });
+
+        }
     </script>
 
 @endpush
