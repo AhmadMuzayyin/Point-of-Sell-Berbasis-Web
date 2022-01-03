@@ -18,18 +18,20 @@
                     </thead>
                     <tbody>
                         @foreach ($product as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->merek }}</td>
-                                <td>{{ $item->harga_jual }}</td>
-                                <td>
-                                    <button class="badge bg-primary btn_click" style="border: 0px;"
-                                        data-id="{{ $item->id }}">
-                                        <i class="fas fa-arrow-alt-circle-right"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            @if ($item->stok > 0)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->merek }}</td>
+                                    <td>{{ $item->harga_jual }}</td>
+                                    <td>
+                                        <button class="badge bg-primary btn_click" style="border: 0px;"
+                                            data-id="{{ $item->id }}">
+                                            <i class="fas fa-arrow-alt-circle-right"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>

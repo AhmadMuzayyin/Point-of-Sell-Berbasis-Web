@@ -69,14 +69,16 @@
                     <div class="card-body">
                         <div class="input-group mb-3">
                             {{-- <label for="diskonInput" class="form-label">Diskon ( % )</label> --}}
-                            <input type="number" class="form-control" name="idMember" id="idMember" placeholder="Masukkan ID Member"
-                                aria-label="idMember" autocomplete="off" value="{{ $datas ? $datas->id_member : '' }}">
+                            <input type="number" class="form-control" name="idMember" id="idMember"
+                                placeholder="Masukkan ID Member" aria-label="idMember" autocomplete="off"
+                                value="{{ $datas ? $datas->id_member : '' }}">
                             <button class="btn btn-warning" type="button" onclick="tampilMember()">Check</button>
                         </div>
                         <div class="mb-3">
-                            <label for="diskonInput" class="form-label">Diskon ( % )</label>
+                            <label for="diskonInput" class="form-label">Diskon</label>
                             <input type="number" class="form-control" name="diskonInput" id="diskonInput"
-                                aria-label="diskonInput" autocomplete="off" readonly value="{{ $datas ? $datas->diskon : '0' }}">
+                                aria-label="diskonInput" autocomplete="off" readonly
+                                value="{{ $datas ? $datas->diskon : '0' }}">
                         </div>
                         <div class="mb-3">
                             <label for="diskonInput" class="form-label">Bayar</label>
@@ -106,7 +108,6 @@
 @push('script')
 
     <script>
-
         function tampilMember() {
             let val = $('#idMember').val()
 
@@ -116,16 +117,16 @@
                 data: {
                     val: val
                 },
-                success: function (res) {
-                    if( res.status == 'expired' ){
+                success: function(res) {
+                    if (res.status == 'expired') {
                         Swal.fire('Sorry', 'Masa Berlaku Member Sudah Expired', 'warning')
                     }
 
-                    if( res.status == 'false' ){
+                    if (res.status == 'false') {
                         Swal.fire('Sorry', 'Member Tersebut Tidak Terdaftar', 'warning')
                     }
 
-                    if( res.status == 'true' ){
+                    if (res.status == 'true') {
                         $('#diskonInput').val(res.diskon)
                         location.reload()
                     }
@@ -189,47 +190,40 @@
 
             if (!$('#diskonInput').is(':disabled')) {
                 let diskon = $('#diskonInput').val()
-                if (diskon > 0) {
 
-                    if (bayar == '') {
+                if (bayar == '') {
 
-                        Swal.fire('Sorry', 'Input Uang Pelanggan Dahulu', 'warning')
+                    Swal.fire('Sorry', 'Input Uang Pelanggan Dahulu', 'warning')
 
-                    } else {
+                } else {
 
-                        $.ajax({
-                            type: "GET",
-                            url: "{{ route('selesai.product') }}",
-                            data: {
-                                id: id,
-                                bayar: bayar,
-                                kembalian: kembalian,
-                            },
-                            success: function(res) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ route('selesai.product') }}",
+                        data: {
+                            id: id,
+                            bayar: bayar,
+                            kembalian: kembalian,
+                        },
+                        success: function(res) {
 
-                                const newWindow = window.open('{{ url('cetak-transaksi') }}?data=' +
-                                    id, 'Cetak Nota',
-                                    `
+                            const newWindow = window.open('{{ url('cetak-transaksi') }}?data=' +
+                                id, 'Cetak Nota',
+                                `
                                         scrollbars=yes,
                                         width  = 700, 
                                         height = 700, 
                                         top    = 500, 
                                         left   = 500
                                     `
-                                );
+                            );
 
-                                if (window.open) newWindow.print();
+                            if (window.open) newWindow.print();
 
-                                location.reload();
+                            location.reload();
 
-                            }
-                        });
-
-                    }
-
-                } else {
-
-                    Swal.fire('Sorry', 'Input Diskon Terlebih Dahulu', 'warning')
+                        }
+                    });
 
                 }
 

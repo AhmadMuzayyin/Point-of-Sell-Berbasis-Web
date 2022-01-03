@@ -12,10 +12,10 @@
                     <i class="fas fa-plus-circle me-1"></i>
                     Member
                 </a>
-                <a class="btn btn-success" href="{{ route('cetak.member') }}" role="button">
+                <button class="btn btn-success cetak-member-all" role="button">
                     <i class="fas fa-print"></i>
                     Cetak
-                </a>
+                </button>
             </div>
             <div class="card-body">
                 <table class="table text-center" id="datatablesSimple">
@@ -42,7 +42,7 @@
                                     @if ($b->masa_berlaku >= date('Y-m-d'))
                                         {{ $b->masa_berlaku }}
                                     @else
-                                        Kartu Member
+                                        <span class="badge bg-danger">Kartu member expired</span>
                                     @endif
                                 </td>
                                 <td>
@@ -56,7 +56,7 @@
                                         data-kontak="{{ $b->kontak }}" data-masa="{{ $b->masa_berlaku }}">
                                         <span><i class="fas fa-pencil-alt"></i></span>
                                     </button>
-                                    <form action="{{ route('members.destroy', $b->id) }}" method="POST"
+                                    <form action="{{ route('members.destroy', $b->id_member) }}" method="POST"
                                         class=" d-inline">
                                         @csrf
                                         <button type="submit" class="badge bg-danger btndelete" style="border: 0px;">
@@ -82,6 +82,11 @@
                 e.preventDefault();
                 let id = $(this).data('id');
                 const newWindow = window.open("{{ url('cetak-member') }}/" + id);
+            });
+
+            $('.cetak-member-all').click(function(e) {
+                e.preventDefault();
+                const newWindow = window.open("{{ url('cetak-member') }}");
             });
 
             $('.editMember').click(function(e) {

@@ -34,12 +34,8 @@ class TransactionController extends Controller
         $data = Transaction::where('status', 0)->with('tr_detail')->first();
 
         return view('admin.transaksi.index', [
-            'licenses' => "Ahmad Muzayyin",
-            'date' => date('Y'),
-            'title' => "Tokoku",
             'user' => Auth::user(),
             'product' => Product::all(),
-            'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
             'datas' => $data,
 

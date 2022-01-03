@@ -21,7 +21,6 @@ class UserController extends Controller
             'licenses' => "Ahmad Muzayyin",
             'data' => Setting::all(),
             // 'users' => User::where('status' , '>' , 1)->get(),
-            'users' => User::all(),
             'user' => Auth::user(),
         ]);
     }
@@ -83,9 +82,14 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function editUser(Request $request)
     {
-        //
+        return view('admin.setting.index', [
+            'data' => Setting::all(),
+            'user' => Auth::user(),
+            'users' => User::where('id',  $request->id)->get(),
+        ]);
+        
     }
 
     /**
@@ -97,7 +101,31 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        try {
+            // dd($request->status);
+            $validator = Validator::make($request->all(), [
+                'nama' => 'required|max:255',
+                'username' => 'required|max:255',
+                'password' => 'required|max:255',
+                'status' => 'required|max:255',
+            ]);
+
+            if ($validator->passes()) {
+                $setting = User::find($user->id);
+
+                $setting->name = $request->nama;
+                $setting->username = $request->username;
+                $setting->password = bcrypt($request->password);
+                $setting->status = $request->status;
+                $setting->save();
+
+                return response()->json(['success' => 'Data berhasil disimpan!']);
+            } else {
+                return response()->json(['error' => $validator->error->all()]);
+            }
+        } catch (\Throwable $th) {
+            $th->getMessage();
+        }
     }
 
     /**

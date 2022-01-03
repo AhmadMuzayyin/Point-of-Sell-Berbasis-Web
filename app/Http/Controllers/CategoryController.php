@@ -46,7 +46,7 @@ class CategoryController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'kategori' => 'required|max:50|unique:categories,kategori',
+                'kategori' => 'required|max:50',
                 'jenis' => 'required|max:50',
             ]);
             // $request->validate([
@@ -100,9 +100,28 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $Category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $Category)
+    public function update(Request $request, Category $category)
     {
-        //
+        try {
+            $validator = Validator::make($request->all(), [
+                'id' => 'required|max:255',
+                'kategori' => 'required|max:255',
+                'jenis' => 'required',
+            ]);
+            if ($validator->passes()) {
+                $c = Category::find($category->id);
+                // dd($c);
+                $c->kategori = $request->kategori;
+                $c->jenis = $request->jenis;
+                $c->save();
+
+                return response()->json(['success' => 'Data kategori berhasil diperbarui.']);
+            }
+            return response()->json(['error' => $validator->error->all()]);
+
+        } catch (\Throwable $th) {
+            $th->getMessage();
+        }
     }
 
     /**

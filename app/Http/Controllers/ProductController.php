@@ -6,6 +6,7 @@ use Validator;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Category;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -108,7 +109,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('admin.barang.tambah', [
+            'product' => $product,
+            'data' => Setting::all(),
+            'user' => Auth::user(),
+            'category' => Category::all()
+        ]);
     }
 
     /**
@@ -120,7 +126,23 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        try {
+            $p = Product::find($product->id);
+
+            $p->category_id = $request->category_id;
+            $p->nama = $request->nama;
+            $p->merek = $request->merek;
+            $p->diskon = $request->diskon;
+            $p->harga_beli = $request->hargabeli;
+            $p->harga_jual = $request->hargajual1;
+            $p->harga_jual_opsi = $request->hargajual2;
+            $p->stok = $request->stok;
+            $p->save();
+            return response()->json(['success' => 'Data barang berhasil di update']);
+
+        } catch (\Throwable $th) {
+            $th->getMessage();
+        }
     }
 
     /**
@@ -157,16 +179,46 @@ class ProductController extends Controller
             foreach ($category as $d) {
                 $price = Product::firstWhere('category_id', $d->id);
                 $created = new Carbon($price->created_at);
-                if (date('Y-m-d') > $created->toDateString()) {
+                $updated = new Carbon($price->updated_at);
+                if (date('Y-m-d') > $created->toDateString() && date('Y-m-d') > $updated->toDateString()) {
                     $price->harga_jual = $price->harga_jual_opsi;
                     $price->save();
-                    return response()->json(['success' => 'Data harga barang berhasil diupdate!']);
-                } else {
-                    return response()->json(['error' => 'Data harga barang tidak diupdate!']);
+
+                    // Notification::create([
+                    //     'id_notif' => 1,
+                    //     'message' => 'Data barang berhasil di update',
+                    //     'status' => 0
+                    // ]);
+                    return response()->json(['success' => 'Data barang berhasil diperbarui!']);
+                }else{
+                    return response()->json(['error' => 'Data barang tidak ada yang diperbarui!']);
                 }
             }
         } catch (\Throwable $th) {
             $th->getmessage();
+        }
+    }
+
+    public function cekstok(){
+        try {
+            $stok = Product::where('stok', 0)->get();
+            $n = Notification::where('status', 0)->get();
+            foreach ($n as $a) {
+                $cek = Notification::where('id_notif', $a->id_notif)->get();
+                // dd( $cek);
+                if ($cek) {
+                    foreach ($stok as $s) {
+                        Notification::create([
+                            'id_notif' => $a->id_notif+1,
+                            'message' => "Stok ".$s->nama." kosong",
+                            'status' => 0
+                        ]);
+                    }
+                }
+            }
+            
+        } catch (\Throwable $th) {
+            $th->getMessage();
         }
     }
 }

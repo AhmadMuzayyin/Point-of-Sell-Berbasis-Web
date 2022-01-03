@@ -38,7 +38,13 @@
                                 <td>{{ $k->kategori }}</td>
                                 <td>{{ $k->jenis }}</td>
                                 <td>
-                                    <form action="{{ route('category.destroy', $k->id) }}" method="POST">
+                                    <button class="badge bg-primary d-inline-block editKategori" style="border: 0;"
+                                        data-bs-toggle="modal" data-bs-target="#ModalKategori" data-id="{{ $k->id }}"
+                                        data-kategori="{{ $k->kategori }}" data-jenis="{{ $k->jenis }}">
+                                        <span><i class="fas fa-pencil-alt"></i></span>
+                                    </button>
+                                    <form action="{{ route('category.destroy', $k->id) }}" method="POST"
+                                        class="d-inline-block">
                                         @csrf
                                         <button type="submit" class="badge bg-danger btndelete" style="border: 0px;">
                                             <i class="fas fa-trash-alt"></i>
@@ -82,10 +88,22 @@
         </div>
     </div>
 
+    @include('admin.kategori.modal')
+
 @endsection
 @push('script')
     <script>
         $(document).ready(function(e) {
+
+            $('.editKategori').click(function(e) {
+                e.preventDefault();
+
+                $('#id').val($(this).data('id'));
+                $('#kategori').val($(this).data('kategori'));
+                $('#jenis').val($(this).data('jenis'));
+
+            });
+
             $("#btnsubmit").click(function(e) {
                 e.preventDefault();
                 var _token = $("input[name='_token']").val();

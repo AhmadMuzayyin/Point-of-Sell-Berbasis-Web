@@ -12,11 +12,11 @@
                     <div class="card mb3">
                         <div class="card-body">
                             <h4>Tambah Pengguna</h4>
-                            <form class="form-user">
+                            <form class="form-user" autocomplete="off">
                                 @csrf
                                 <div class="mb-3">
                                     <input type="text" class="form-control validation" name="name"
-                                        placeholder="Nama Lengkap">
+                                        placeholder="Nama Lengkap" autofocus>
                                     <div class="invalid-feedback ename">
                                     </div>
                                 </div>
@@ -52,6 +52,93 @@
                                 </a>
                                 <button type="submit" class="btn btn-primary adduser">Submit</button>
                             </form>
+                        </div>
+                    </div>
+                @elseif (Request::is('user-edit'))
+                    {{-- @dd($users) --}}
+                    <div class="card mb3">
+                        <div class="card-body">
+                            <h4>Edit Data {{ $user->name }}</h4>
+                            @foreach ($users as $d)
+                                {{-- @dd($d->status) --}}
+                                @if ($d->status == 1)
+                                    <form action="{{ route('user.update', $d->id) }}" class="update-user">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control validation" name="name"
+                                                placeholder="Nama Lengkap" autofocus value="{{ $d->name }}">
+                                            <div class="invalid-feedback ename">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control validation" name="username"
+                                                placeholder="Username" value="{{ $d->username }}">
+                                            <div class="invalid-feedback eusername">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="password" class="form-control validation" name="password"
+                                                placeholder="Password">
+                                            <div class="invalid-feedback epassword">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="status" value="1">
+                                        <a class="btn btn-secondary" href="{{ route('setting.index') }}" role="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                                style="margin-bottom: 15%" fill="currentColor"
+                                                class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+                                            </svg>
+                                        </a>
+                                        <button type="submit" class="btn btn-primary updateUser">Submit</button>
+                                    </form>
+                                @else
+                                    @foreach ($users as $d)
+                                        <form action="{{ route('user.update', $d->id) }}" class="update-user">
+                                            @csrf
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control validation" name="name"
+                                                    placeholder="Nama Lengkap" autofocus value="{{ $d->name }}">
+                                                <div class="invalid-feedback ename">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control validation" name="username"
+                                                    placeholder="Username" value="{{ $d->username }}">
+                                                <div class="invalid-feedback eusername">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="password" class="form-control validation" name="password"
+                                                    placeholder="Password">
+                                                <div class="invalid-feedback epassword">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <select class="form-select validation" name="status" id="status"
+                                                    aria-label="Default select example" required>
+                                                    <option value="">Pilih Status</option>
+                                                    <option value="2" {{ $d->status == true ? 'selected' : '' }}>Kasir
+                                                    </option>
+                                                </select>
+                                                <div class="invalid-feedback ecategory">
+                                                </div>
+                                            </div>
+                                            <a class="btn btn-secondary" href="{{ route('setting.index') }}"
+                                                role="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                                    style="margin-bottom: 15%" fill="currentColor"
+                                                    class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+                                                </svg>
+                                            </a>
+                                            <button type="submit" class="btn btn-primary updateUser">Submit</button>
+                                        </form>
+                                    @endforeach
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 @else
@@ -93,6 +180,21 @@
                                                         @csrf
                                                         <button class="badge bg-danger btndelete" style="border: 0px;">
                                                             <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form action="{{ route('user-edit') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $k->id }}">
+                                                        <button class="badge bg-primary" style="border: 0px;">
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <form action="{{ route('user-edit') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $k->id }}">
+                                                        <button class="badge bg-primary" style="border: 0px;">
+                                                            <i class="fas fa-pencil-alt"></i>
                                                         </button>
                                                     </form>
                                                 @endif
@@ -242,6 +344,52 @@
             }
         }
         $(document).ready(function(e) {
+            $(".updateUser").click(function(e) {
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var nama = $("input[name='name']").val();
+                var username = $("input[name='username']").val();
+                var password = $("input[name='password']").val();
+                var status = $("input[name='status']").val() || $('select[name=status] option').filter(
+                    ':selected').val();
+                var Url = $(this).parents('form').attr('action');
+
+                $.ajax({
+                    type: 'PATCH',
+                    url: Url,
+                    data: {
+                        _token: _token,
+                        nama: nama,
+                        username: username,
+                        password: password,
+                        status: status,
+                    },
+                    success: function(data) {
+                        if ($.isEmptyObject(data.error)) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: data.success,
+                                icon: 'success',
+                                showConfirmButton: false
+                            })
+                            // window.setTimeout(function() {
+                            //     window.location.href = "{{ route('setting.index') }}"
+                            // }, 1000);
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: data.error,
+                                icon: 'error',
+                                showConfirmButton: false
+                            })
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        }
+                    }
+                });
+
+            });
             $(".btnsubmit").click(function(e) {
                 e.preventDefault();
                 var _token = $("input[name='_token']").val();

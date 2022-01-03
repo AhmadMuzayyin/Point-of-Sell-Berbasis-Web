@@ -42,6 +42,10 @@
                                 <td>{{ $b->diskon ? $b->diskon : 0 }}</td>
                                 <td>{{ $b->stok }}</td>
                                 <td>
+                                    <a href="{{ route('product.edit', $b->id) }}" class="badge bg-primary d-inline-block"
+                                        style="border: 0px;">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
                                     <form action="{{ route('product.destroy', $b->id) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="badge bg-danger btndelete" style="border: 0px;">

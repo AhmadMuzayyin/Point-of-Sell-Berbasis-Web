@@ -31,32 +31,63 @@
 <body>
 
 
-    @foreach ($member as $m)
-        <div class="card my-2 mx-2" style="max-width: 350px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="{{ url('uploads/profil.png') }}" class="img-fluid mt-2" alt="profil">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title text-white">{{ $m->nama }}</h5>
-                        <span>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                            {{ $m->id_member }}</span><br>
-                        <span>Alamat &nbsp;&nbsp;: {{ $m->alamat }}</span><br>
-                        <span>No Hp &nbsp;&nbsp;&nbsp;: {{ $m->kontak }}</span><br>
-                        <span>
-                            <small style="margin-left: -54%;">{{ $m->masa_berlaku }}</small>
-                            <span style="font-size: 90%;  margin-left: 20%;">
-                                <span class=" badge rounded-pill bg-primary">
-                                    {{ $toko->nama }}
-                                </span>
-                            </span>
-                        </span>
+    <div class="row">
+        @foreach ($member as $m)
+            @if ($m->count() > 1)
+                <div class="col-sm-3">
+                    <div class="card my-2 mx-2" style="max-width: 350px;">
+                        <div class="row g-0">
+                            <div class="col-md col-sm ">
+                                <img src="{{ url('uploads/profil.png') }}" class="img-fluid mt-2" alt="profil">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title text-white">{{ $m->nama }}</h5>
+                                    <span>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                        {{ $m->id_member }}</span><br>
+                                    <span>Alamat &nbsp;&nbsp;: {{ $m->alamat }}</span><br>
+                                    <span>No Hp &nbsp;&nbsp;&nbsp;: {{ $m->kontak }}</span><br>
+                                    <span>
+                                        <small style="margin-left: -54%;">{{ $m->masa_berlaku }}</small>
+                                        <span style="font-size: 90%;  margin-left: 20%;">
+                                            <span class=" badge rounded-pill bg-primary">
+                                                {{ $toko->nama }}
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    @endforeach
+            @else
+                <div class="card my-2 mx-2" style="max-width: 350px;">
+                    <div class="row g-0">
+                        <div class="col-md col-sm ">
+                            <img src="{{ url('uploads/profil.png') }}" class="img-fluid mt-2" alt="profil">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title text-white">{{ $m->nama }}</h5>
+                                <span>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                    {{ $m->id_member }}</span><br>
+                                <span>Alamat &nbsp;&nbsp;: {{ $m->alamat }}</span><br>
+                                <span>No Hp &nbsp;&nbsp;&nbsp;: {{ $m->kontak }}</span><br>
+                                <span>
+                                    <small style="margin-left: -54%;">{{ $m->masa_berlaku }}</small>
+                                    <span style="font-size: 90%;  margin-left: 20%;">
+                                        <span class=" badge rounded-pill bg-primary">
+                                            {{ $toko->nama }}
+                                        </span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+    </div>
 
 
     <script src="{{ url('assets/js/jquery-3.6.0.min.js') }}"></script>

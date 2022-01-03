@@ -39,23 +39,17 @@
                 class="fas fa-bars"></i></button>
         <!-- Navbar Notif-->
         <div class="dropdown d-none d-md-inline-block ms-auto me-0 me-md-3 my-2 my-md-0 dropstart">
-            <a href="#" class="text-decoration-none" id="dropdownMenuButton1" data-bs-toggle="dropdown">
+            {{-- <a href="#" class="text-decoration-none notifikasi" id="dropdownMenuButton1" data-bs-toggle="dropdown">
                 <i class="fas fa-bell text-white"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    99+
-                    <span class="visually-hidden">unread messages</span>
-                </span>
+                <span class="notif"></span>
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <span class="dropdown-item dropdown-header text-center">Notifikasi</span>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
-                </a>
+                <span class="msg"></span>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer" style="font-size: 70%">See All Notifications</a>
-            </ul>
+            </ul> --}}
         </div>
         <!-- Notif-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -154,9 +148,11 @@
     <script src="{{ url('assets/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url('assets/js/scripts.js') }}"></script>
-    <script src="{{ url('assets/js/Chart.min.js') }}"></script>
+    {{-- <script src="{{ url('assets/js/Chart.min.js') }}"></script>
     <script src="{{ url('assets/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ url('assets/demo/chart-bar-demo.js') }}"></script>
+    <script src="{{ url('assets/demo/chart-bar-demo.js') }}"></script> --}}
+    <script src="{{ url('assets/js/dayjs.min.js') }}"></script>
+    <script src="{{ url('assets/js/relativeTime.min.js') }}"></script>
     <script src="{{ url('assets/js/simple-datatables@latest.js') }}"></script>
     <script src="{{ url('assets/js/datatables-simple-demo.js') }}"></script>
     <script src="{{ url('assets/js/sweetalert2.all.min.js') }}"></script>
@@ -168,14 +164,73 @@
                 type: 'GET',
                 context: document.body,
                 success: function(data) {
-                    // if ($.isEmptyObject(data.error)) {
-                    //     alert(data.success);
-                    // } else {
-                    //     alert(data.error)
-                    // }
+                    if ($.isEmptyObject(data.error)) {
+                        // Swal.fire({
+                        //     title: 'Info',
+                        //     text: data.success,
+                        //     icon: 'info',
+                        //     showConfirmButton: true
+                        // })
+                    }
                 }
             });
         });
+
+        // $(document).ready(function() {
+        //     $.ajax({
+        //         url: "{{ route('product.stok') }}",
+        //         type: 'GET',
+        //         context: document.body,
+        //         success: function(data) {
+        //             // send data
+        //         }
+        //     });
+        // });
+
+        // $(document).ready(function() {
+        //     $.ajax({
+        //         url: "{{ route('notif.index') }}",
+        //         type: 'GET',
+        //         context: document.body,
+        //         success: function(data) {
+
+        //             if (data.error != true) {
+        //                 let notif =
+        //                     `<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">${data.jml}</span>`;
+        //                 $('.notif').html(notif);
+
+        //                 $(document).ready(function(e) {
+        //                     $('.notifikasi').click(function(e) {
+        //                         e.preventDefault();
+        //                         const relativeTime = window.dayjs_plugin_relativeTime;
+        //                         dayjs.extend(relativeTime)
+        //                         var msg = ``;
+        //                         $.each(data.msg, function(key, value) {
+        //                             console.log(key, value.message);
+        //                             msg = msg +
+        //                                 `<a href="#" class="dropdown-item">
+    //                                 <strong>${value.message}</strong>
+    //                                 <small class="float-right text-muted text-sm"> ${dayjs(data.msg.created_at).fromNow()}</small>
+    //                                 </a>`;
+        //                         });
+        //                         $('.msg').html(msg)
+
+        //                     });
+        //                 });
+
+        //             } else {
+        //                 $(document).ready(function(e) {
+        //                     $('.notifikasi').click(function(e) {
+        //                         e.preventDefault();
+        //                         let msg =
+        //                             `<a href="#" class="dropdown-item"> Tidak ada pemberitahuan </a>`;
+        //                         $('.dropdown-menu').html(msg)
+        //                     });
+        //                 });
+        //             }
+        //         }
+        //     });
+        // });
     </script>
     @stack('script')
 </body>
